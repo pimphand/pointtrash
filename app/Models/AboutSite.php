@@ -11,10 +11,8 @@ class AboutSite extends Model
     use HasFactory;
 
     protected $guarded = [];
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->table = Str::snake(Str::pluralStudly(class_basename($this)));
-    }
+    protected $primaryKey = 'about_id';
+    protected $table = 'about_site';
+    protected $keyType = 'string';
+    public $timestamps = false;
 }

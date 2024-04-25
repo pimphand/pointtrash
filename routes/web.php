@@ -16,6 +16,8 @@ Route::resource('social-media', \App\Http\Controllers\Admin\SiteSocialMediaContr
 Route::resource('site-contact', \App\Http\Controllers\Admin\SiteContactController::class)->only(['index', 'update']);
 
 
+Route::resource('about-site', \App\Http\Controllers\Admin\AboutSiteController::class)->only(['index', 'update']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

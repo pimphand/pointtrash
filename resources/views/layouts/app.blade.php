@@ -16,7 +16,7 @@
     @vite('resources/assets/libs/icofont/icofont.min.css')
     @vite('resources/assets/libs/flatpickr/flatpickr.min.css')
     @vite('resources/assets/css/tailwind.min.css')
-
+    @stack('css')
 </head>
 
 <body data-layout-mode="light" data-sidebar-size="default" data-theme-layout="vertical"
@@ -44,6 +44,8 @@
 
     <!-- JAVASCRIPTS -->
     <!-- <div class="menu-overlay"></div> -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     @vite('resources/assets/libs/lucide/umd/lucide.min.js')
     @vite('resources/assets/libs/simplebar/simplebar.min.js')
     @vite('resources/assets/libs/flatpickr/flatpickr.min.js')
@@ -51,8 +53,7 @@
     {{-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
     @vite('resources/assets/js/app.js')
     <!-- JAVASCRIPTS -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
     @stack('js')
 </body>
 
