@@ -29,7 +29,7 @@ class LoginController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        return response()->json(['message' => 'success'], 200);
+        return response()->json(['message' => 'Login berhasil', 'status' => 'success'], 200);
     }
 
     public function hash_verified($PlainPassword, $HashPassword)
