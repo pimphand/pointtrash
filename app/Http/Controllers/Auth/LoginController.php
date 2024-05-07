@@ -25,7 +25,11 @@ class LoginController extends Controller
 
         $auth = Auth::guard('admin')->attempt($validate);
 
-        return response()->json($auth);
+        if (!$auth) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        return response()->json(['message' => 'success'], 200);
     }
 
     public function hash_verified($PlainPassword, $HashPassword)
