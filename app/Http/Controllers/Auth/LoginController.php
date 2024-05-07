@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -20,17 +19,13 @@ class LoginController extends Controller
 
         $user = Account::where('username', $validate['username'])->first();
         //cek password hash
-
         if (!$user && !$this->hash_verified($validate['password'], $user->password)) {
             return response()->json(['message' => 'Password Salah'], 401);
         }
 
         $auth = Auth::guard('admin')->attempt($validate);
 
-        if (!$auth) {
-            return response()->json(['status' => 'failed', 'token' => Hash::make($request->password)], 401);
-        }
-        return response()->json(['status' => 'success', 'token' => Hash::make($request->password)], 200);
+        return response()->json($auth);
     }
 
     public function hash_verified($PlainPassword, $HashPassword)

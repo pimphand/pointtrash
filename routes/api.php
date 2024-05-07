@@ -28,6 +28,3 @@ Route::get('get_partner_order_api', [AuthController::class, 'get_partner_order_a
 Route::get('get_partner_history_order_api', [AuthController::class, 'get_partner_history_order_api_get']);
 Route::post('partner_widraw_api', [AuthController::class, 'partner_widraw_api_post']);
 Route::get('get_partner_widraw_api', [AuthController::class, 'get_partner_widraw_api_get']);
-
-
-Route::post('/login', [LoginController::class, 'store'])->name('login');
