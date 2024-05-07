@@ -27,6 +27,9 @@ class LoginController extends Controller
 
         $auth = Auth::guard('admin')->attempt($validate);
 
+        if (!$auth) {
+            return response()->json(['status' => 'failed', 'token' => Hash::make($request->password)], 401);
+        }
         return response()->json(['status' => 'success', 'token' => Hash::make($request->password)], 200);
     }
 
