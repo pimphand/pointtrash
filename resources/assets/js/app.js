@@ -54,7 +54,7 @@ try {
     //   mobileMenu.classList.add("hidden");
     // }
   })
-  
+
 } catch (err) { }
 
 /*********************/
@@ -142,20 +142,20 @@ function activeMenu() {
 
 
   function activeHorizontal() {
-    if (document.querySelector('nav#topbar')) {
-      document.querySelectorAll('nav#topbar ul.NavMenu a').forEach(function (element, index) {
-        var pageUrl = window.location.href.split(/[?#]/)[0];
-        const target = element;
+    // if (document.querySelector('nav#topbar')) {
+    //   document.querySelectorAll('nav#topbar ul.NavMenu a').forEach(function (element, index) {
+        // var pageUrl = window.location.href.split(/[?#]/)[0];
+        // const target = element;
 
 
-        if (element.href == pageUrl) {
-            console.info(element);
-            element.classList.add("active")
-            element.parentElement.parentElement.parentElement.querySelector('a')?.classList.add('active');
-            element.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector('a')?.classList.add('active');
-        }
-      });
-    }
+        // if (element.href == pageUrl) {
+        //     console.info(element);
+        //     element.classList.add("active")
+        //     element.parentElement.parentElement.parentElement.querySelector('a')?.classList.add('active');
+        //     element.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector('a')?.classList.add('active');
+        // }
+    //   });
+    // }
   }
 
 

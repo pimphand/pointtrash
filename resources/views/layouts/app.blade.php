@@ -2,15 +2,15 @@
 <html lang="en" class="scroll-smooth group" data-sidebar="brand" dir="ltr">
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>{{ env('APP_NAME') }} - Admin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta content="Tailwind Multipurpose Admin & Dashboard Template" name="description"/>
-    <meta content="" name="Mannatthemes"/>
-    <meta name="csrf-token" content="{{ csrf_token() }}"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="Tailwind Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="" name="Mannatthemes" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/favicon.png') }}"/>
+    <link rel="shortcut icon" href="{{ asset('assets/favicon.png') }}" />
 
     <!-- Css -->
     <!-- Main Css -->
@@ -22,38 +22,39 @@
 </head>
 
 <body data-layout-mode="light" data-sidebar-size="default" data-theme-layout="vertical"
-      class="bg-[#EEF0FC] dark:bg-gray-900">
+    class="bg-[#EEF0FC] dark:bg-gray-900">
 
-<!-- leftbar-tab-menu -->
-<x-sidebar></x-sidebar>
-<x-top></x-top>
+    <!-- leftbar-tab-menu -->
+    <x-sidebar></x-sidebar>
+    <x-top></x-top>
 
-<div class="ltr:flex flex-1 rtl:flex-row-reverse">
-    <div
-        class="page-wrapper relative ltr:ml-auto rtl:mr-auto rtl:ml-0 w-[calc(100%-260px)] px-4 pt-[64px] duration-300">
+    <div class="ltr:flex flex-1 rtl:flex-row-reverse">
+        <div
+            class="page-wrapper relative ltr:ml-auto rtl:mr-auto rtl:ml-0 w-[calc(100%-260px)] px-4 pt-[64px] duration-300">
 
-        <!--end container-->
-        <div class="xl:w-full  min-h-[calc(100vh-152px)] relative pb-14">
-            @yield('content')
+            <!--end container-->
+            <div class="xl:w-full  min-h-[calc(100vh-152px)] relative pb-14">
+                @yield('content')
+            </div>
+            <x-footer></x-footer>
+            <!--end container-->
         </div>
-        <x-footer></x-footer>
-        <!--end container-->
+        <!--end page-wrapper-->
     </div>
-    <!--end page-wrapper-->
-</div>
-<!--end /div-->
-<!-- JAVASCRIPTS -->
-<!-- <div class="menu-overlay"></div> -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"
+    <!--end /div-->
+    <!-- JAVASCRIPTS -->
+    <!-- <div class="menu-overlay"></div> -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-@vite('resources/assets/libs/lucide/umd/lucide.min.js')
-@vite('resources/assets/libs/simplebar/simplebar.min.js')
-@vite('resources/assets/libs/flatpickr/flatpickr.min.js')
-@vite('resources/assets/libs/@frostui/tailwindcss/frostui.js')
-@vite('resources/assets/js/app.js')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    $.ajaxSetup({
+    {{-- @vite('resources/assets/libs/lucide/umd/lucide.min.js') --}}
+    <script src="https://unpkg.com/lucide@latest"></script>
+    @vite('resources/assets/libs/simplebar/simplebar.min.js')
+    @vite('resources/assets/libs/flatpickr/flatpickr.min.js')
+    @vite('resources/assets/libs/@frostui/tailwindcss/frostui.js')
+    @vite('resources/assets/js/app.js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             'X-Requested-With': 'XMLHttpRequest',
@@ -162,8 +163,8 @@
         return `${day} ${month} ${year}`;
     }
 
-</script>
-@stack('js')
+    </script>
+    @stack('js')
 </body>
 
 </html>
