@@ -12,8 +12,6 @@ class LoginController extends Controller
 {
     public function store(Request $request)
     {
-
-        dd($request->all());
         $validate = Validator::make($request->all(), [
             'username' => 'required|string',
             'password' => 'required|string',
