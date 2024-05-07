@@ -19,11 +19,11 @@ class LoginController extends Controller
 
         $user = Account::where('username', $validate['username'])->first();
         //cek password hash
-        if (! $user && ! $this->hash_verified($validate['password'], $user->password)) {
+        if (!$user && !$this->hash_verified($validate['password'], $user->password)) {
             return response()->json(['message' => 'Password Salah'], 401);
         }
 
-        $auth = Auth::guard('admin')->attempt($validate);
+        $auth = Auth::guard('admin')->loginUsingId($user->id, true);
 
         return response()->json($auth);
     }
@@ -32,7 +32,6 @@ class LoginController extends Controller
     {
 
         return $this->password_verify($PlainPassword, $HashPassword) ? true : false;
-
     }
 
     public function password_verify($password, $hash)
