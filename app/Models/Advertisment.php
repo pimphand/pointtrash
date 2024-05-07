@@ -11,10 +11,27 @@ class Advertisment extends Model
     use HasFactory;
 
     protected $guarded = [];
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
 
-        $this->table = Str::snake(Str::pluralStudly(class_basename($this)));
+    protected $keyType = 'string';
+
+    protected $primaryKey = 'advertisment_id';
+
+    protected $table = 'advertisment';
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($advertisment) {
+            $advertisment->advertisment_id = (string) Str::random(10);
+            $advertisment->date_post = now();
+        });
+    }
+
+    //scope search any
+    public function scopeSearch($query, $search)
+    {
+        return $query->whereAny([
+            'link',
+        ], 'LIKE', '%'.$search.'%');
     }
 }

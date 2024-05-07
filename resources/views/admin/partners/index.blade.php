@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    @php($title = 'User')
+    @php($title = 'Mitra')
     @include('components.breadcrumb',['title'=>$title])
     <div class="sm:col-span-12  md:col-span-12 lg:col-span-8 xl:col-span-6 xl:col-start-4 ">
         <div
@@ -18,11 +18,11 @@
                     >
                         Export PDF
                     </a>
-                    <button type="button" data-fc-type="modal" data-fc-target="_modal_form"
-                            class="_add_modal p-1 px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
+                    <a href="{{route('partners.create')}}"
+                       class=" p-1 px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
                     >
                         Tambah {{$title}}
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
 
                 </div>
                 @include('components.filter_table')
-                @include('components.table',['url'=>route('users.index'),'theads'=>[
+                @include('components.table',['url'=>route('partners.index'),'theads'=>[
                     '#',
                     'Nama',
                     'Foto',
@@ -148,8 +148,8 @@
                     <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">${item.email}</td>
                     <td class="p-3 text-sm border dark:border-slate-700"><span class="${statusClass} text-white text-[11px] font-medium mr-1 px-2.5 py-0.5 rounded-full"> ${statusText}</span></td> <!-- Status dengan kelas dan teks -->
                     <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">
-                        <a href="${$('#_table-data').data('url')}/${item.user_id}" class="text-primary-500 hover:text-primary-700"><i class="fas fa-edit fa-1x"></i></a>
-                        <button class="text-red-500 hover:text-danger-700 _delete" data-id="${item.user_id}"><i class="fas fa-trash fa-1x"></i></button>
+                        <a href="${$('#_table-data').data('url')}/${item.partner_id}" class="text-primary-500 hover:text-primary-700"><i class="fas fa-edit fa-1x"></i></a>
+                        <button class="text-red-500 hover:text-danger-700 _delete" data-id="${item.partner_id}"><i class="fas fa-trash fa-1x"></i></button>
                     </td>
                 </tr>`;
             });

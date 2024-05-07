@@ -1,26 +1,45 @@
 @extends('layouts.app')
 @section('content')
-    @include('components.breadcrumb',['title'=>'Syarat & Ketentuan '])
+    @include('components.breadcrumb',['title'=>' Versi Mobile'])
     <div class="sm:col-span-12  md:col-span-12 lg:col-span-8 xl:col-span-6 xl:col-start-4 ">
         <div
             class="bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-700/40  rounded-md w-full relative mb-4">
             <div class="border-b border-slate-200 dark:border-slate-700/40 py-3 px-4 dark:text-slate-300/70">
                 <div class="flex-none md:flex">
-                    <h4 class="font-medium text-lg flex-1 self-center mb-2 md:mb-0">Update Syarat & Ketentuan </h4>
+                    <h4 class="font-medium text-lg flex-1 self-center mb-2 md:mb-0">Update Versi Mobile User </h4>
                 </div>
             </div>
             <!--end header-title-->
             <div class="flex-auto p-4 ">
-                <form action="{{ route('terms-of-service.update', [$termsOfService->tos_id]) }}" method="POST"
+                <form action="{{ route('mobile-version.update', [$version->version_id]) }}" method="POST"
                       enctype="multipart/form-data">
                     @method('put')
                     @csrf
                     <div class="mb-2">
-                        <textarea id="basic-conf" rows="4" name="contents" style="height: 600px;"
+                        <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Versi</label>
+                        <input type="text" id="version" name="version" value="{{$version->version}}"
+                               class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
+                               placeholder="Masukan Judul">
+                        @if ($errors->has('version'))
+                            <span class="text-red-500 text-xs italic">{{ $errors->first('version') }}</span>
+                        @endif
+                    </div>
+                    <div class="mb-2">
+                        <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Link APK
+                            Terbaru</label>
+                        <input type="text" id="link" name="link" value="{{$version->link}}"
+                               class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
+                               placeholder="Masukan Judul">
+                        @if ($errors->has('link'))
+                            <span class="text-red-500 text-xs italic">{{ $errors->first('link') }}</span>
+                        @endif
+                    </div>
+                    <div class="mb-2">
+                        <textarea id="description" rows="4" name="description" style="height: 600px;"
                                   class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
-                                  style="height: 350px;">{!! $termsOfService->content !!}</textarea>
-                        @if ($errors->has('content'))
-                            <span class="text-red-500 text-xs italic">{{ $errors->first('contents') }}</span>
+                                  style="height: 350px;">{!! $version->description !!}</textarea>
+                        @if ($errors->has('description'))
+                            <span class="text-red-500 text-xs italic">{{ $errors->first('description') }}</span>
                         @endif
                     </div>
                     <button type="submit"

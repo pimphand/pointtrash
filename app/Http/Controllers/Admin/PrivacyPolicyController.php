@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\PrivacyPolicy;
 use Illuminate\Http\Request;
 
 class PrivacyPolicyController extends Controller
@@ -12,7 +13,9 @@ class PrivacyPolicyController extends Controller
      */
     public function index()
     {
-        //
+        $privacyPolicy = PrivacyPolicy::first();
+
+        return view('admin.privacy-policy.index', compact('privacyPolicy'));
     }
 
     /**
@@ -52,7 +55,12 @@ class PrivacyPolicyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $privacyPolicy = PrivacyPolicy::first();
+        $privacyPolicy->update([
+            'content' => $request->contents,
+        ]);
+
+        return redirect()->back()->with('success', 'Privacy Policy updated successfully');
     }
 
     /**

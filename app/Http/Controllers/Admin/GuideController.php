@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Guide;
 use Illuminate\Http\Request;
 
 class GuideController extends Controller
@@ -12,7 +13,9 @@ class GuideController extends Controller
      */
     public function index()
     {
-        //
+        $guide = Guide::first();
+
+        return view('admin.guide.index', compact('guide'));
     }
 
     /**
@@ -52,7 +55,16 @@ class GuideController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'description' => 'required|string',
+        ]);
+
+        $guide = Guide::find($id);
+        $guide->update([
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('admin.guide.index')->with('success', 'Guide updated successfully');
     }
 
     /**

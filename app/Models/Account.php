@@ -3,18 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Account extends Model
+class Account extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
+
+    public $timestamps = false;
 
     protected $guarded = [];
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
 
-        $this->table = Str::snake(Str::pluralStudly(class_basename($this)));
+    protected $hidden = [
+        'password',
+    ];
+
+    protected $table = 'account';
+
+    protected $primaryKey = 'account_id';
+
+    protected $keyType = 'string';
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function getRoleAttribute($value)
+    {
+        return $value == 1 ? 'Admin' : 'Cabang';
     }
 }

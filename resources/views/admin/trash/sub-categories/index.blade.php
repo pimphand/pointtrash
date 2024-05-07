@@ -7,11 +7,16 @@
             class="bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-700/40  rounded-md w-full relative mb-4">
             <div class="border-b border-slate-200 dark:border-slate-700/40 py-3 px-4 dark:text-slate-300/70">
                 <div class="flex-none md:flex  justify-between">
-                    <h4 class="font-medium text-lg flex-1 self-center mb-2 md:mb-0">Update {{$title}}</h4>
+                    <h4 class="font-medium text-lg flex-1 self-center mb-2 md:mb-0">{{$title}}</h4>
+                    <a href="{{route('trash-categories.index')}}"
+                       class="_add_modal px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
+                    >
+                        <i class="fas fa-trash"></i> Kategori Sampah
+                    </a>
                     <button type="button" data-fc-type="modal" data-fc-target="_modal_form"
                             class="_add_modal px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
                     >
-                        Tambah {{$title}}
+                        <i class="fas fa-plus"></i> Sampah
                     </button>
                 </div>
             </div>

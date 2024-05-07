@@ -10,11 +10,39 @@ class Partner extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    public $timestamps = false;
 
-        $this->table = Str::snake(Str::pluralStudly(class_basename($this)));
+    protected $guarded = [];
+
+    protected $table = 'partner';
+
+    protected $keyType = 'string';
+
+    protected $primaryKey = 'partner_id';
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($partner) {
+            $partner->partner_id = (string) Str::random(10);
+            $partner->date_create = now();
+            $partner->status = 1;
+        });
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->whereAny([
+            'name',
+            'gender',
+            'phone',
+            'email',
+            'address',
+            'provinces',
+            'regencies',
+            'districts',
+            'villages',
+        ], 'LIKE', '%'.$search.'%');
     }
 }

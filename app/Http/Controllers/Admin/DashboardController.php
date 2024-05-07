@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -41,8 +39,8 @@ class DashboardController extends Controller
 
         $partners = DB::table('partner')
             ->join('rating', 'rating.partner_id', '=', 'partner.partner_id')
-            ->select('partner.partner_id', 'partner.name', 'partner.point', DB::raw('AVG(rating.rating) AS partner_rating'))
-            ->groupBy('partner.partner_id', 'partner.name', 'partner.point')
+            ->select('partner.partner_id', 'partner.photo', 'partner.name', 'partner.point', DB::raw('AVG(rating.rating) AS partner_rating'))
+            ->groupBy('partner.partner_id', 'partner.name', 'partner.photo', 'partner.point')
             ->orderByDesc('partner_rating')
             ->limit(10)
             ->get();

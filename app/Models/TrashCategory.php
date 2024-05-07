@@ -10,11 +10,27 @@ class TrashCategory extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    public $timestamps = false;
 
-        $this->table = Str::snake(Str::pluralStudly(class_basename($this)));
+    protected $guarded = [];
+
+    protected $keyType = 'string';
+
+    protected $primaryKey = 'category_id';
+
+    protected $table = 'trash_category';
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($category) {
+            $category->category_id = (string) Str::random(10);
+        });
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('category', 'like', '%'.$search.'%');
     }
 }

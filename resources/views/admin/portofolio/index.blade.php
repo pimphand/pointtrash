@@ -1,26 +1,28 @@
 @extends('layouts.app')
 @section('content')
-    @include('components.breadcrumb',['title'=>'Layanan'])
+    @php($title = 'Portofolio')
+    @include('components.breadcrumb',['title'=>$title])
     <div class="sm:col-span-12  md:col-span-12 lg:col-span-8 xl:col-span-6 xl:col-start-4 ">
         <div
             class="bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-700/40  rounded-md w-full relative mb-4">
             <div class="border-b border-slate-200 dark:border-slate-700/40 py-3 px-4 dark:text-slate-300/70">
                 <div class="flex-none md:flex  justify-between">
-                    <h4 class="font-medium text-lg flex-1 self-center mb-2 md:mb-0">Update Media Sosial</h4>
+                    <h4 class="font-medium text-lg flex-1 self-center mb-2 md:mb-0">Update {{$title}}</h4>
                     <button type="button" data-fc-type="modal" data-fc-target="_modal_form"
                             class="_add_modal px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
                     >
-                        Tambah Layanan
+                        Tambah {{$title}}
                     </button>
                 </div>
             </div>
 
             <div class="flex-auto p-4 ">
                 @include('components.filter_table')
-                @include('components.table',['url'=>route('services.index'),'theads'=>[
+                @include('components.table',['url'=>route('portfolio.index'),'theads'=>[
                     '#',
-                    'Nama Layanan',
-                    'Deskripsi',
+                    'Judul',
+                    'Type',
+                    'Thumbnail',
                     'Aksi'
                 ]])
             </div>
@@ -42,31 +44,46 @@
                             <form id="_form_input" action="" method="post">
                                 @csrf
                                 <div class="mb-2">
-                                    <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Nama
-                                        Layanan</label>
-                                    <input type="text" id="name" name="name"
+                                    <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Judul</label>
+                                    <input type="text" id="title" name="title"
                                            class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
-                                           placeholder="Masukan Nama Layanan">
-                                    <div class="text-red-500 text-xs italic" id="error-name"></div>
+                                           placeholder="Masukan Judul">
+                                    <div class="text-red-500 text-xs italic" id="error-title"></div>
                                 </div>
                                 <div class="mb-2">
                                     <label for="password"
-                                           class="font-medium text-sm text-slate-600 dark:text-slate-400">Icon
-                                        Layanan <a href="https://fontawesome.com/v4/icons/" target="_blank"
-                                                   class="text-xs italic "> list Icon</a></label>
-                                    <input type="text" id="icon" name="icon"
-                                           class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
-                                           required placeholder="Masukan Icon">
-                                    <div class="text-red-500 text-xs italic" id="error-icon"></div>
-
+                                           class="font-medium text-sm text-slate-600 dark:text-slate-400">Tipe</label>
+                                    <select id="type" name="type"
+                                            class="w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-[6.5px] focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700">
+                                        <option value="">Pilih Tipe</option>
+                                        <option value="Photo">Photo</option>
+                                        <option value="Video">Video</option>
+                                    </select>
+                                    <div class="text-red-500 text-xs italic" id="error-tipe"></div>
                                 </div>
+                                <img src="{{asset('img-icon.svg')}}" width="40%" id="_show_thumbnail">
+                                <div class="mb-2">
+                                    <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Photo</label>
+                                    <input type="file" id="thumbnail" name="thumbnail"
+                                           class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
+                                    >
+                                    <div class="text-black-500 text-xs italic">*) File format JPG, JPEG, atau PNG.
+                                        Ukuran gambar 1800 x 1600 pixel
+                                    </div>
+                                    <div class="text-red-500 text-xs italic" id="error-thumbnail"></div>
+                                </div>
+
                                 <div class="mb-2">
                                     <label for="Mobile_Number"
-                                           class="font-medium text-sm text-slate-600 dark:text-slate-400">Deskripsi</label>
-                                    <textarea type="text" id="description" name="description" style="height: 121px;"
+                                           class="font-medium text-sm text-slate-600 dark:text-slate-400">Kode
+                                        Semat</label>
+                                    <textarea type="text" id="embed_code" name="embed_code" style="height: 121px;"
                                               class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
                                               required></textarea>
-                                    <div class="text-red-500 text-xs italic" id="error-description"></div>
+                                    <div class="text-black-500 text-xs italic">*) Input menggunakan kode semat dari
+                                        Youtube.
+                                    </div>
+                                    <div class="text-red-500 text-xs italic" id="error-embed_code"></div>
                                 </div>
                             </form>
                         </div>
@@ -98,11 +115,13 @@
                 const rowIndex = startIndex + index + 1;
                 html += `<tr class="bg-white border-b border-dashed dark:bg-gray-900 dark:border-gray-700/40">
                         <td class="p-3 text-sm font-medium dark:text-white border dark:border-slate-100">${rowIndex}</td>
-                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">${item.name}</td>
-                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">${item.description}</td>
+                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">${item.title}</td>
+                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">${item.type}</td>
                         <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">
-                            <button data-fc-type="modal" data-fc-target="_modal_form" data-id="${item.service_id}"class="_edit_modal text-primary-500 hover:text-primary-700"><i class="fas fa-edit fa-1x"></i></button>
-                            <button class="text-red-500 hover:text-danger-700 _delete" data-id="${item.service_id}"><i class="fas fa-trash fa-1x"></i></button>
+                        <img src="{{asset('upload')}}/${item.thumbnail}" alt="" class="rounded mx-auto float-left" width="40%"></td>
+                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">
+                            <button data-fc-type="modal" data-fc-target="_modal_form" data-id="${item.portofolio_id}"class="_edit_modal text-primary-500 hover:text-primary-700"><i class="fas fa-edit fa-1x"></i></button>
+                            <button class="text-red-500 hover:text-danger-700 _delete" data-id="${item.portofolio_id}"><i class="fas fa-trash fa-1x"></i></button>
                         </td>
                     </tr>
                 `;
@@ -132,9 +151,10 @@
                     getData(newPage); // Panggil ulang getData dengan halaman baru
                 });
                 itemDataArray = data.data; // Simpan data dalam array
+
                 // Tambahkan event listener untuk tombol edit
                 $('._edit_modal').on('click', function () {
-                    $('#_title_modal').text('Edit Layanan');
+                    $('#_title_modal').text('Edit {{$title}}');
                     //open modal
                     $('#_modal_form').addClass('animate-ModalSlideInTop').removeClass('hidden');
                     //transition-all
@@ -142,11 +162,13 @@
                     //get data from table
                     const itemId = $(this).data('id');
                     // Ambil data dari array berdasarkan ID
-                    const itemData = itemDataArray.find(item => item.service_id === itemId);
-                    $('#name').val(itemData.name);
-                    $('#icon').val(itemData.icon);
-                    $('#description').val(itemData.description);
+                    const itemData = itemDataArray.find(item => item.portofolio_id === itemId);
 
+                    $('#title').val(itemData.title);
+                    $('#date_post').val(itemData.date_post);
+                    $('#embed_code').val(itemData.embed_code);
+
+                    $('#_show_thumbnail').attr('src', `{{asset('upload')}}/${itemData.thumbnail}`);
                     //add method put
                     $('#_form_input').append('<input type="hidden" name="_method" value="put">');
 
@@ -163,14 +185,28 @@
         getData();
 
         $('._add_modal').on('click', function () {
-            $('#_title_modal').text('Tambah Layanan');
+            $('#_title_modal').text('Tambah {{$title}}');
             $('#_form_input').trigger('reset');
             $('#_form_input').attr('action', $('#_table-data').data('url'));
             $('#_form_input input[name="_method"]').remove();
         });
 
         $('#_table-data').on('click', '._delete', function () {
-            console.log('delete');
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const itemId = $(this).data('id');
+                    const url = $('#_table-data').data('url') + `/${itemId}`;
+                    postData(url, "Delete", {}, handleResponse);
+                }
+            });
         });
 
         $('#_save').on('click', function () {
@@ -212,5 +248,14 @@
                 );
             }
         }
+
+        $('#thumbnail').on('change', function () {
+            const file = $(this).prop('files')[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $('#_show_thumbnail').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
     </script>
 @endpush

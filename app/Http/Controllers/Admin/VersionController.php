@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Version;
 use Illuminate\Http\Request;
 
 class VersionController extends Controller
@@ -12,7 +13,9 @@ class VersionController extends Controller
      */
     public function index()
     {
-        //
+        $version = Version::first();
+
+        return view('admin.version.index', compact('version'));
     }
 
     /**
@@ -52,7 +55,21 @@ class VersionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'version' => 'required|string',
+            'description' => 'required|string',
+            'link' => 'required|string|url',
+        ]);
+
+        $version = Version::first();
+        $version->update([
+            'version' => $request->version,
+            'description' => $request->description,
+            'link' => $request->link,
+        ]);
+        $version->save();
+
+        return redirect()->back()->with('success', 'Version updated successfully');
     }
 
     /**

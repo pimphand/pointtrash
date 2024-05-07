@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    @php($title = 'Portofolio')
+    @php($title = 'Tim Kami')
     @include('components.breadcrumb',['title'=>$title])
     <div class="sm:col-span-12  md:col-span-12 lg:col-span-8 xl:col-span-6 xl:col-start-4 ">
         <div
@@ -18,11 +18,11 @@
 
             <div class="flex-auto p-4 ">
                 @include('components.filter_table')
-                @include('components.table',['url'=>route('portfolio.index'),'theads'=>[
+                @include('components.table',['url'=>route('our-team.index'),'theads'=>[
                     '#',
-                    'Judul',
-                    'Type',
-                    'Thumbnail',
+                    'Nama',
+                    'Posisi',
+                    'Foto',
                     'Aksi'
                 ]])
             </div>
@@ -44,46 +44,61 @@
                             <form id="_form_input" action="" method="post">
                                 @csrf
                                 <div class="mb-2">
-                                    <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Judul</label>
-                                    <input type="text" id="title" name="title"
+                                    <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Nama</label>
+                                    <input type="text" id="name" name="name"
                                            class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
-                                           placeholder="Masukan Judul">
-                                    <div class="text-red-500 text-xs italic" id="error-title"></div>
+                                           placeholder="Masukan nama">
+                                    <div class="text-red-500 text-xs italic" id="error-name"></div>
                                 </div>
                                 <div class="mb-2">
                                     <label for="password"
-                                           class="font-medium text-sm text-slate-600 dark:text-slate-400">Tipe</label>
-                                    <select id="type" name="type"
+                                           class="font-medium text-sm text-slate-600 dark:text-slate-400">Posisi</label>
+                                    <select id="position" name="position"
                                             class="w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-[6.5px] focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700">
-                                        <option value="">Pilih Tipe</option>
-                                        <option value="Photo">Photo</option>
-                                        <option value="Video">Video</option>
+                                        <option value="">Pilih Posisi</option>
+                                        <option value="CEO">CEO</option>
+                                        <option value="COO">COO</option>
+                                        <option value="Direktur">Direktur</option>
+                                        <option value="Manager">Manager</option>
+                                        <option value="Divisi">Divisi</option>
+                                        <option value="Karyawan">Karyawan</option>
                                     </select>
-                                    <div class="text-red-500 text-xs italic" id="error-tipe"></div>
+                                    <div class="text-red-500 text-xs italic" id="error-position"></div>
                                 </div>
-                                <img src="{{asset('img-icon.svg')}}" width="40%" id="_show_thumbnail">
+                                <div class="mb-2">
+                                    <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Facebook
+                                        Link</label>
+                                    <input type="text" id="facebook_link" name="facebook_link"
+                                           class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
+                                           placeholder="Masukan Facebook Link">
+                                    <div class="text-red-500 text-xs italic" id="error-facebook_link"></div>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Instagram
+                                        Link</label>
+                                    <input type="text" id="instagram_link" name="instagram_link"
+                                           class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
+                                           placeholder="Masukan Instagram Link">
+                                    <div class="text-red-500 text-xs italic" id="error-instagram_link"></div>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Twitter
+                                        Link</label>
+                                    <input type="text" id="twitter_link" name="twitter_link"
+                                           class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
+                                           placeholder="Masukan Twitter Link">
+                                    <div class="text-red-500 text-xs italic" id="error-twitter_link"></div>
+                                </div>
+                                <img src="{{asset('img-icon.svg')}}" width="30%" id="_show_thumbnail">
                                 <div class="mb-2">
                                     <label for="email" class="font-medium text-sm text-slate-600 dark:text-slate-400">Photo</label>
-                                    <input type="file" id="thumbnail" name="thumbnail"
+                                    <input type="file" id="photo" name="photo"
                                            class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
                                     >
                                     <div class="text-black-500 text-xs italic">*) File format JPG, JPEG, atau PNG.
                                         Ukuran gambar 1800 x 1600 pixel
                                     </div>
-                                    <div class="text-red-500 text-xs italic" id="error-thumbnail"></div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label for="Mobile_Number"
-                                           class="font-medium text-sm text-slate-600 dark:text-slate-400">Kode
-                                        Semat</label>
-                                    <textarea type="text" id="embed_code" name="embed_code" style="height: 121px;"
-                                              class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
-                                              required></textarea>
-                                    <div class="text-black-500 text-xs italic">*) Input menggunakan kode semat dari
-                                        Youtube.
-                                    </div>
-                                    <div class="text-red-500 text-xs italic" id="error-embed_code"></div>
+                                    <div class="text-red-500 text-xs italic" id="error-photo"></div>
                                 </div>
                             </form>
                         </div>
@@ -115,13 +130,14 @@
                 const rowIndex = startIndex + index + 1;
                 html += `<tr class="bg-white border-b border-dashed dark:bg-gray-900 dark:border-gray-700/40">
                         <td class="p-3 text-sm font-medium dark:text-white border dark:border-slate-100">${rowIndex}</td>
-                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">${item.title}</td>
-                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">${item.type}</td>
+                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">${item.name}</td>
+                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">${item.position}</td>
+                        <td class="p-3 text-sm border dark:border-slate-700">
+                        <img src="{{asset('upload')}}/${item.photo}" alt="" class="rounded mx-auto float-left" width="60%">
+                        </td>
                         <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">
-                        <img src="{{asset('upload')}}/${item.thumbnail}" alt="" class="rounded mx-auto float-left" width="40%"></td>
-                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">
-                            <button data-fc-type="modal" data-fc-target="_modal_form" data-id="${item.portofolio_id}"class="_edit_modal text-primary-500 hover:text-primary-700"><i class="fas fa-edit fa-1x"></i></button>
-                            <button class="text-red-500 hover:text-danger-700 _delete" data-id="${item.portofolio_id}"><i class="fas fa-trash fa-1x"></i></button>
+                            <button data-fc-type="modal" data-fc-target="_modal_form" data-id="${item.team_id}"class="_edit_modal text-primary-500 hover:text-primary-700"><i class="fas fa-edit fa-1x"></i></button>
+                            <button class="text-red-500 hover:text-danger-700 _delete" data-id="${item.team_id}"><i class="fas fa-trash fa-1x"></i></button>
                         </td>
                     </tr>
                 `;
@@ -162,11 +178,14 @@
                     //get data from table
                     const itemId = $(this).data('id');
                     // Ambil data dari array berdasarkan ID
-                    const itemData = itemDataArray.find(item => item.portofolio_id === itemId);
+                    const itemData = itemDataArray.find(item => item.team_id === itemId);
 
-                    $('#title').val(itemData.title);
-                    $('#date_post').val(itemData.date_post);
-                    $('#_show_thumbnail').attr('src', `{{asset('upload')}}/${itemData.thumbnail}`);
+                    $('#name').val(itemData.name);
+                    $('#position').val(itemData.position);
+                    $('#facebook_link').val(itemData.facebook_link);
+                    $('#instagram_link').val(itemData.instagram_link);
+                    $('#twitter_link').val(itemData.twitter_link);
+                    $('#_show_thumbnail').attr('src', `{{asset('upload')}}/${itemData.photo}`);
                     //add method put
                     $('#_form_input').append('<input type="hidden" name="_method" value="put">');
 
@@ -224,7 +243,6 @@
                     $.each(error.responseJSON.errors, function (key, value) {
                         // Menampilkan pesan error pada elemen HTML yang relevan
                         document.getElementById('error-' + key).innerHTML = value;
-
                         // Menambahkan event handler untuk menghapus error saat mengetik
                         $(`#${key}`).on('keyup', function () {
                             document.getElementById('error-' + key).innerHTML = '';

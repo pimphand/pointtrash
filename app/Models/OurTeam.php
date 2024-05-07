@@ -11,10 +11,28 @@ class OurTeam extends Model
     use HasFactory;
 
     protected $guarded = [];
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
 
-        $this->table = Str::snake(Str::pluralStudly(class_basename($this)));
+    protected $keyType = 'string';
+
+    protected $primaryKey = 'team_id';
+
+    protected $table = 'our_team';
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($ourTeam) {
+            $ourTeam->team_id = (string) Str::random(10);
+        });
+    }
+
+    //scope search any
+    public function scopeSearch($query, $search)
+    {
+        return $query->whereAny([
+            'name',
+            'description',
+        ], 'LIKE', '%'.$search.'%');
     }
 }

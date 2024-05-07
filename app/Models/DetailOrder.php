@@ -4,17 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class DetailOrder extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    public $timestamps = false;
 
-        $this->table = Str::snake(Str::pluralStudly(class_basename($this)));
+    protected $guarded = [];
+
+    protected $keyType = 'string';
+
+    protected $primaryKey = 'detail_order_id';
+
+    protected $table = 'detail_order';
+
+    public function category()
+    {
+        return $this->belongsTo(SubTrashCategory::class, 'sub_category_id', 'sub_category_id');
     }
 }

@@ -10,11 +10,37 @@ class Portofolio extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    public $timestamps = false;
 
-        $this->table = Str::snake(Str::pluralStudly(class_basename($this)));
+    protected $guarded = [];
+
+    protected $keyType = 'string';
+
+    protected $table = 'portofolio';
+
+    protected $primaryKey = 'portofolio_id';
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($portofolio) {
+            $portofolio->portofolio_id = (string) Str::random(10);
+        });
+
+        static::deleting(function ($portofolio) {
+            if ($portofolio->thumbnail) {
+                unlink(public_path('upload/'.$portofolio->thumbnail));
+            }
+        });
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->whereAny([
+            'title',
+            'type',
+            'embed_code',
+        ], 'LIKE', '%'.$search.'%');
     }
 }

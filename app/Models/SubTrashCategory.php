@@ -10,11 +10,32 @@ class SubTrashCategory extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    public $timestamps = false;
 
-        $this->table = Str::snake(Str::pluralStudly(class_basename($this)));
+    protected $guarded = [];
+
+    protected $keyType = 'string';
+
+    protected $primaryKey = 'sub_category_id';
+
+    protected $table = 'sub_trash_category';
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($blog) {
+            $blog->sub_category_id = (string) Str::random(10);
+        });
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('sub_category', 'like', '%'.$search.'%');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(TrashCategory::class, 'category_id', 'category_id');
     }
 }

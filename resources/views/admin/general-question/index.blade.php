@@ -11,16 +11,16 @@
             </div>
             <!--end header-title-->
             <div class="flex-auto p-4 ">
-                <form action="{{ route('mobile-guide.update', [$guide->guide_id]) }}" method="POST"
+                <form action="{{ route('general-question.update', [$general->question_id]) }}" method="POST"
                       enctype="multipart/form-data">
                     @method('put')
                     @csrf
                     <div class="mb-2">
-                        <textarea id="basic-conf" rows="4" name="description" style="height: 600px;"
+                        <textarea id="basic-conf" rows="4" name="content" style="height: 600px;"
                                   class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
-                                  style="height: 350px;">{!! $guide->description !!}</textarea>
-                        @if ($errors->has('description'))
-                            <span class="text-red-500 text-xs italic">{{ $errors->first('description') }}</span>
+                                  style="height: 350px;">{!! $general->content !!}</textarea>
+                        @if ($errors->has('content'))
+                            <span class="text-red-500 text-xs italic">{{ $errors->first('content') }}</span>
                         @endif
                     </div>
                     <button type="submit"

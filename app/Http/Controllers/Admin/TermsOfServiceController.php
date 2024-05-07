@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\TermsOfService;
 use Illuminate\Http\Request;
 
 class TermsOfServiceController extends Controller
@@ -12,7 +13,9 @@ class TermsOfServiceController extends Controller
      */
     public function index()
     {
-        //
+        $termsOfService = TermsOfService::first();
+
+        return view('admin.terms-of-service.index', compact('termsOfService'));
     }
 
     /**
@@ -52,7 +55,12 @@ class TermsOfServiceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $termsOfService = TermsOfService::first();
+        $termsOfService->update([
+            'content' => $request->contents,
+        ]);
+
+        return redirect()->route('terms-of-service.index')->with('success', 'Terms of Service updated successfully');
     }
 
     /**

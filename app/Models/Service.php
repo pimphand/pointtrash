@@ -10,11 +10,31 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    public $timestamps = false;
 
-        $this->table = Str::snake(Str::pluralStudly(class_basename($this)));
+    protected $guarded = [];
+
+    protected $table = 'service';
+
+    protected $keyType = 'string';
+
+    protected $primaryKey = 'service_id';
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($portofolio) {
+            $portofolio->service_id = (string) Str::random(10);
+        });
+    }
+
+    //scope search any
+    public function scopeSearch($query, $search)
+    {
+        return $query->whereAny([
+            'name',
+            'description',
+        ], 'LIKE', '%'.$search.'%');
     }
 }

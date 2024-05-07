@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\GeneralQuestion;
 use Illuminate\Http\Request;
 
 class GeneralQuestionController extends Controller
@@ -12,7 +13,9 @@ class GeneralQuestionController extends Controller
      */
     public function index()
     {
-        //
+        $general = GeneralQuestion::first();
+
+        return view('admin.general-question.index', compact('general'));
     }
 
     /**
@@ -52,7 +55,15 @@ class GeneralQuestionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $general = GeneralQuestion::find($id);
+        $general->content = $request->content;
+        $general->save();
+
+        return redirect()->route('general-question.index');
     }
 
     /**

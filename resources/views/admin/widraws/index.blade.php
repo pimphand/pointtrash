@@ -1,41 +1,67 @@
 @extends('layouts.app')
 @section('content')
     @php
-        $title = 'Order';
-            $share_profits = [
-                'for_user' => "User (%)",
-                'for_company' =>"Perusahaan (%)",
-                'for_partner' => "Mitra (%)"
-            ];
+        $title = '';
     @endphp
     @include('components.breadcrumb',['title'=>$title ." ". str_replace('_',' ',Str::title($status))])
+
+    <button type="button" data-fc-type="modal" data-fc-target="modalstandard" id="buttonModal"
+            class="hidden inline-block focus:outline-none text-slate-500 hover:bg-slate-500 hover:text-white bg-transparent border border-gray-200 dark:bg-transparent dark:text-slate-500 dark:hover:text-white dark:border-gray-700 dark:hover:bg-slate-500  text-sm font-medium py-1 px-3 rounded ">
+        Standerd
+    </button>
+
     <div class="sm:col-span-12  md:col-span-12 lg:col-span-8 xl:col-span-6 xl:col-start-4 ">
         <div
             class="bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-700/40  rounded-md w-full relative mb-4">
             <div class="border-b border-slate-200 dark:border-slate-700/40 py-3 px-4 dark:text-slate-300/70">
                 <div class="flex-none md:flex  justify-between">
                     <h4 class="font-medium text-lg flex-1 self-center mb-2 md:mb-0">List {{$title}}</h4>
-                    @if(request()->routeIs('orders.index') == 1)
-                        <a href="{{route('users.export', 'pdf')}}"
+                    @if(request()->routeIs('widraws.index') == 1)
+                        <a href="{{route('widraws.export', 'pdf')}}"
                            class="px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
                         >
                             Export PDF
                         </a>
-                        <button type="button" data-fc-type="modal" data-fc-target="_modal_form"
-                                class="_add_modal p-1 px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
+                        <a href="{{route('widraws.partner', $status)}}"
+                           class="p-1 px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
                         >
-                            Share Profit
-                        </button>
-                        <a href="{{route('orders.history', $status)}}"
+                            Widraw Partner
+                        </a>
+                        <a href="{{route('widraws.history', $status)}}?history=true"
                            class="p-1 px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
                         >
                             Riwayat
                         </a>
-                    @else
-                        <a href="{{route('orders.index', $status)}}"
+                    @endif
+                    @if(request()->routeIs('widraws.partner') == 1)
+                        <a href="{{route('widraws.export', 'pdf')}}"
+                           class="px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
+                        >
+                            Export PDF
+                        </a>
+                        <a href="{{route('widraws.index', $status)}}"
                            class="p-1 px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
                         >
-                            {{str_replace('_',' ',Str::title($status))}} Masuk
+                            Widraw User
+                        </a>
+                        <a href="{{route('widraws.partner.history', $status)}}?history=true"
+                           class="p-1 px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-500 hover:text-white border border-primary font-medium"
+                        >
+                            Riwayat
+                        </a>
+                    @endif
+                    @if(request()->routeIs('widraws.partner.history') == 1)
+                        <a href="{{route('widraws.partner', $status)}}"
+                           class="p-1 px-2 py-1 lg:px-4 bg-transparent  text-red text-sm  rounded transition hover:bg-red-500 hover:text-white border border-red font-medium"
+                        >
+                            Kembali
+                        </a>
+                    @endif
+                    @if(request()->routeIs('widraws.history') == 1)
+                        <a href="{{route('widraws.index', $status)}}"
+                           class="p-1 px-2 py-1 lg:px-4 bg-transparent  text-red text-sm  rounded transition hover:bg-red-500 hover:text-white border border-red font-medium"
+                        >
+                            Kembali
                         </a>
                     @endif
                 </div>
@@ -50,63 +76,112 @@
                 @include('components.table',['url'=>'','theads'=>[
                     '#',
                     'Nama',
-                    'Perkiraan Berat',
-                    'Tgl. Order',
+                    'Tgl. Permintaan',
                     'Status',
                     'Aksi'
                 ]])
             </div>
-
-            <div class="modal animate-ModalSlide hidden" id="_modal_form">
-                <div class="relative w-auto pointer-events-none  sm:my-7 sm:mx-auto z-[99] lg:max-w-4xl">
-                    <div
-                        class="relative flex flex-col w-full pointer-events-auto bg-white dark:bg-slate-800 bg-clip-padding rounded">
+        </div>
+        <div class="modal animate-ModalSlide hidden" id="modalstandard">
+            <div class="relative w-auto pointer-events-none sm:max-w-lg sm:my-7 sm:mx-auto z-[99]">
+                <div
+                    class="relative flex flex-col w-full pointer-events-auto bg-white dark:bg-slate-800 bg-clip-padding rounded">
+                    <div class="rounded-md w-full p-3 relative">
                         <div
                             class="flex shrink-0 items-center justify-between py-2 px-4 rounded-t border-b border-solid dark:border-gray-700 bg-slate-800">
                             <h6 class="mb-0 leading-4 text-base font-semibold text-slate-300 mt-0"
-                                id="_title_modal">Edit Share Profit {{str_replace('_',' ',Str::title($status))}}</h6>
+                                id="staticBackdropLabel1">Detail Widraw</h6>
                             <button type="button"
                                     class="box-content w-4 h-4 p-1 bg-slate-700/60 rounded-full text-slate-300 leading-4 text-xl close"
                                     aria-label="Close" data-fc-dismiss>&times;
                             </button>
                         </div>
-                        <div class="relative flex-auto p-4 text-slate-600 dark:text-gray-300 leading-relaxed">
-                            <form id="_form_input">
-                                @csrf
-                                @foreach($share_profits as $key => $share_profit)
-                                    <div class="mb-2">
-                                        <label for="email"
-                                               class="font-medium text-sm text-slate-600 dark:text-slate-400">
-                                            {{$share_profit}}
-                                        </label>
-                                        <input type="text" id="{{$key}}" name="{{$key}}"
-                                               class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
-                                               placeholder="Untuk {{$share_profit}}" value="">
-                                        <div class="text-red-500 text-xs italic" id="error-{{$key}}"></div>
-                                    </div>
-                                @endforeach
-
-                            </form>
-                        </div>
-                        <div
-                            class="flex flex-wrap shrink-0 justify-end p-3  rounded-b border-t border-dashed dark:border-gray-700">
-                            <button id="_close_modal"
-                                    class="inline-block focus:outline-none text-red-500 hover:bg-red-500 hover:text-white bg-transparent border border-gray-200 dark:bg-transparent dark:text-red-500 dark:hover:text-white dark:border-gray-700 dark:hover:bg-red-500  text-sm font-medium py-1 px-3 rounded mr-1 close"
-                                    data-fc-dismiss>Tutup
-                            </button>
-                            <button id="_save"
-                                    class="inline-block focus:outline-none text-primary-500 hover:bg-primary-500 hover:text-white bg-transparent border border-gray-200 dark:bg-transparent dark:text-primary-500 dark:hover:text-white dark:border-gray-700 dark:hover:bg-primary-500  text-sm font-medium py-1 px-3 rounded">
-                                Simpan
-                            </button>
-                        </div>
+                        <table class="w-full table-fixed">
+                            <tbody>
+                            <tr>
+                                <td class="w-2/8 p-3 text-sm font-medium whitespace-nowrap">
+                                    Tgl. Permintaan
+                                </td>
+                                <!-- 10% lebar untuk kolom kedua -->
+                                <td class="w-1/10 p-1 text-sm text-gray-500 text-center whitespace-nowrap">
+                                    :
+                                </td>
+                                <!-- 50% lebar untuk kolom ketiga -->
+                                <td class="w-1/2 p-3 text-sm text-gray-500 whitespace-nowrap" id="date_request">
+                                    12-12-2021
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-2/8 p-3 text-sm font-medium whitespace-nowrap">
+                                    Nama User
+                                </td>
+                                <!-- 10% lebar untuk kolom kedua -->
+                                <td class="w-1/10 p-1 text-sm text-gray-500 text-center whitespace-nowrap">
+                                    :
+                                </td>
+                                <!-- 50% lebar untuk kolom ketiga -->
+                                <td class="w-1/2 p-3 text-sm text-gray-500 whitespace-nowrap" id="name_user">
+                                    12-12-2021
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-2/8 p-3 text-sm font-medium whitespace-nowrap">
+                                    Point User
+                                </td>
+                                <!-- 10% lebar untuk kolom kedua -->
+                                <td class="w-1/10 p-1 text-sm text-gray-500 text-center whitespace-nowrap">
+                                    :
+                                </td>
+                                <!-- 50% lebar untuk kolom ketiga -->
+                                <td class="w-1/2 p-3 text-sm text-gray-500 whitespace-nowrap" id="point_user">
+                                    12-12-2021
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-2/8 p-3 text-sm font-medium whitespace-nowrap">
+                                    Nominal Permintaan
+                                </td>
+                                <!-- 10% lebar untuk kolom kedua -->
+                                <td class="w-1/10 p-1 text-sm text-gray-500 text-center whitespace-nowrap">
+                                    :
+                                </td>
+                                <!-- 50% lebar untuk kolom ketiga -->
+                                <td class="w-1/2 p-3 text-sm text-gray-500 whitespace-nowrap" id="nominal_request">
+                                    12-12-2021
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-2/8 p-3 text-sm font-medium whitespace-nowrap">
+                                    No. Telp
+                                </td>
+                                <!-- 10% lebar untuk kolom kedua -->
+                                <td class="w-1/10 p-1 text-sm text-gray-500 text-center whitespace-nowrap">
+                                    :
+                                </td>
+                                <!-- 50% lebar untuk kolom ketiga -->
+                                <td class="w-1/2 p-3 text-sm text-gray-500 whitespace-nowrap" id="phone">
+                                    12-12-2021
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="flex flex-wrap shrink-0 justify-end p-3  rounded-b border-t border-dashed dark:border-gray-700">
+                        <button
+                            class="inline-block focus:outline-none text-red-500 hover:bg-red-500 hover:text-white bg-transparent border border-gray-200 dark:bg-transparent dark:text-red-500 dark:hover:text-white dark:border-gray-700 dark:hover:bg-red-500  text-sm font-medium py-1 px-3 rounded mr-1 close"
+                            data-fc-dismiss>Close
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 @endsection
 @push('js')
     <script>
+
         function buildTableRows(data, page, per_page) {
             const startIndex = (page - 1) * per_page;
             let html = '';
@@ -128,32 +203,37 @@
                         statusText = 'Selesai';
                         break;
 
-                    case 3:
-                        statusClass = 'bg-grey-500 text-grey-700';
-                        statusText = 'Dibatalkan';
-                        break;
-
                     default:
                         statusClass = 'bg-red-500 text-red-700';
-                        statusText = 'Diambil';
+                        statusText = 'Batal';
                         break;
                 }
                 //ubah tanggal ke indonesia
-                const date = new Date(item.date_create);
-                const options = {year: 'numeric', month: 'long', day: 'numeric'};
-                item.date_create = date.toLocaleDateString('id-ID', options);
+                const date = new Date(item.date_request);
+                const options = {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric', // Menambahkan jam
+                    minute: 'numeric', // Menambahkan menit
+                    second: 'numeric', // Menambahkan detik (opsional, dapat dihapus jika tidak dibutuhkan)
+                    hour12: false, // Menampilkan waktu dalam format 24 jam
+                };
+                // Mengubah format tanggal dan waktu ke bahasa Indonesia
+                let formattedDate = date.toLocaleString('id-ID', options);
+                formattedDate = formattedDate.replace(' pukul ', ' - ')
+                item.date_request = formattedDate;
 
                 html += `<tr class="bg-white border-b border-dashed dark:bg-gray-900 dark:border-gray-700/40">
                     <td class="p-3 text-sm font-medium dark:text-white border dark:border-slate-100">${rowIndex}</td>
                     <td class="p-3 text-sm font-medium dark:text-white border dark:border-slate-100">${item.user.name}</td>
-                    <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">
-                        ${item.weight} Kg
-                    </td>
-                    <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700 text-red">${item.date_create}</td>
+
+                    <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700 text-red">${item.date_request}</td>
                     <td class="p-3 text-sm border dark:border-slate-700"><span class="${statusClass} text-white text-[11px] font-medium mr-1 px-2.5 py-0.5 rounded-full"> ${statusText}</span></td> <!-- Status dengan kelas dan teks -->
                     <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">
-                        <a href="{{request()->routeIs('orders.index') == 1 ? route('orders.index', $status) : route('orders.index', $status)}}/${item.order_id}" class="text-primary-500 hover:text-primary-700"><i class="fas fa-edit fa-1x"></i></a>
-                        <button class="text-red-500 hover:text-danger-700 _delete" data-id="${item.order_id}"><i class="fas fa-trash fa-1x"></i></button>
+                        <button  type="button" data-fc-type="modal" data-fc-target="modalstandard" class="_show_modal px-2 py-1 lg:px-4 bg-transparent  text-primary text-sm  rounded transition hover:bg-primary-600 hover:text-white border border-primary font-medium" data-id="${item.widraw_id}"><i class="fas fa-edit fa-1x"></i> Detail</button>
+                        <button data-type="Approve" type="button" data-id="${item.widraw_id}" class="approve px-2 py-1 lg:px-4 bg-transparent  text-green text-sm  rounded transition hover:bg-green-600 hover:text-white border border-green font-medium {{request()->get('history')? "hidden" : ""}}"><i class="fas fa-check fa-1x"></i>Approve</button>
+                        <button data-type="Batal" class="px-2 py-1 lg:px-4 bg-transparent  text-red text-sm  rounded transition hover:bg-red-600 hover:text-white border border-red font-medium approve" data-id="${item.widraw_id}"><i class="fas fa-trash fa-1x"></i>Batal</button>
                     </td>
                 </tr>`;
             });
@@ -163,12 +243,28 @@
 
         let itemDataArray = [];
 
+        function isCurrencyFormatted(value) {
+            return typeof value === 'string' && value.includes('Rp'); // 'Rp' untuk mata uang IDR
+        }
+
         function getData(page = 1) {
             const per_page = parseInt($('#per_page').val(), 10) || 15;
             const search = $('#search').val() || '';
             let status = $('#tab_filter button[aria-selected="true"]').data('status') || '';
-            let newUrl = "{{request()->routeIs('orders.index') == 1 ? route('orders.index', $status) : route('orders.history', $status)}}";
-            const url = newUrl + `?page=${page}&per_page=${per_page}&filter[status]=${status}&filter[search]=${search}`;
+            let newUrl
+            @if(request()->routeIs('widraws.index') == 1)
+                newUrl = "{{request()->routeIs('widraws.index') == 1 ? route('widraws.index', $status) : route('widraws.history', $status)}}";
+            @endif
+                @if(request()->routeIs('widraws.partner') == 1)
+                newUrl = "{{route('widraws.partner', $status)}}";
+            @endif
+                @if(request()->routeIs('widraws.partner.history') == 1)
+                newUrl = "{{route('widraws.partner.history', $status)}}";
+            @endif
+                @if(request()->routeIs('widraws.history') == 1)
+                newUrl = "{{route('widraws.history', $status)}}";
+            @endif
+            const url = newUrl + `?page=${page}&per_page=${per_page}&filter[status]=${status}&filter[search]=${search}&history={{request()->get('history')}}&user_type={{request()->routeIs('widraws.index') == 1 ?"user" : "partner"}}`;
             fetchData(url, page, per_page, search, "get", function (data) {
                 // Bangun tabel
                 const tableRows = buildTableRows(data.data.data, page, per_page);
@@ -183,12 +279,35 @@
                     const newPage = $(this).data('page');
                     getData(newPage); // Panggil ulang getData dengan halaman baru
                 });
+                itemDataArray = data.data.data; // Simpan data dalam array
+                $('#_table-data').on('click', '._show_modal', function () {
+                    const itemId = $(this).data('id');
+                    const itemData = itemDataArray.find(item => item.widraw_id === itemId);
 
-                //data
-                let share_profit = data.share_profit;
-                $('#for_user').val(share_profit.for_user);
-                $('#for_company').val(share_profit.for_company);
-                $('#for_partner').val(share_profit.for_partner);
+                    // Format nominal jika belum diformat
+                    if (!isCurrencyFormatted(itemData.nominal)) {
+                        itemData.nominal = new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR'
+                        }).format(itemData.nominal);
+                    }
+
+                    // Format user.point jika belum diformat
+                    if (!isCurrencyFormatted(itemData.user.point)) {
+                        itemData.user.point = new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR'
+                        }).format(itemData.user.point);
+                    }
+
+                    $('#date_request').text(itemData.date_request);
+                    $('#name_user').text(itemData.user.name);
+                    $('#point_user').text(itemData.user.point);
+                    $('#nominal_request').text(itemData.nominal);
+                    $('#phone').text(itemData.phone);
+                    $('#buttonModal').trigger('click');
+
+                });
             });
         }
 
@@ -200,49 +319,45 @@
 
         function handleResponse(error, data) {
             if (error) {
-                if (error.responseJSON && error.responseJSON.errors) {
-                    // Mengiterasi kesalahan dan menampilkan pesan error
-                    $.each(error.responseJSON.errors, function (key, value) {
-                        // Menampilkan pesan error pada elemen HTML yang relevan
-                        document.getElementById('error-' + key).innerHTML = value;
-
-                        // Menambahkan event handler untuk menghapus error saat mengetik
-                        $(`#${key}`).on('keyup', function () {
-                            document.getElementById('error-' + key).innerHTML = '';
-                        });
-                    });
-                }
+                Swal.fire(
+                    'Berhasil!',
+                    data.messages,
+                    'success'
+                );
             }
             if (data) {
-                //triger click close modal
-                $('#_close_modal').trigger('click');
-                // Bersihkan form
-                $('#_form_input').trigger('reset');
                 getData();
                 //swet alert
                 Swal.fire(
                     'Berhasil!',
-                    'Data berhasil disimpan',
+                    data.messages,
                     'success'
                 );
             }
         }
 
-        $('#_save').on('click', function (e) {
-            e.preventDefault();
-            const url = "{{route('orders.updateShareProfit', $status)}}"; // URL untuk mengirim data
-            const form = $('#_form_input'); // Mengambil elemen form
-            const formData = new FormData(form[0]); // Membuat FormData dari form
-            const method = 'POST';
-            postData(url, method, formData, handleResponse);
-        });
+        $('#_table-data').on('click', '.approve', function () {
+            let title = $(this).data('type');
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: `Data yang sudah ${title} tidak bisa diubah lagi!`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: `Ya, ${title}!`,
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const itemId = $(this).data('id');
 
-        $("._add_modal").click(function () {
-            let id = "{{$status}}";
-            if (id == "drop_off") {
-                $('#for_partner').parent().remove();
-            }
+                    url = "{{route('widraws.approve', ['type' => 'user', 'status' => ':title', 'id' => ':id'])}}";
 
+                    const newUrl = url.replace(':id', itemId).replace(':title', title)
+
+                    postData(newUrl, "post", {'_token': "{{csrf_token()}}"}, handleResponse);
+                }
+            });
         });
     </script>
 @endpush
