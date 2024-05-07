@@ -17,6 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => RoleMiddleware::class,
         ]);
+        //remove csrf token
+        // $middleware->except([]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
