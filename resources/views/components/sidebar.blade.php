@@ -17,8 +17,7 @@
                 <li
                     class="uppercase text-[11px]  text-primary-500 dark:text-primary-400 mt-0 leading-4 mb-2 group-data-[sidebar=dark]:text-primary-400 group-data-[sidebar=brand]:text-primary-300">
                     <span
-                        class="text-[9px] text-slate-600 dark:text-slate-500 group-data-[sidebar=dark]:text-slate-500 group-data-[sidebar=brand]:text-slate-400">DashboardS
-                        & Apps</span>
+                        class="text-[9px] text-slate-600 dark:text-slate-500 group-data-[sidebar=dark]:text-slate-500 group-data-[sidebar=brand]:text-slate-400">Dashboard</span>
                 </li>
                 <li>
                     <div id="parent-accordion" data-fc-type="accordion">
@@ -32,7 +31,7 @@
 
                         </a>
 
-                        @if(Auth::guard('admin')->user()->role == "1")
+                        @if(Auth::guard('admin')->user()->roles == "admin")
                         <a href="#"
                             class="nav-link hover:bg-transparent hover:text-black  rounded-md dark:hover:text-slate-200   flex items-center  decoration-0 px-3 py-3 cursor-pointer group-data-[sidebar=dark]:hover:text-slate-200 group-data-[sidebar=brand]:hover:text-slate-200 "
                             data-fc-type="collapse" data-fc-parent="parent-accordion">
@@ -227,6 +226,19 @@
                                         </a>
                                     </div>
                                 </li>
+                                @if(Auth::guard('admin')->user()->roles == "admin")
+                                <li>
+                                    <div id="Advanced_UI" data-fc-type="collapse" data-fc-parent="UI_Kit-accordion">
+                                        <a href="{{route('accounts.index')}}"
+                                            class="nav-link hover:bg-transparent hover:text-black  rounded-md dark:hover:text-slate-200   flex items-center  decoration-0 px-3 py-3 cursor-pointer group-data-[sidebar=dark]:hover:text-slate-200 group-data-[sidebar=brand]:hover:text-slate-200 "
+                                            aria-expanded="false" aria-controls="Advanced_UI-flush">
+                                            <i
+                                                class="icofont-dotted-right me-2 text-slate-600 text-[8px] group-data-[sidebar=brand]:text-slate-400"></i>
+                                            <span>Account</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                @endif
                             </ul>
                         </div>
 
@@ -258,7 +270,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                        @if(Auth::guard('admin')->user()->role == "1")
+                        @if(Auth::guard('admin')->user()->roles == "admin")
                         <a href="#"
                             class="nav-link hover:bg-transparent hover:text-black  rounded-md dark:hover:text-slate-200   flex items-center  decoration-0 px-3 py-3 cursor-pointer group-data-[sidebar=dark]:hover:text-slate-200 group-data-[sidebar=brand]:hover:text-slate-200"
                             data-fc-type="collapse" data-fc-parent="parent-accordion">

@@ -7,19 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class RoleMiddleware
+class IsActiveMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Closure(Request): (Response)  $next
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('admin')->user()->roles != 'admin') {
-            return abort(403, 'Unauthorized action.');
+        if (!Auth::guard('admin')->user()->is_active) {
+            return abort(403, 'Unauthorized Your Account InActive.');
         }
-
         return $next($request);
     }
 }

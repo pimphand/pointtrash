@@ -19,7 +19,8 @@ export default defineConfig({
                 'resources/assets/libs/lucide/umd/lucide.min.js',
                 'resources/assets/libs/simplebar/simplebar.min.js',
                 'resources/assets/libs/flatpickr/flatpickr.min.js',
-                'resources/assets/libs/@frostui/tailwindcss/frostui.js'
+                'resources/assets/libs/@frostui/tailwindcss/frostui.js',
+                'resources/assets/js/pages/editor.init.js'
             ],
             refresh: true,
         }),

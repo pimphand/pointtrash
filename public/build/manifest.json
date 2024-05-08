@@ -53,6 +53,12 @@
     "src": "resources/assets/js/jquery.js",
     "isEntry": true
   },
+  "resources/assets/js/pages/editor.init.js": {
+    "file": "assets/editor.init-ChmrG4SQ.js",
+    "name": "editor.init",
+    "src": "resources/assets/js/pages/editor.init.js",
+    "isEntry": true
+  },
   "resources/assets/js/summernote.js": {
     "file": "assets/summernote-Cw-n5kFd.js",
     "name": "summernote",

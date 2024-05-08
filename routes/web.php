@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AboutSiteController;
+use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\AdvertismentController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -32,13 +33,13 @@ Route::get('/', function () {
 
 Route::post('/login', [LoginController::class, 'store'])->name('login');
 
-Route::middleware('auth:admin')->group(function () {
+Route::middleware(['auth:admin', 'isActive'])->prefix('dashboard')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-    Route::get('/dashboard-data', [DashboardController::class, 'data'])->name('dashboard.data');
+    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/data', [DashboardController::class, 'data'])->name('dashboard.data');
     Route::middleware('role')->group(function () {
         Route::resource('information', SiteInformationController::class)->only(['index', 'update']);
         Route::resource('logo', SiteLogoController::class)->only(['index', 'update']);
@@ -55,6 +56,9 @@ Route::middleware('auth:admin')->group(function () {
         Route::resource('mobile-version', VersionController::class);
         Route::resource('mobile-guide', GuideController::class);
         Route::resource('general-question', GeneralQuestionController::class);
+
+        Route::resource('accounts', AccountController::class);
+
 
         Route::get('widraws/{type}/{id}', [WidrawUserController::class, 'show'])->name('widraws.show');
         Route::get('widraws/{id}', [WidrawUserController::class, 'index'])->name('widraws.index');

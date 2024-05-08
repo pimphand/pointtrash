@@ -27,14 +27,14 @@ class AuthController extends Controller
 
         if ($check) {
             if (password_verify($request->password, $check->password)) {
-                $token = Hash::make($request->email.$request->password);
+                $token = Hash::make($request->email . $request->password);
                 DB::table('partner_auth')->insert([
                     'partner_auth_id' => Str::random(10),
                     'partner_id' => $check->partner_id,
                     'token' => $token,
                 ]);
                 $device_token = $request->device_token;
-                if (! empty($device_token)) {
+                if (!empty($device_token)) {
                     date_default_timezone_set('Asia/Jakarta');
                     $dateNow = date('Y-m-d H:i:s');
                     $check->update(['last_sign_in' => $dateNow, 'device_token' => $device_token]);
@@ -228,7 +228,7 @@ class AuthController extends Controller
 
             if ($request->hasFile('photo_name')) {
                 $thumbnail = $request->file('photo_name');
-                $photo_name = 'photo_partner'.time().'.'.$thumbnail->getClientOriginalExtension();
+                $photo_name = 'photo_partner' . time() . '.' . $thumbnail->getClientOriginalExtension();
                 $thumbnail->move(public_path('upload'), $photo_name);
             } else {
                 $photo_name = $partner->photo;
@@ -334,11 +334,11 @@ class AuthController extends Controller
             $num = substr($phone, 0, 1);
 
             if ($num == '0') {
-                $fix_phone = '+62'.substr($phone, 1);
+                $fix_phone = '+62' . substr($phone, 1);
             } elseif ($num == '6') {
-                $fix_phone = '+62'.substr($phone, 2);
+                $fix_phone = '+62' . substr($phone, 2);
             } elseif ($num == '+') {
-                $fix_phone = '+62'.substr($phone, 3);
+                $fix_phone = '+62' . substr($phone, 3);
             }
 
             $partner = Partner::where('partner_id', $data_id)
@@ -587,7 +587,6 @@ class AuthController extends Controller
 
             return $this->response($response);
         }
-
     }
 
     public function take_pickup_api_get(Request $request)
@@ -598,6 +597,13 @@ class AuthController extends Controller
 
         $data_id = $request->header('Data-ID');
         $order_id = $request->header('Order-ID');
+        if ($data_id == null || $order_id == null) {
+            $response['status'] = 502;
+            $response['error'] = true;
+            $response['message'] = 'Data tidak ditemukan!';
+
+            return $this->response($response);
+        }
         $check = DB::table('partner_auth')
             ->where('partner_id', $data_id)
             ->where('token', $request->header('Auth-Key'))
@@ -644,7 +650,7 @@ class AuthController extends Controller
             $serverKey = 'AAAA71K9pOA:APA91bGN0YZvTj5VLu-Auqfpdl1qc7gvKYX1e5TlKYzpJkAHi5oH83gaKAquDVrq4kqx32feoxIXKpzTkFDekCUEEQhA9Cgz44ZT-xQLnsVj_0BLNakUbiu5yy8ReadzEENeIXXgzZsp';
 
             $title = 'Pickup Order Sudah Diambil';
-            $body = 'Hai '.$user->name.', order sudah di ambil nih! Cek sekarang juga! Mitra yang bertugas: '.$partner_name;
+            $body = 'Hai ' . $user->name . ', order sudah di ambil nih! Cek sekarang juga! Mitra yang bertugas: ' . $partner_name;
             $notification = ['title' => $title, 'body' => $body, 'sound' => 'default', 'badge' => '1'];
 
             $arrayToSend = ['registration_ids' => $token, 'notification' => $notification, 'priority' => 'high'];
@@ -652,11 +658,11 @@ class AuthController extends Controller
 
             $headers = [
                 'Content-Type' => 'application/json',
-                'Authorization' => 'key='.$serverKey,
+                'Authorization' => 'key=' . $serverKey,
             ];
 
-            $response = Http::withHeaders($headers)
-                ->post($url, $json);
+            // $response = Http::withHeaders($headers)
+            //     ->post($url, $json);
             $response['status'] = 200;
             $response['error'] = false;
             $response['message'] = 'Order diambil';
@@ -736,7 +742,7 @@ class AuthController extends Controller
 
             $records = [];
             foreach ($det_or_id_arr as $key => $value) {
-                if (! empty($value) && ! empty($qty_arr[$key])) {
+                if (!empty($value) && !empty($qty_arr[$key])) {
                     $price = DB::table('sub_trash_category')
                         ->select('sub_trash_category.price')
                         ->join('detail_order', 'detail_order.sub_category_id', '=', 'sub_trash_category.sub_category_id')
@@ -813,7 +819,7 @@ class AuthController extends Controller
 
             $headers = [
                 'Content-Type: application/json',
-                'Authorization: key='.$serverKey,
+                'Authorization: key=' . $serverKey,
             ];
 
             $ch = curl_init();
@@ -832,7 +838,6 @@ class AuthController extends Controller
             ];
 
             return $this->response($response);
-
         } else {
             $response['status'] = 502;
             $response['error'] = true;
@@ -885,7 +890,7 @@ class AuthController extends Controller
             $now = date('Y-m-d H:i:s');
             $date_now = substr($now, 0, 10);
 
-            if ($check->status == 1) {
+            if ($order->status == 1) {
                 $response['status'] = 502;
                 $response['error'] = true;
                 $response['message'] = 'Order sudah selesai!';
@@ -908,7 +913,7 @@ class AuthController extends Controller
 
             $records = [];
             foreach ($det_or_id_arr as $key => $det_or_id_item) {
-                if (! empty($det_or_id_item) && ! empty($qty_arr[$key])) {
+                if (!empty($det_or_id_item) && !empty($qty_arr[$key])) {
                     $price = DB::table('sub_trash_category')
                         ->select('sub_trash_category.price')
                         ->join('detail_order', 'detail_order.sub_category_id', '=', 'sub_trash_category.sub_category_id')
@@ -962,7 +967,7 @@ class AuthController extends Controller
                 ->update(['point' => $t_partner]);
 
             DB::table('user')
-                ->where('user_id', $check->user_id)
+                ->where('user_id', $user->user_id)
                 ->update(['point' => $t_user]);
 
             DB::table('account')
@@ -970,12 +975,12 @@ class AuthController extends Controller
                 ->update(['point' => $t_company]);
 
             $title = 'Company Order Sudah Diapprove';
-            $body = 'Hai '.$user->name.', order sudah sudah selesai! Cek detailnya! Mitra yang bertugas: '.$partner->name;
+            $body = 'Hai ' . $user->name . ', order sudah sudah selesai! Cek detailnya! Mitra yang bertugas: ' . $partner->name;
             $notification = ['title' => $title, 'body' => $body, 'sound' => 'default', 'badge' => '1'];
 
             $arrayToSend = ['to' => $user->device_token, 'notification' => $notification];
             $response = Http::withHeaders([
-                'Authorization' => 'key='.$serverKey,
+                'Authorization' => 'key=' . $serverKey,
                 'Content-Type' => 'application/json',
             ])->post('https://fcm.googleapis.com/fcm/send', $arrayToSend);
 
@@ -1034,7 +1039,7 @@ class AuthController extends Controller
             $now = date('Y-m-d H:i:s');
             $date_now = substr($now, 0, 10);
 
-            if ($check->status == 1) {
+            if ($order->status == 1) {
                 $response['status'] = 502;
                 $response['error'] = true;
                 $response['message'] = 'Order sudah selesai!';
@@ -1057,7 +1062,7 @@ class AuthController extends Controller
 
             $records = [];
             foreach ($det_or_id_arr as $key => $det_or_id_item) {
-                if (! empty($det_or_id_item) && ! empty($qty_arr[$key])) {
+                if (!empty($det_or_id_item) && !empty($qty_arr[$key])) {
                     $price = DB::table('sub_trash_category')
                         ->select('sub_trash_category.price')
                         ->join('detail_order', 'detail_order.sub_category_id', '=', 'sub_trash_category.sub_category_id')
@@ -1111,7 +1116,7 @@ class AuthController extends Controller
                 ->update(['point' => $t_partner]);
 
             DB::table('user')
-                ->where('user_id', $check->user_id)
+                ->where('user_id', $order->user_id)
                 ->update(['point' => $t_user]);
 
             DB::table('account')
@@ -1119,12 +1124,12 @@ class AuthController extends Controller
                 ->update(['point' => $t_company]);
 
             $title = 'Event Order Sudah Diapprove';
-            $body = 'Hai '.$user->name.', order sudah sudah selesai! Cek detailnya! Mitra yang bertugas: '.$partner->name;
+            $body = 'Hai ' . $user->name . ', order sudah sudah selesai! Cek detailnya! Mitra yang bertugas: ' . $partner->name;
             $notification = ['title' => $title, 'body' => $body, 'sound' => 'default', 'badge' => '1'];
 
             $arrayToSend = ['to' => $user->device_token, 'notification' => $notification];
             $response = Http::withHeaders([
-                'Authorization' => 'key='.$serverKey,
+                'Authorization' => 'key=' . $serverKey,
                 'Content-Type' => 'application/json',
             ])->post('https://fcm.googleapis.com/fcm/send', $arrayToSend);
 
@@ -1169,7 +1174,6 @@ class AuthController extends Controller
             } else {
                 return response()->json(['status' => 502, 'error' => true, 'message' => 'Order gagal dibatalkan!']);
             }
-
         } else {
             $response['status'] = 502;
             $response['error'] = true;
@@ -1267,7 +1271,7 @@ class AuthController extends Controller
                     }
                 }
 
-                if (! empty($arrayRes)) {
+                if (!empty($arrayRes)) {
                     return response()->json(['status' => 200, 'error' => false, 'message' => 'Data berhasil ditemukan', 'data_order' => $arrayRes]);
                 } else {
                     return response()->json(['status' => 502, 'error' => true, 'message' => 'Tidak ada order saat ini!']);
@@ -1418,9 +1422,9 @@ class AuthController extends Controller
                 $phone = request()->input('phone');
                 $type = request()->input('type');
                 $date_request = now();
-                $withdraw_id = generateRandomString(10); // Define your function for generating random string
+                $withdraw_id = Str::random(10);
 
-                if (! empty($nominal) && ! empty($phone)) {
+                if (!empty($nominal) && !empty($phone)) {
                     $check_point = DB::table('partner')
                         ->where('partner_id', $data_id)
                         ->first();
