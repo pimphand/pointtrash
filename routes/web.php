@@ -24,12 +24,14 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VersionController;
 use App\Http\Controllers\Admin\WidrawUserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('frontend.layouts.app');
-});
+Route::get('/', [FrontendController::class, 'index']);
+Route::get('/blogs', [FrontendController::class, 'blog'])->name('frontend.blog');
+Route::get('/blogs/{id}', [FrontendController::class, 'blogDetail'])->name('frontend.blogDetail');
+
 
 Route::post('/login', [LoginController::class, 'store'])->name('login');
 

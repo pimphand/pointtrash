@@ -24,7 +24,7 @@ class Blog extends Model
 
         static::creating(function ($blog) {
             $blog->blog_id = (string) Str::random(10);
-            $blog->seo_title = Str::slug($blog->title);
+            $blog->seo_title = Str::slug($blog->title) . ".html";
             $blog->views = 0;
             $blog->date_post = now();
         });
@@ -36,6 +36,6 @@ class Blog extends Model
             'title',
             'type',
             'embed_code',
-        ], 'LIKE', '%'.$search.'%');
+        ], 'LIKE', '%' . $search . '%');
     }
 }
