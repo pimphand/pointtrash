@@ -260,7 +260,7 @@
 
         $('#_save').on('click', function () {
             const form = $('#_form_input'); // Mengambil elemen form
-            const formData = new FormData(form[0]); // Membuat FormData dari form
+            const formData = new FormData(form[0]); // Membuat FormData dari formœ
             const url = form.attr('action'); // Mengambil URL aksi dari atribut form
             const method = 'POST'; // Metode request, bisa diubah jika diperlukan
             // Panggil postData dengan callback handleResponse

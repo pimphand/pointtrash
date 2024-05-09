@@ -28,7 +28,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('layouts.app');
+    return view('frontend.layouts.app');
 });
 
 Route::post('/login', [LoginController::class, 'store'])->name('login');
