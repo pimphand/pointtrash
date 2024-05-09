@@ -55,114 +55,131 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            'X-Requested-With': 'XMLHttpRequest',
-            'Accept': 'application/json',
-        },
-        cache: false, // Menonaktifkan cache untuk permintaan AJAX
-    });
-
-    function fetchData(url, page = 1, per_page = 15, search = '', method = 'GET', callback) {
-        $.ajax({
-            url: url,
-            type: method,
-            success: function (data) {
-                callback(data); // Panggil fungsi callback setelah data berhasil didapatkan
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
             },
-            error: function (error) {
-                console.log(error);
-            },
+            cache: false, // Menonaktifkan cache untuk permintaan AJAX
         });
-    }
 
-    function postData(url, method = 'POST', formData, callback) {
-        $.ajax({
-            url: url,
-            type: method,
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                callback(null, data); // Panggil fungsi callback setelah data berhasil didapatkan
-            },
-            error: function (xhr, status, error) {
-                callback(xhr, null); // Panggil callback dengan error
-            },
+        //logout
+        $('#logout').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{{ route('logout') }}",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    window.location.href = "{{ route('login') }}";
+                },
+                error: function (xhr, status, error) {
+                    callback(xhr, null); // Panggil callback dengan error
+                },
+            });
         });
-    }
 
-    function buildPagination(data, pageWindow = 5) {
-        // Calculate the start and end page
-        let startPage = Math.max(data.current_page - Math.floor(pageWindow / 2), 1);
-        let endPage = Math.min(startPage + pageWindow - 1, data.last_page);
 
-        if (endPage - startPage < pageWindow - 1) {
-            startPage = Math.max(endPage - pageWindow + 1, 1);
+        function fetchData(url, page = 1, per_page = 15, search = '', method = 'GET', callback) {
+            $.ajax({
+                url: url,
+                type: method,
+                success: function (data) {
+                    callback(data); // Panggil fungsi callback setelah data berhasil didapatkan
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+            });
         }
 
-        // Begin the pagination unordered list with the specified class
-        let pagination = `<ul class="inline-flex -space-x-px list-inside my-2 py-2" id="_pagination">`;
-
-        // "First Page" Button
-        if (data.current_page > 1) {
-            pagination += `<li><a href="javascript:void(0)" data-page="1" class="_pagination-link py-2 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover=text-white">First</a></li>`;
-        } else {
-            pagination += `<li><span class="py-2 px-3 text-gray-300 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700">First</span></li>`;
+        function postData(url, method = 'POST', formData, callback) {
+            $.ajax({
+                url: url,
+                type: method,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    callback(null, data); // Panggil fungsi callback setelah data berhasil didapatkan
+                },
+                error: function (xhr, status, error) {
+                    callback(xhr, null); // Panggil callback dengan error
+                },
+            });
         }
 
-        // "Previous" Button
-        if (data.prev_page_url) {
-            pagination += `<li><a href="javascript:void(0)" data-page="${data.current_page - 1}" class="_pagination-link py-2 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover=text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover=text-white">Previous</a></li>`;
-        } else {
-            pagination += `<li><span class="py-2 px-3 text-gray-300 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700">Previous</span></li>`;
-        }
+        function buildPagination(data, pageWindow = 5) {
+            // Calculate the start and end page
+            let startPage = Math.max(data.current_page - Math.floor(pageWindow / 2), 1);
+            let endPage = Math.min(startPage + pageWindow - 1, data.last_page);
 
-        // Page Numbers
-        for (let i = startPage; i <= endPage; i++) {
-            if (i === data.current_page) {
-                pagination += `<li><span aria-current="page" class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white">${i}</span></li>`;
-            } else {
-                pagination += `<li><a href="javascript:void(0)" data-page="${i}" class="_pagination-link py-2 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover=text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover=text-white">${i}</a></li>`;
+            if (endPage - startPage < pageWindow - 1) {
+                startPage = Math.max(endPage - pageWindow + 1, 1);
             }
+
+            // Begin the pagination unordered list with the specified class
+            let pagination = `<ul class="inline-flex -space-x-px list-inside my-2 py-2" id="_pagination">`;
+
+            // "First Page" Button
+            if (data.current_page > 1) {
+                pagination += `<li><a href="javascript:void(0)" data-page="1" class="_pagination-link py-2 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover=text-white">First</a></li>`;
+            } else {
+                pagination += `<li><span class="py-2 px-3 text-gray-300 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700">First</span></li>`;
+            }
+
+            // "Previous" Button
+            if (data.prev_page_url) {
+                pagination += `<li><a href="javascript:void(0)" data-page="${data.current_page - 1}" class="_pagination-link py-2 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover=text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover=text-white">Previous</a></li>`;
+            } else {
+                pagination += `<li><span class="py-2 px-3 text-gray-300 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700">Previous</span></li>`;
+            }
+
+            // Page Numbers
+            for (let i = startPage; i <= endPage; i++) {
+                if (i === data.current_page) {
+                    pagination += `<li><span aria-current="page" class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white">${i}</span></li>`;
+                } else {
+                    pagination += `<li><a href="javascript:void(0)" data-page="${i}" class="_pagination-link py-2 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover=text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover=text-white">${i}</a></li>`;
+                }
+            }
+
+            // "Next" Button
+            if (data.next_page_url) {
+                pagination += `<li><a href="javascript:void(0)" data-page="${data.current_page + 1}" class="_pagination-link py-2 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover=text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark=text-gray-400 dark:hover:bg-gray-700 dark:hover=text-white">Next</a></li>`;
+            } else {
+                pagination += `<li><span class="py-2 px-3 text-gray-300 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700">Next</span></li>`;
+            }
+
+            // "Last Page" Button
+            if (data.current_page < data.last_page) {
+                pagination += `<li><a href="javascript:void(0)" data-page="${data.last_page}" class="_pagination-link py-2 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover=text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover=text-white">Last</a></li>`;
+            } else {
+                pagination += `<li><span class="py-2 px-3 text-gray-300 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700">Last</span></li>`;
+            }
+
+            // Close the unordered list
+            pagination += `</ul>`;
+
+            $('#_show_pagination_total').html(`<p class="dark:text-slate-400">Halaman ${data.current_page} dari ${data.last_page}, Total data: ${data.total}</p>`);
+            return pagination;
         }
 
-        // "Next" Button
-        if (data.next_page_url) {
-            pagination += `<li><a href="javascript:void(0)" data-page="${data.current_page + 1}" class="_pagination-link py-2 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover=text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark=text-gray-400 dark:hover:bg-gray-700 dark:hover=text-white">Next</a></li>`;
-        } else {
-            pagination += `<li><span class="py-2 px-3 text-gray-300 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700">Next</span></li>`;
+        function formatIndonesianDate(dateString) {
+            const date = new Date(dateString);
+
+            const day = date.getDate(); // Get the day
+            const monthNames = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli',
+                'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+            const month = monthNames[date.getMonth()]; // Get the month
+            const year = date.getFullYear(); // Get the year
+
+            // Format the date like "30 April 2024"
+            return `${day} ${month} ${year}`;
         }
-
-        // "Last Page" Button
-        if (data.current_page < data.last_page) {
-            pagination += `<li><a href="javascript:void(0)" data-page="${data.last_page}" class="_pagination-link py-2 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover=text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover=text-white">Last</a></li>`;
-        } else {
-            pagination += `<li><span class="py-2 px-3 text-gray-300 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700">Last</span></li>`;
-        }
-
-        // Close the unordered list
-        pagination += `</ul>`;
-
-        $('#_show_pagination_total').html(`<p class="dark:text-slate-400">Halaman ${data.current_page} dari ${data.last_page}, Total data: ${data.total}</p>`);
-        return pagination;
-    }
-
-    function formatIndonesianDate(dateString) {
-        const date = new Date(dateString);
-
-        const day = date.getDate(); // Get the day
-        const monthNames = [
-            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli',
-            'Agustus', 'September', 'Oktober', 'November', 'Desember'
-        ];
-        const month = monthNames[date.getMonth()]; // Get the month
-        const year = date.getFullYear(); // Get the year
-
-        // Format the date like "30 April 2024"
-        return `${day} ${month} ${year}`;
-    }
-
     </script>
     @stack('js')
 </body>
