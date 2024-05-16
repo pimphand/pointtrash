@@ -166,7 +166,7 @@ class AccountController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'branch' => $request->branch,
-            'password' => $request->password ? bcrypt($request->password) : $account->password,
+            // 'password' => $request->password ? bcrypt($request->password) : $account->password,
         ];
 
         $account->update($accountData);

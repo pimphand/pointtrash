@@ -33,6 +33,7 @@ class PartnerController extends Controller
             }
 
             $result = $data->orderBy('date_create', 'desc')->paginate($request->per_page ?? 15);
+
             $total = Partner::groupBy('status')->selectRaw('count(*) as total, status')
                 ->where(function ($query) {
                     if (Auth::guard('admin')->user()->roles == 'cabang') {

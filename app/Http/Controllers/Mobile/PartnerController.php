@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Mobile\Partner;
+namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
 use App\Mail\EmailChanged;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class AuthController extends Controller
+class PartnerController extends Controller
 {
     public $client_service = 'frontend-client';
 
@@ -95,6 +95,66 @@ class AuthController extends Controller
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Email tidak terdaftar!';
+
+            return $this->response($response);
+        }
+    }
+
+    public function get_branch() {
+
+        $branch = DB::table('account')
+            ->select('account_id', 'name')
+            ->where('roles', "cabang")
+            ->get();
+
+        $response['status'] = 200;
+        $response['error'] = false;
+        $response['message'] = 'Data berhasil ditemukan';
+        $response['data'] = $branch;
+
+        return $this->response($response);
+    }
+
+    public function partner_change_branch_post(Request $request)
+    {
+        if ($this->headerApi()) {
+            return $this->headerApi();
+        }
+
+        $data_id = $request->header('Data-ID');
+
+        $validated = Validator::make($request->all(), [
+            'branch_id' => 'required|exists:account,account_id',
+        ]);
+
+        if ($validated->fails()) {
+            $response['status'] = 502;
+            $response['error'] = true;
+            $response['message'] = 'Field tidak boleh kosong!';
+            $response['errors'] = $validated->errors();
+
+            return $this->response($response);
+        }
+
+        $check = DB::table('partner_auth')
+        ->where('partner_id', $data_id)
+        ->where('token', $request->header('Auth-Key'))
+        ->exists();
+        if ($check) {
+            $partner = Partner::where('partner_id', $data_id)
+                ->first();
+            $partner->account_id = $request->branch_id;
+            $partner->save();
+            $response['status'] = 200;
+            $response['error'] = false;
+            $response['message'] = 'Cabang berhasil diubah';
+            $response['data'] = $partner;
+
+            return $this->response($response);
+        } else {
+            $response['status'] = 502;
+            $response['error'] = true;
+            $response['message'] = 'Data tidak ditemukan!';
 
             return $this->response($response);
         }
@@ -284,7 +344,6 @@ class AuthController extends Controller
 
             $partner = Partner::where('partner_id', $data_id)
                 ->first();
-
             $data_partner = [
                 'name' => $request->name,
                 'date_update' => now(),
@@ -319,7 +378,10 @@ class AuthController extends Controller
         $phone = $request->phone;
         if ($check) {
             $validated = Validator::make($request->all(), [
-                'phone' => 'required',
+                'phone' => [
+                    'required',
+                    'regex:/^(62|081|\+62)/' // Regular expression for phone numbers starting with 62, 081, or +62
+                ],
             ]);
 
             if ($validated->fails()) {
@@ -537,7 +599,7 @@ class AuthController extends Controller
             $partner->update($data_partner);
             $response['status'] = 200;
             $response['error'] = false;
-            $response['message'] = 'Password berhasil diupdate';
+            $response['message'] = 'Alamat berhasil diupdate';
 
             return $this->response($response);
         } else {
@@ -684,7 +746,7 @@ class AuthController extends Controller
         }
 
         $validated = Validator::make($request->all(), [
-            'detail_order_id' => 'required',
+            'detail_order_id' => 'required|exists:detail_order,detail_order_id',
             'quantity' => 'required',
         ]);
 
@@ -692,6 +754,7 @@ class AuthController extends Controller
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Field tidak boleh kosong!';
+            $response['errors'] = $validated->errors();
 
             return $this->response($response);
         }
@@ -853,7 +916,7 @@ class AuthController extends Controller
             return $this->headerApi();
         }
         $validated = Validator::make($request->all(), [
-            'detail_order_id' => 'required',
+            'detail_order_id' => 'required|exists:detail_order,detail_order_id',
             'quantity' => 'required',
         ]);
 
@@ -861,6 +924,7 @@ class AuthController extends Controller
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Field tidak boleh kosong!';
+            $response['errors'] = $validated->errors();
 
             return $this->response($response);
         }
@@ -1003,7 +1067,7 @@ class AuthController extends Controller
             return $this->headerApi();
         }
         $validated = Validator::make($request->all(), [
-            'detail_order_id' => 'required',
+            'detail_order_id' => 'required|exists:detail_order,detail_order_id',
             'quantity' => 'required',
         ]);
 
@@ -1011,6 +1075,7 @@ class AuthController extends Controller
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Field tidak boleh kosong!';
+            $response['errors'] = $validated->errors();
 
             return $this->response($response);
         }
@@ -1155,6 +1220,14 @@ class AuthController extends Controller
         $data_id = $request->header('Data-ID');
         $order_id = $request->header('Order-ID');
 
+        if ($data_id == null || $order_id == null) {
+            $response['status'] = 502;
+            $response['error'] = true;
+            $response['message'] = 'Data tidak ditemukan!';
+
+            return $this->response($response);
+        }
+
         $check = DB::table('partner_auth')
             ->where('partner_id', $data_id)
             ->where('token', $request->header('Auth-Key'))
@@ -1188,6 +1261,14 @@ class AuthController extends Controller
         $client_service = $request->header('Client-Service');
         $data_id = $request->header('Data-ID');
         $auth_key = $request->header('Auth-Key');
+
+        if ($data_id == null) {
+            $response['status'] = 502;
+            $response['error'] = true;
+            $response['message'] = 'Data tidak ditemukan!';
+
+            return $this->response($response);
+        }
 
         $partner_key = DB::table('partner_auth')
             ->select('partner_auth.token', 'partner.address', 'partner.provinces', 'partner.regencies', 'partner.districts', 'partner.villages', 'partner.device_token')
@@ -1443,7 +1524,7 @@ class AuthController extends Controller
                                 'type' => $type,
                             ];
 
-                            DB::table('withdraw_partner')->insert($data);
+                            DB::table('widraw_partner')->insert($data);
                             DB::table('partner')
                                 ->where('partner_id', $data_id)
                                 ->update(['point' => $calculated_point]);
@@ -1482,7 +1563,7 @@ class AuthController extends Controller
             $key = $partner_key->token;
 
             if ($client_service == $this->client_service && $auth_key == $key) {
-                $check_data = DB::table('withdraw_partner')
+                $check_data = DB::table('widraw_partner')
                     ->where('partner_id', $data_id)
                     ->count();
 
@@ -1491,7 +1572,7 @@ class AuthController extends Controller
                     $widraw_pending = 0;
                     $widraw_success = 0;
 
-                    $get_data = DB::table('withdraw_partner')
+                    $get_data = DB::table('widraw_partner')
                         ->where('partner_id', $data_id)
                         ->orderBy('date_request', 'DESC')
                         ->get();
@@ -1526,12 +1607,12 @@ class AuthController extends Controller
                         }
                     }
 
-                    $widraw_pending = DB::table('withdraw_partner')
+                    $widraw_pending = DB::table('widraw_partner')
                         ->where('partner_id', $data_id)
                         ->where('status', 0)
                         ->sum('nominal');
 
-                    $widraw_success = DB::table('withdraw_partner')
+                    $widraw_success = DB::table('widraw_partner')
                         ->where('partner_id', $data_id)
                         ->where('status', 1)
                         ->sum('nominal');
