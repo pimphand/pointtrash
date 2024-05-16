@@ -65,7 +65,7 @@
 </head>
 <body>
 <div class='header'>
-    <img src='" . base_url() . "assets/upload/" . $site_logo . "' class='img-size'>
+    <img src='{{asset('assets/pointtrash_logo.png')}}' width="80%" class='img-size'>
 </div>
 <div class='card'>
     @php
@@ -90,8 +90,11 @@
             anda, silahkan klik tombol dibawah ini untuk verifikasi email serta aktivasi akun anda.
         </p>
         <br>
-        <center><a href='" . base_url(' partner_verification/' . encrypt_url($data_id)) . "' class='button'
-            style='color: white;'>Verifikasi Email</a></center>
+        <center>
+            <a href='' class='button'
+               style='color: white;'>Verifikasi Email
+            </a>
+        </center>
         <br><br>
         <center>
             <p>Untuk informasi lebih lanjut silahkan hubungi CS kami, <a href='" . base_url(' contact_us') . "'>klik

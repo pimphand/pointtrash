@@ -24,9 +24,7 @@ class AccountController extends Controller
                     AllowedFilter::exact('roles'),
                 ])
                 ->orderBy('name', 'desc');
-            if ($request->roles == 'admin') {
-                $data->where('roles', 'admin');
-            }
+            $data->where('roles', 'cabang');
 
             $data = $data->paginate($request->per_page ?? 15);
 
@@ -34,15 +32,8 @@ class AccountController extends Controller
                 'data' => $data,
             ]);
         }
-        return view('admin.account.index');
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('admin.account.index');
     }
 
     /**
@@ -79,11 +70,22 @@ class AccountController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $user = Account::withCount(['users', 'partners'])->find($id);
+        //        dd($user);
+
+        return view('admin.account.show', compact('user'));
     }
 
     /**
@@ -92,37 +94,6 @@ class AccountController extends Controller
     public function edit(string $id)
     {
         //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $account = Account::findOrFail($id);
-        Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:account,email,' . $id . ',account_id',
-            'phone' => 'required|string',
-            'username' => 'required|string',
-            'password' => 'nullable|string',
-            'roles' => 'required|in:admin,cabang',
-        ])->validate();
-
-        $accountData = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'username' => $request->username,
-            'roles' => $request->roles,
-            'password' => $request->password ? bcrypt($request->password) : $account->password,
-        ];
-
-        $account->update($accountData);
-
-        return response()->json([
-            'message' => 'Account created successfully',
-        ]);
     }
 
     /**
@@ -147,8 +118,14 @@ class AccountController extends Controller
         ])->validate();
 
         $account = Account::findOrFail($id);
+        //if type is debit
+
         $saldoBefore = $account->saldo;
-        $saldoAfter = $saldoBefore + $request->saldo;
+        if ($request->type == 'debit') {
+            $saldoAfter = $saldoBefore + $request->saldo;
+        } else {
+            $saldoAfter = $saldoBefore - $request->saldo;
+        }
 
         $account->update([
             'saldo' => $saldoAfter,
@@ -159,12 +136,63 @@ class AccountController extends Controller
             'saldo' => $request->saldo,
             'saldo_before' => $saldoBefore,
             'saldo_after' => $saldoAfter,
-            'type' => 'credit',
+            'type' => $request->type,
             'description' => $request->description,
         ]);
 
         return response()->json([
             'message' => 'Saldo added successfully',
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $account = Account::findOrFail($id);
+        Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email|unique:account,email,'.$id.',account_id',
+            'phone' => 'required|string',
+            'address' => 'required|string',
+            'branch' => 'required|string',
+            //            'roles' => 'required|in:admin,cabang',
+        ])->validate();
+
+        $accountData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'branch' => $request->branch,
+            'password' => $request->password ? bcrypt($request->password) : $account->password,
+        ];
+
+        $account->update($accountData);
+
+        return response()->json([
+            'message' => 'Account created successfully',
+        ]);
+    }
+
+    public function data(Request $request, $id)
+    {
+        $account = Account::findOrFail($id);
+
+        if ($request->type == 'history') {
+            $type = $account->historySaldos()->orderBy('created_at', 'desc')->paginate($request->per_page ?? 15);
+        }
+        if ($request->type == 'mitra') {
+            $type = $account->partners()->paginate($request->per_page ?? 15);
+        }
+        if ($request->type == 'user') {
+            $type = $account->users()->paginate($request->per_page ?? 15);
+        }
+
+        return response()->json([
+            'data' => $account,
+            'data_table' => $type,
         ]);
     }
 }

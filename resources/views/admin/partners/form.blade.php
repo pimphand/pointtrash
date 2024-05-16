@@ -76,20 +76,20 @@
                                     required>
                                 <div class="text-xs text-red-500 mt-1" id="error-email"></div>
                             </div>
-                            <div class="p-1 mb-1">
-                                <label for="password"
-                                       class="block font-medium text-sm text-slate-600 dark:text-slate-400">
-                                    Kata Sandi
-                                </label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    class="form-input w-full rounded-md mt-1 border border-slate-300 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Masukkan Kata Sandi" {{isset($partner) ? '' : 'required'}}
-                                >
-                                <div class="text-xs text-red-500 mt-1" id="error-password"></div>
-                            </div>
+                            {{--                            <div class="p-1 mb-1">--}}
+                            {{--                                <label for="password"--}}
+                            {{--                                       class="block font-medium text-sm text-slate-600 dark:text-slate-400">--}}
+                            {{--                                    Kata Sandi--}}
+                            {{--                                </label>--}}
+                            {{--                                <input--}}
+                            {{--                                    type="password"--}}
+                            {{--                                    id="password"--}}
+                            {{--                                    name="password"--}}
+                            {{--                                    class="form-input w-full rounded-md mt-1 border border-slate-300 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500"--}}
+                            {{--                                    placeholder="Masukkan Kata Sandi" {{isset($partner) ? '' : 'required'}}--}}
+                            {{--                                >--}}
+                            {{--                                <div class="text-xs text-red-500 mt-1" id="error-password"></div>--}}
+                            {{--                            </div>--}}
                             <div class="p-1 mb-1">
                                 <label for="provinces"
                                        class="block font-medium text-sm text-slate-600 dark:text-slate-400">
@@ -205,7 +205,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" id="save"
+                    <button type="button" id="save"
                             class="inline-block focus:outline-none text-primary-500 hover:bg-primary-500 hover:text-white bg-transparent border border-gray-200 dark:bg-transparent dark:text-primary-500 dark:hover:text-white dark:border-gray-700 dark:hover:bg-primary-500  text-sm font-medium py-1 px-3 rounded mb-1">
                         Submit
                     </button>
@@ -246,40 +246,40 @@
                 });
 
             });
-
-            //submit form trigger on id save
-            $("#form").submit(function (e) {
-                e.preventDefault();
-                let formData = new FormData(this);
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: 'POST',
-                    data: formData,
-                    success: function (data) {
-                        //swal button
-                        Swal.fire({
-                            title: "Success",
-                            text: "Data berhasil disimpan",
-                            icon: "success",
-                            button: "OK",
-                            //cant close alert with close icon
-                            closeOnClickOutside: false,
-                        }).then(function () {
-                            window.location.href = "{{route('partners.index')}}";
-                        });
-                    },
-                    error: function (data) {
-                        $('.text-red-500').text('')
-                        let errors = data.responseJSON.errors;
-                        $.each(errors, function (key, value) {
-                            $("#error-" + key).text(value);
-                        });
-                    },
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                });
-            });
         </script>
     @endif
+    <script>
+        $("#save").click(function (e) {
+            e.preventDefault();
+            let formData = new FormData($('#form')[0]);
+            $.ajax({
+                url: "{{route('partners.store')}}",
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    //swal button
+                    Swal.fire({
+                        title: "Success",
+                        text: "Data berhasil disimpan",
+                        icon: "success",
+                        button: "OK",
+                        //cant close alert with close icon
+                        closeOnClickOutside: false,
+                    }).then(function () {
+                        window.location.href = "{{route('partners.index')}}";
+                    });
+                },
+                error: function (data) {
+                    $('.text-red-500').text('')
+                    let errors = data.responseJSON.errors;
+                    $.each(errors, function (key, value) {
+                        $("#error-" + key).text(value);
+                    });
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    </script>
 @endpush

@@ -28,6 +28,7 @@ class Partner extends Model
             $partner->partner_id = (string) Str::random(10);
             $partner->date_create = now();
             $partner->status = 1;
+            $partner->request_status = 0;
         });
     }
 

@@ -7,7 +7,9 @@ use App\Models\WidrawPartner;
 use App\Models\WidrawUser;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -36,7 +38,17 @@ class WidrawUserController extends Controller
                 ->with('user')
                 ->where('type', str_replace('_Widraw', '', Str::title($status)))
                 ->orderBy('date_request', 'desc');
-
+            if (Auth::guard('admin')->user()->roles == 'cabang') {
+                if ($request->user_type == 'user') {
+                    $data->whereHas('user', function ($query) {
+                        $query->where('account_id', Auth::guard('admin')->user()->account_id);
+                    });
+                } else {
+                    $data->whereHas('partner', function ($query) {
+                        $query->where('account_id', Auth::guard('admin')->user()->account_id);
+                    });
+                }
+            }
             if ($request->history == 'true') {
                 $data->where('status', 1);
             } else {
@@ -134,7 +146,7 @@ class WidrawUserController extends Controller
             $url = 'https://fcm.googleapis.com/fcm/send';
 
             // Kunci server FCM
-            $serverKey = 'AAAA71K9pOA:APA91bGN0YZvTj5VLu-Auqfpdl1qc7gvKYX1e5TlKYzpJkAHi5oH83gaKAquDVrq4kqx32feoxIXKpzTkFDekCUEEQhA9Cgz44ZT-xQLnsVj_0BLNakUbiu5yy8ReadzEENeIXXgzZsp';
+            $serverKey = config('services.firebase.server_key');
 
             // Konten notifikasi
             $title = 'Gopay Widraw Sudah Diapprove';
@@ -154,7 +166,7 @@ class WidrawUserController extends Controller
             ];
 
             // Mengirim permintaan POST ke FCM dengan Laravel HTTP Client
-            $response = Http::withHeaders([
+            Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => 'key='.$serverKey,
             ])->post($url, $arrayToSend);

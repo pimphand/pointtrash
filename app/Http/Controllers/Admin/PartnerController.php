@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PartnerSendRegistration;
 use App\Models\Partner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -22,13 +26,23 @@ class PartnerController extends Controller
                 ->allowedFilters([
                     AllowedFilter::scope('search', 'search'),
                     AllowedFilter::exact('status'),
-                ])
-                ->orderBy('date_create', 'desc')->paginate($request->per_page ?? 15);
+                ]);
 
-            $total = Partner::groupBy('status')->selectRaw('count(*) as total, status')->get();
+            if (Auth::guard('admin')->user()->roles == 'cabang') {
+                $data->where('account_id', Auth::guard('admin')->user()->account_id);
+            }
+
+            $result = $data->orderBy('date_create', 'desc')->paginate($request->per_page ?? 15);
+            $total = Partner::groupBy('status')->selectRaw('count(*) as total, status')
+                ->where(function ($query) {
+                    if (Auth::guard('admin')->user()->roles == 'cabang') {
+                        $query->where('account_id', Auth::guard('admin')->user()->account_id);
+                    }
+                })
+                ->get();
 
             return response()->json([
-                'data' => $data,
+                'data' => $result,
                 'filter' => $total,
             ]);
         }
@@ -47,15 +61,15 @@ class PartnerController extends Controller
             'gender' => 'required|in:Laki - Laki,Perempuan',
             'phone' => 'required|between:10,15|'.Rule::unique('partner')->ignore($request->partner_id, 'partner_id'),
             'email' => 'required|email|max:255|'.Rule::unique('partner')->ignore($request->partner_id, 'partner_id'),
-            'password' => function ($attribute, $value, $fail) use ($request) {
-
-                if (empty($value) && empty($request->partner_id)) {
-                    $fail('The '.$attribute.' field is required.');
-                }
-                if (strlen($value) < 8 && empty($request->partner_id)) {
-                    $fail('The '.$attribute.' must be at least 8 characters.');
-                }
-            },
+            //            'password' => function ($attribute, $value, $fail) use ($request) {
+            //
+            //                if (empty($value) && empty($request->partner_id)) {
+            //                    $fail('The '.$attribute.' field is required.');
+            //                }
+            //                if (strlen($value) < 8 && empty($request->partner_id)) {
+            //                    $fail('The '.$attribute.' must be at least 8 characters.');
+            //                }
+            //            },
             'photo' => 'nullable|image|max:2048',
             'address' => 'required|string|max:255',
             'provinces' => 'required|string|max:255',
@@ -72,27 +86,37 @@ class PartnerController extends Controller
                 'errors' => $validated->errors(),
             ], 422);
         }
-
+        $photo_name = null;
         if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
             $photo_name = 'partner_'.time().'_'.$photo->getClientOriginalName();
             $photo->move(public_path('upload'), $photo_name);
         }
 
-        if ($request->partner_id) {
-            $partner = Partner::wherePartnerId($request->partner_id)->first();
-            //if password is empty, then don't update password
-            if (empty($request->password)) {
-                $request->offsetUnset('password');
+        return DB::transaction(function () use ($request, $photo_name) {
+            if ($request->partner_id) {
+                $partner = Partner::wherePartnerId($request->partner_id)->first();
+                //if password is empty, then don't update password
+                if (empty($request->password)) {
+                    $request->offsetUnset('password');
+                } else {
+                    $request->merge(['password' => bcrypt($request->password)]);
+                }
+                //$photo_name
+                $request->merge(['photo' => $photo_name ?? $partner->photo]);
+                $partner->update($request->all());
             } else {
-                $request->merge(['password' => bcrypt($request->password)]);
-            }
+                $password = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 8);
+                $request->merge(['password' => bcrypt($password), 'point' => 0]);
 
-            $partner->update($request->all());
-        } else {
-            $request->merge(['password' => bcrypt($request->password)]);
-            $partner = Partner::create($request->all());
-        }
+                if (Auth::guard('admin')->user()->roles == 'cabang') {
+                    $request->merge(['account_id' => Auth::guard('admin')->user()->account_id]);
+                }
+                $request->merge(['photo' => $photo_name ?? 'user.png']);
+                $partner = Partner::create($request->all());
+                Mail::to($partner->email)->send(new PartnerSendRegistration($partner, $password));
+            }
+        });
 
         return response()->json(['message' => 'Partner created successfully']);
     }
@@ -139,6 +163,9 @@ class PartnerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $partner = Partner::wherePartnerId($id)->first();
+        $partner->delete();
+
+        return response()->json(['message' => 'Partner deleted successfully']);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\OrderData;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -26,13 +27,21 @@ class UserController extends Controller
                 ->allowedFilters([
                     AllowedFilter::scope('search', 'search'),
                     AllowedFilter::exact('status'),
-                ])
-                ->orderBy('date_create', 'desc')->paginate($request->per_page ?? 15);
-
-            $total = User::groupBy('status')->selectRaw('count(*) as total, status')->get();
+                ]);
+            if (Auth::guard('admin')->user()->roles == 'cabang') {
+                $data->where('account_id', Auth::guard('admin')->user()->account_id);
+            }
+            $result = $data->orderBy('date_create', 'desc')->paginate($request->per_page ?? 15);
+            $total = User::groupBy('status')
+                ->where(function ($query) {
+                    if (Auth::guard('admin')->user()->roles == 'cabang') {
+                        $query->where('account_id', Auth::guard('admin')->user()->account_id);
+                    }
+                })
+                ->selectRaw('count(*) as total, status')->get();
 
             return response()->json([
-                'data' => $data,
+                'data' => $result,
                 'filter' => $total,
             ]);
         }
@@ -51,6 +60,12 @@ class UserController extends Controller
             'email' => 'required|email|unique:user,email',
             'password' => 'required|string',
         ])->validate();
+
+        $validated['date_create'] = now();
+        $validated['status'] = 'active';
+        if (Auth::guard('admin')->user()->roles == 'cabang') {
+            $validated['account_id'] = Auth::guard('admin')->user()->account_id;
+        }
 
         $user = User::create($validated);
 

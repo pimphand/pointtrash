@@ -65,7 +65,7 @@
 </head>
 <body>
 <div class='header'>
-    <img src='".base_url()."assets/upload/".$site_logo."' class='img-size'>
+    <img src='{{asset('assets/pointtrash_logo.png')}}' width="80%" class='img-size'>
 </div>
 <div class='card'>
     @php

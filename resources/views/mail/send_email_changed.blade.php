@@ -65,7 +65,7 @@
 </head>
 <body>
 <div class='header'>
-    <img src='" . base_url() . "assets/upload/" . $site_logo . "' class='img-size'>
+    <img src='{{asset('assets/pointtrash_logo.png')}}' width="80%" class='img-size'>
 </div>
 <div class='card'>
     @php
@@ -91,9 +91,9 @@
         </p>
         <br><br>
         <center>
-            <p>Untuk informasi lebih lanjut silahkan hubungi CS kami, <a href='" . base_url(' contact_us') . "'>klik
-                disini</a>.</p>
-            <small><em>*Pesan ini dikirim dari server " . $site_name . ", jangan balas pesan ini.</em></small>
+            <p>Untuk informasi lebih lanjut silahkan hubungi CS kami, <a href='{{env('APP_URL')}}/contact'>klik
+                    disini</a>.</p>
+            <small><em>*Pesan ini dikirim dari server Pointtrash, jangan balas pesan ini.</em></small>
         </center>
     </div>
 </div>

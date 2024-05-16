@@ -10,14 +10,14 @@ class WidrawPartner extends Model
 
     protected $guarded = [];
 
-    protected $table = 'widraw_user';
+    protected $table = 'widraw_partner';
 
     protected $primaryKey = 'widraw_id';
 
     protected $keyType = 'string';
 
-    public function user()
+    public function partner()
     {
-        return $this->belongsTo(User::class, 'user_id', 'user_id');
+        return $this->belongsTo(Partner::class, 'partner_id', 'partner_id');
     }
 }

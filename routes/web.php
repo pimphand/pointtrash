@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\OurTeamController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\PortofolioController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\RequestController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SiteContactController;
 use App\Http\Controllers\Admin\SiteInformationController;
@@ -29,9 +30,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontendController::class, 'index']);
+Route::get('/mail', [FrontendController::class, 'testMail']);
+
 Route::get('/blogs', [FrontendController::class, 'blog'])->name('frontend.blog');
 Route::get('/blogs/{id}', [FrontendController::class, 'blogDetail'])->name('frontend.blogDetail');
-
 
 Route::post('/login', [LoginController::class, 'store'])->name('login');
 
@@ -61,18 +63,22 @@ Route::middleware(['auth:admin', 'isActive'])->prefix('dashboard')->group(functi
 
         Route::resource('accounts', AccountController::class);
 
-
-        Route::get('widraws/{type}/{id}', [WidrawUserController::class, 'show'])->name('widraws.show');
-        Route::get('widraws/{id}', [WidrawUserController::class, 'index'])->name('widraws.index');
-        Route::get('widraws-partner/{id}', [WidrawUserController::class, 'index'])->name('widraws.partner');
-        Route::get('widraws-partner/history/{id}', [WidrawUserController::class, 'index'])->name('widraws.partner.history');
-
-        Route::delete('widraw/{id}', [WidrawUserController::class, 'destroy'])->name('widraws.destroy');
-        Route::get('widraws/create/{id}', [WidrawUserController::class, 'create'])->name('widraws.create');
-        Route::get('widraws/export/{id}', [WidrawUserController::class, 'export'])->name('widraws.export');
-        Route::get('widraw/history/{id}', [WidrawUserController::class, 'index'])->name('widraws.history');
-        Route::post('widraws/{type}/{id}/{status}', [WidrawUserController::class, 'approve'])->name('widraws.approve');
+        Route::post('accounts/saldo/{id}', [AccountController::class, 'addSaldo'])->name('accounts.saldo');
+        Route::get('accounts/data/{id}', [AccountController::class, 'data'])->name('accounts.data');
     });
+
+    Route::get('widraws/{type}/{id}', [WidrawUserController::class, 'show'])->name('widraws.show');
+    Route::get('widraws/{id}', [WidrawUserController::class, 'index'])->name('widraws.index');
+    Route::get('widraws-partner/{id}', [WidrawUserController::class, 'index'])->name('widraws.partner');
+    Route::get('widraws-partner/history/{id}', [WidrawUserController::class, 'index'])->name('widraws.partner.history');
+
+    Route::delete('widraw/{id}', [WidrawUserController::class, 'destroy'])->name('widraws.destroy');
+    Route::get('widraws/create/{id}', [WidrawUserController::class, 'create'])->name('widraws.create');
+    Route::get('widraws/export/{id}', [WidrawUserController::class, 'export'])->name('widraws.export');
+    Route::get('widraw/history/{id}', [WidrawUserController::class, 'index'])->name('widraws.history');
+    Route::post('widraws/{type}/{id}/{status}', [WidrawUserController::class, 'approve'])->name('widraws.approve');
+
+    Route::resource('saldo', RequestController::class);
 
     Route::resource('users', UserController::class);
     Route::get('users-data/{user_id}', [UserController::class, 'getData'])->name('users.data');
@@ -93,4 +99,4 @@ Route::middleware(['auth:admin', 'isActive'])->prefix('dashboard')->group(functi
 });
 
 //Partners
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

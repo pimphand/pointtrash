@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OrderData;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -28,7 +29,11 @@ class OrderDatumController extends Controller
                 ])
                 ->where('type', $status)
                 ->orderBy('date_create', 'desc');
-
+            $data->whereHas('user', function ($query) {
+                if (Auth::guard('admin')->user()->roles == 'cabang') {
+                    $query->where('account_id', Auth::guard('admin')->user()->account_id);
+                }
+            });
             if ($segment == 'history') {
                 $data->where('status', '=', 1);
             } else {

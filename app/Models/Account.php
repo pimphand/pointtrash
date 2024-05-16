@@ -19,6 +19,12 @@ class Account extends Authenticatable
         'password',
     ];
 
+    protected $table = 'account';
+
+    protected $primaryKey = 'account_id';
+
+    protected $keyType = 'string';
+
     public static function boot()
     {
         parent::boot();
@@ -30,12 +36,6 @@ class Account extends Authenticatable
             $account->point = 0;
         });
     }
-
-    protected $table = 'account';
-
-    protected $primaryKey = 'account_id';
-
-    protected $keyType = 'string';
 
     public function setPasswordAttribute($value)
     {
@@ -54,11 +54,21 @@ class Account extends Authenticatable
             'email',
             'phone',
             'username',
-        ], 'LIKE', '%' . $search . '%');
+        ], 'LIKE', '%'.$search.'%');
     }
 
     public function historySaldos()
     {
         return $this->hasMany(HistorySaldo::class, 'account_id', 'account_id');
+    }
+
+    public function partners()
+    {
+        return $this->belongsTo(Partner::class, 'account_id', 'account_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'account_id', 'account_id');
     }
 }
