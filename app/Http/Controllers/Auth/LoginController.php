@@ -51,4 +51,9 @@ class LoginController extends Controller
 
         return $compare === 0;
     }
+
+    public function verify($type, $id)
+    {
+        dd(decrypt($type), decrypt($id));
+    }
 }

@@ -9,7 +9,7 @@ abstract class Controller
         if (request()->header('Client-Service') != 'frontend-client') {
             $response['status'] = 502;
             $response['error'] = true;
-            $response['message'] = 'Client Service tidak valid!';
+            $response['message'] = 'Otentikasi gagal!';
 
             return $response;
         }

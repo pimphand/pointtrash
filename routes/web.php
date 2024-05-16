@@ -36,6 +36,7 @@ Route::get('/blogs', [FrontendController::class, 'blog'])->name('frontend.blog')
 Route::get('/blogs/{id}', [FrontendController::class, 'blogDetail'])->name('frontend.blogDetail');
 
 Route::post('/login', [LoginController::class, 'store'])->name('login');
+Route::get('/verify/{type}/{id}', [LoginController::class, 'verify'])->name('verify');
 
 Route::middleware(['auth:admin', 'isActive'])->prefix('dashboard')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -99,4 +100,4 @@ Route::middleware(['auth:admin', 'isActive'])->prefix('dashboard')->group(functi
 });
 
 //Partners
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

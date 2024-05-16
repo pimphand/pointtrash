@@ -43,7 +43,7 @@ class AccountController extends Controller
     {
         $validated = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:account,email',
             'phone' => 'required|string',
             'username' => 'required|string',
             'password' => 'required|string',
@@ -153,7 +153,7 @@ class AccountController extends Controller
         $account = Account::findOrFail($id);
         Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email|unique:account,email,'.$id.',account_id',
+            'email' => 'required|email|unique:account,email,' . $id . ',account_id',
             'phone' => 'required|string',
             'address' => 'required|string',
             'branch' => 'required|string',

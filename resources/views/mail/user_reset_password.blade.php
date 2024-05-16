@@ -67,7 +67,7 @@
 
 <body>
     <div class='header'>
-        <img src='{{asset(' assets/pointtrash_logo.png')}}' width="80%" class='img-size'>
+        <img src='{{asset("assets/pointtrash_logo.png")}}' width="80%" class='img-size'>
     </div>
     <div class='card'>
         @php
@@ -87,29 +87,25 @@
                     @endphp
                     <div class='container'>
                         <h2>Permintaan Ganti Kata Sandi</h2>
-                        <p>{{$notification}}, <b>{{$name}}</b></p>
+                        <p>{{$notification}}, <b>{{$user->name}}</b></p>
                         <p>Kami telah menerima permintaan ganti kata sandi akun anda. Apabila anda tidak melakukan
                             permintaan ganti kata
                             sandi, mohon abaikan pesan ini. Segera hubungi CS kami apabila anda merasa ada kesalahan.
                         </p>
                         <br>
+                        <br>
                         <center>
-                            <a href='{{route(' password.reset', $token)}}' class='button' style='color:
-            white;'>Ganti Kata Sandi</a>
+                            <a href='" . base_url(' reset_pass/user/' . encrypt_url($user_id)) . "' class='button' style='color: white;'>Ganti Kata Sandi</a>
                         </center>
-                        <br><br>
-                        <center>
-                            <p>Untuk informasi lebih lanjut silahkan hubungi CS kami, <a href='".base_url('
-                                    contact_us')."'>klik
-                                    disini</a>.</p>
-                            <small><em>*Pesan ini dikirim dari server pointtrash.co.id, jangan balas pesan
-                                    ini.</em></small>
-                        </center>
-                    </div>
-    </div>
-    <div class='footer'>
-        <p style='padding-top: 20px; padding-bottom: 20px;'>&copy; {{$year_now}} PointTrash</p>
-    </div>
-</body>
-
-</html>
+						<br><br>
+									<center>
+										<p>Untuk informasi lebih lanjut silahkan hubungi CS kami, <a href='" . base_url('contact_us') . "'>klik disini</a>.</p>
+										<small><em>*Pesan ini dikirim dari server Pointtrash, jangan balas pesan ini.</em></small>
+									</center>
+								  </div>
+								</div>
+								<div class='footer'>
+                                    <p style='padding-top: 20px; padding-bottom: 20px;'>&copy; {{$year_now }} Pointtrash</p>
+                                </div>
+							</body>
+							</html>

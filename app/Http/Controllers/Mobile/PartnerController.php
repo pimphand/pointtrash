@@ -100,7 +100,8 @@ class PartnerController extends Controller
         }
     }
 
-    public function get_branch() {
+    public function get_branch()
+    {
 
         $branch = DB::table('account')
             ->select('account_id', 'name')
@@ -137,9 +138,9 @@ class PartnerController extends Controller
         }
 
         $check = DB::table('partner_auth')
-        ->where('partner_id', $data_id)
-        ->where('token', $request->header('Auth-Key'))
-        ->exists();
+            ->where('partner_id', $data_id)
+            ->where('token', $request->header('Auth-Key'))
+            ->exists();
         if ($check) {
             $partner = Partner::where('partner_id', $data_id)
                 ->first();
@@ -380,7 +381,7 @@ class PartnerController extends Controller
             $validated = Validator::make($request->all(), [
                 'phone' => [
                     'required',
-                    'regex:/^(62|081|\+62)/' // Regular expression for phone numbers starting with 62, 081, or +62
+                    'regex:/^(62|08|\+62)/' // Regular expression for phone numbers starting with 62, 081, or +62
                 ],
             ]);
 
@@ -441,7 +442,7 @@ class PartnerController extends Controller
 
         if ($check) {
             $validated = Validator::make($request->all(), [
-                'email' => 'required|email',
+                'email' => 'required|email|unique:partner,email,' . $data_id . ',partner_id',
             ]);
 
             if ($validated->fails()) {

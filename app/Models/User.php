@@ -41,7 +41,7 @@ class User extends Authenticatable
             $user->user_id = (string) Str::random(10);
             $validated['date_create'] = now();
             $validated['photo'] = 'user.png';
-            $validated['status'] = 1;
+            $validated['status'] = 0;
             $validated['point'] = 0;
             $validated['request_status'] = 0;
             $user->fill($validated);
