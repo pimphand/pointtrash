@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\WidrawUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -90,7 +91,7 @@ class UserController extends Controller
         return DB::transaction(function () use ($request) {
             $user = User::where('email', $request->email)->first();
 
-            if (! password_verify($request->password, $user->password)) {
+            if (!password_verify($request->password, $user->password)) {
                 $response['status'] = 502;
                 $response['error'] = true;
                 $response['message'] = 'Password salah!';
@@ -98,7 +99,7 @@ class UserController extends Controller
                 return $this->response($response);
             }
 
-            $token = bcrypt($user->email.time());
+            $token = bcrypt($user->email . time());
             $data['user_id'] = $user->user_id;
             $data['name'] = $user->name;
             $data['email'] = $user->email;
@@ -243,7 +244,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -268,7 +269,7 @@ class UserController extends Controller
 
             if ($request->hasFile('photo_name')) {
                 $thumbnail = $request->file('photo_name');
-                $photo_name = 'photo_user'.time().'.'.$thumbnail->getClientOriginalExtension();
+                $photo_name = 'photo_user' . time() . '.' . $thumbnail->getClientOriginalExtension();
                 $thumbnail->move(public_path('upload'), $photo_name);
             } else {
                 $photo_name = $partner->photo;
@@ -310,7 +311,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -362,10 +363,10 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
         $validate = Validator::make($request->all(), [
-            'email' => 'required|email|unique:user,email,'.$data_id.',user_id',
+            'email' => 'required|email|unique:user,email,' . $data_id . ',user_id',
         ]);
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -430,7 +431,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -467,11 +468,11 @@ class UserController extends Controller
 
                 // Mengatur ulang format nomor telepon menjadi +62
                 if (substr($phoneDigits, 0, 1) == '6' || substr($phoneDigits, 0, 1) == '+') {
-                    $phoneDigits = '62'.substr($phoneDigits, 1);
+                    $phoneDigits = '62' . substr($phoneDigits, 1);
                 }
 
                 // Mengonversi nomor telepon ke format internasional
-                $fix_phone = '+62'.$phoneDigits;
+                $fix_phone = '+62' . $phoneDigits;
             } else {
                 // Handle jika nomor telepon kosong
                 $fix_phone = null;
@@ -513,7 +514,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -575,7 +576,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -633,7 +634,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -671,7 +672,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -699,7 +700,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -727,7 +728,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -755,7 +756,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -783,7 +784,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -811,7 +812,7 @@ class UserController extends Controller
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
 
-        if (! $data_id && ! $auht_key) {
+        if (!$data_id && !$auht_key) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Otentikasi gagal!';
@@ -847,6 +848,8 @@ class UserController extends Controller
             return $this->headerApi();
         }
 
+        FacadesLog::alert('Request: ' . json_encode($request->all()));
+
         $data_id = request()->header('Data-ID');
         $auht_key = request()->header('Auth-Key');
         $check = DB::table('user_auth')->where('user_id', $data_id)->where('token', $auht_key)->first();
@@ -876,7 +879,7 @@ class UserController extends Controller
 
             if ($request->hasFile('photo')) {
                 $thumbnail = $request->file('photo');
-                $photo_name = 'photo_order'.time().'.'.$thumbnail->getClientOriginalExtension();
+                $photo_name = 'photo_order' . time() . '.' . $thumbnail->getClientOriginalExtension();
                 $thumbnail->move(public_path('upload'), $photo_name);
             }
 
@@ -902,7 +905,7 @@ class UserController extends Controller
             $subCategories = explode(' ', $request->input('sub_category'));
             $records = [];
             foreach ($subCategories as $subCategory) {
-                if (! empty($subCategory)) {
+                if (!empty($subCategory)) {
                     $records[] = [
                         'detail_order_id' => Str::random(10),
                         'order_id' => $orderData->order_id,
@@ -958,7 +961,7 @@ class UserController extends Controller
 
         $headers = [
             'Content-Type: application/json',
-            'Authorization: key='.$serverKey,
+            'Authorization: key=' . $serverKey,
         ];
 
         $ch = curl_init();
@@ -1005,7 +1008,7 @@ class UserController extends Controller
         $auht_key = request()->header('Auth-Key');
         $check = DB::table('user_auth')->where('user_id', $data_id)->where('token', $auht_key)->first();
 
-        if (! $check) {
+        if (!$check) {
             return response()->json([
                 'status' => 502,
                 'error' => true,
@@ -1028,7 +1031,7 @@ class UserController extends Controller
 
         if ($request->hasFile('photo')) {
             $thumbnail = $request->file('photo');
-            $thumbnail_name = 'photo_'.time().'.'.$thumbnail->getClientOriginalExtension();
+            $thumbnail_name = 'photo_' . time() . '.' . $thumbnail->getClientOriginalExtension();
             $thumbnail->move(public_path('upload'), $thumbnail_name);
         } else {
             $thumbnail_name = null;
@@ -1074,7 +1077,6 @@ class UserController extends Controller
             'error' => false,
             'message' => 'Drop Off Order berhasil',
         ]);
-
     }
 
     public function company_order_api_post(Request $request)
@@ -1109,7 +1111,7 @@ class UserController extends Controller
         $auht_key = request()->header('Auth-Key');
         $check = DB::table('user_auth')->where('user_id', $data_id)->where('token', $auht_key)->first();
 
-        if (! $check) {
+        if (!$check) {
             return response()->json([
                 'status' => 502,
                 'error' => true,
@@ -1132,7 +1134,7 @@ class UserController extends Controller
 
         if ($request->hasFile('photo')) {
             $thumbnail = $request->file('photo');
-            $thumbnail_name = 'photo_'.time().'.'.$thumbnail->getClientOriginalExtension();
+            $thumbnail_name = 'photo_' . time() . '.' . $thumbnail->getClientOriginalExtension();
             $thumbnail->move(public_path('upload'), $thumbnail_name);
         } else {
             $thumbnail_name = null;
@@ -1212,7 +1214,7 @@ class UserController extends Controller
         $auht_key = request()->header('Auth-Key');
         $check = DB::table('user_auth')->where('user_id', $data_id)->where('token', $auht_key)->first();
 
-        if (! $check) {
+        if (!$check) {
             return response()->json([
                 'status' => 502,
                 'error' => true,
@@ -1235,7 +1237,7 @@ class UserController extends Controller
 
         if ($request->hasFile('photo')) {
             $thumbnail = $request->file('photo');
-            $thumbnail_name = 'photo_'.time().'.'.$thumbnail->getClientOriginalExtension();
+            $thumbnail_name = 'photo_' . time() . '.' . $thumbnail->getClientOriginalExtension();
             $thumbnail->move(public_path('upload'), $thumbnail_name);
         } else {
             $thumbnail_name = null;
@@ -1281,7 +1283,6 @@ class UserController extends Controller
             'error' => false,
             'message' => 'Event Order berhasil',
         ]);
-
     }
 
     public function cancel_order_api_get(Request $request)
@@ -1296,7 +1297,7 @@ class UserController extends Controller
         $photo_name = request()->header('Order-Photo');
         $check = DB::table('user_auth')->where('user_id', $data_id)->where('token', $auht_key)->first();
 
-        if (! $check) {
+        if (!$check) {
             return response()->json([
                 'status' => 502,
                 'error' => true,
@@ -1305,7 +1306,7 @@ class UserController extends Controller
         }
 
         $order = OrderData::where('user_id', $data_id)->where('order_id', $order_id)->first();
-        if (! $order) {
+        if (!$order) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Order gagal dibatalkan!';
@@ -1315,7 +1316,7 @@ class UserController extends Controller
 
         if ($order->status != 1) {
             if ($order->photo) {
-                $path = public_path('upload/'.$order->photo);
+                $path = public_path('upload/' . $order->photo);
                 if (file_exists($path)) {
                     unlink($path);
                 }
@@ -1349,7 +1350,7 @@ class UserController extends Controller
         $photo_name = request()->header('Order-Photo');
         $check = DB::table('user_auth')->where('user_id', $data_id)->where('token', $auht_key)->first();
 
-        if (! $check) {
+        if (!$check) {
             return response()->json([
                 'status' => 502,
                 'error' => true,
@@ -1358,7 +1359,7 @@ class UserController extends Controller
         }
 
         $order = OrderData::where('user_id', $data_id)->where('order_id', $order_id)->first();
-        if (! $order) {
+        if (!$order) {
             $response['status'] = 502;
             $response['error'] = true;
             $response['message'] = 'Order gagal dihapus!';
@@ -1368,7 +1369,7 @@ class UserController extends Controller
 
         if ($order->status != 1) {
             if ($order->photo) {
-                $path = public_path('upload/'.$order->photo);
+                $path = public_path('upload/' . $order->photo);
                 if (file_exists($path)) {
                     unlink($path);
                 }
@@ -1527,7 +1528,7 @@ class UserController extends Controller
 
         $check = DB::table('user_auth')->where('user_id', $data_id)->where('token', $authKey)->first();
 
-        if (! $check) {
+        if (!$check) {
             return response()->json([
                 'status' => 502,
                 'error' => true,
@@ -1535,7 +1536,7 @@ class UserController extends Controller
             ]);
         }
 
-        $check_data = OrderData::with(['details.category', 'user', 'partner'])//select('order_id, status, date_create, weight, total_point, photo AS order_photo, status_rating, address AS user_address, provinces AS user_provinces, regencies AS user_regencies, districts AS user_districts, villages AS user_villages, user_id, partner_id, type')
+        $check_data = OrderData::with(['details.category', 'user', 'partner']) //select('order_id, status, date_create, weight, total_point, photo AS order_photo, status_rating, address AS user_address, provinces AS user_provinces, regencies AS user_regencies, districts AS user_districts, villages AS user_villages, user_id, partner_id, type')
             ->where('user_id', $data_id)
             ->where('status', '=', 1)
             ->orderBy('date_create', 'DESC')
@@ -1722,7 +1723,7 @@ class UserController extends Controller
         $order_id = request()->header('Order-ID');
         $check = DB::table('user_auth')->where('user_id', $data_id)->where('token', $auht_key)->first();
 
-        if (! $check) {
+        if (!$check) {
             return response()->json([
                 'status' => 502,
                 'error' => true,
@@ -1731,7 +1732,7 @@ class UserController extends Controller
         }
 
         $order = OrderData::where('user_id', $data_id)->where('order_id', $order_id)->first();
-        if (! $order) {
+        if (!$order) {
             return response()->json([
                 'status' => 502,
                 'error' => true,
@@ -1793,7 +1794,7 @@ class UserController extends Controller
             ->join('user', 'user.user_id', '=', 'user_auth.user_id')
             ->first();
 
-        if (! $check) {
+        if (!$check) {
             return response()->json([
                 'status' => 502,
                 'error' => true,
@@ -1852,7 +1853,7 @@ class UserController extends Controller
             ->where('token', $auth_key)
             ->first();
 
-        if (! $check) {
+        if (!$check) {
             return response()->json([
                 'status' => 502,
                 'error' => true,
