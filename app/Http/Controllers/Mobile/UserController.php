@@ -911,7 +911,7 @@ class UserController extends Controller
             $orderData->save();
 
             $subCategories = explode(' ', $request->input('sub_category'));
-            $categori = str_replace(['[', ']', ' '], '', $subCategories);
+            $categori = str_replace(['[', ']', ' ', ','], '', $subCategories);
             $records = [];
             foreach ($categori as $subCategory) {
                 if (!empty($subCategory)) {
@@ -1068,7 +1068,7 @@ class UserController extends Controller
         DB::table('order_data')->insert($data);
 
         $subCategories = explode(' ', $request->input('sub_category'));
-        $categori = str_replace(['[', ']', ' '], '', $subCategories);
+        $categori = str_replace(['[', ']', ' ', ','], '', $subCategories);
         $records = [];
         foreach ($categori as $subCategory) {
             if (!empty($subCategory)) {
@@ -1172,7 +1172,7 @@ class UserController extends Controller
         DB::table('order_data')->insert($data);
 
         $subCategories = explode(' ', $request->input('sub_category'));
-        $categori = str_replace(['[', ']', ' '], '', $subCategories);
+        $categori = str_replace(['[', ']', ' ', ','], '', $subCategories);
         $records = [];
         foreach ($categori as $subCategory) {
             if (!empty($subCategory)) {
@@ -1276,7 +1276,7 @@ class UserController extends Controller
         DB::table('order_data')->insert($data);
 
         $subCategories = explode(' ', $request->input('sub_category'));
-        $categori = str_replace(['[', ']', ' '], '', $subCategories);
+        $categori = str_replace(['[', ']', ' ', ','], '', $subCategories);
         $records = [];
         foreach ($categori as $subCategory) {
             if (!empty($subCategory)) {
