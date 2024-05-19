@@ -903,8 +903,9 @@ class UserController extends Controller
             $orderData->save();
 
             $subCategories = explode(' ', $request->input('sub_category'));
+            $categori = str_replace(['[', ']', ' '], '', $subCategories);
             $records = [];
-            foreach ($subCategories as $subCategory) {
+            foreach ($categori as $subCategory) {
                 if (!empty($subCategory)) {
                     $records[] = [
                         'detail_order_id' => Str::random(10),
