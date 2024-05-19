@@ -1561,7 +1561,7 @@ class UserController extends Controller
 
             return $this->response($response);
         }
-
+        $result = [];
         foreach ($check_data as $item) {
             $month_create = substr($item->date_create, 0, 7);
             $month_now = date('Y-m');
