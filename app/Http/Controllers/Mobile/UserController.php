@@ -793,8 +793,10 @@ class UserController extends Controller
             return $this->response($response);
         }
 
-        $result = DB::table('advertisment')
-            ->get();
+        $result = Cache::remember("banner_api", now()->addMonth(), function () {
+            return DB::table('advertisment')
+                ->get();
+        });
 
         $response['status'] = 200;
         $response['error'] = false;
