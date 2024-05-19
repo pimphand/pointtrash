@@ -22,6 +22,10 @@ class OrderData extends Model
 
     protected $table = 'order_data';
 
+    protected $casts = [
+        'status' => 'integer',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
@@ -29,11 +33,11 @@ class OrderData extends Model
 
     public function scopeSearch($query, $search)
     {
-        return $query->where('order_id', 'like', '%'.$search.'%')
-            ->orWhere('user_id', 'like', '%'.$search.'%')
-            ->orWhere('status', 'like', '%'.$search.'%')
+        return $query->where('order_id', 'like', '%' . $search . '%')
+            ->orWhere('user_id', 'like', '%' . $search . '%')
+            ->orWhere('status', 'like', '%' . $search . '%')
             ->orWhereHas('user', function ($query) use ($search) {
-                $query->where('name', 'like', '%'.$search.'%');
+                $query->where('name', 'like', '%' . $search . '%');
             });
     }
 
