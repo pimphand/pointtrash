@@ -1067,16 +1067,17 @@ class UserController extends Controller
 
         DB::table('order_data')->insert($data);
 
-        $sub_cat_arr = preg_split("/[\s,]+/", $sub_category, -1, PREG_SPLIT_NO_EMPTY);
+        $subCategories = explode(' ', $request->input('sub_category'));
+        $categori = str_replace(['[', ']', ' '], '', $subCategories);
         $records = [];
-
-        foreach ($sub_cat_arr as $sub_cat_id) {
-            $detail_order_id = Str::random(10);
-            $records[] = [
-                'detail_order_id' => $detail_order_id,
-                'order_id' => $order_id,
-                'sub_category_id' => $sub_cat_id,
-            ];
+        foreach ($categori as $subCategory) {
+            if (!empty($subCategory)) {
+                $records[] = [
+                    'detail_order_id' => Str::random(10),
+                    'order_id' => $order_id,
+                    'sub_category_id' => $subCategory,
+                ];
+            }
         }
 
         DB::table('detail_order')->insert($records);
@@ -1170,16 +1171,17 @@ class UserController extends Controller
 
         DB::table('order_data')->insert($data);
 
-        $sub_cat_arr = preg_split("/[\s,]+/", $sub_category, -1, PREG_SPLIT_NO_EMPTY);
+        $subCategories = explode(' ', $request->input('sub_category'));
+        $categori = str_replace(['[', ']', ' '], '', $subCategories);
         $records = [];
-
-        foreach ($sub_cat_arr as $sub_cat_id) {
-            $detail_order_id = Str::random(10);
-            $records[] = [
-                'detail_order_id' => $detail_order_id,
-                'order_id' => $order_id,
-                'sub_category_id' => $sub_cat_id,
-            ];
+        foreach ($categori as $subCategory) {
+            if (!empty($subCategory)) {
+                $records[] = [
+                    'detail_order_id' => Str::random(10),
+                    'order_id' => $order_id,
+                    'sub_category_id' => $subCategory,
+                ];
+            }
         }
 
         DB::table('detail_order')->insert($records);
@@ -1273,16 +1275,17 @@ class UserController extends Controller
 
         DB::table('order_data')->insert($data);
 
-        $sub_cat_arr = preg_split("/[\s,]+/", $sub_category, -1, PREG_SPLIT_NO_EMPTY);
+        $subCategories = explode(' ', $request->input('sub_category'));
+        $categori = str_replace(['[', ']', ' '], '', $subCategories);
         $records = [];
-
-        foreach ($sub_cat_arr as $sub_cat_id) {
-            $detail_order_id = Str::random(10);
-            $records[] = [
-                'detail_order_id' => $detail_order_id,
-                'order_id' => $order_id,
-                'sub_category_id' => $sub_cat_id,
-            ];
+        foreach ($categori as $subCategory) {
+            if (!empty($subCategory)) {
+                $records[] = [
+                    'detail_order_id' => Str::random(10),
+                    'order_id' => $order_id,
+                    'sub_category_id' => $subCategory,
+                ];
+            }
         }
 
         DB::table('detail_order')->insert($records);
