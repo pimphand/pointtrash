@@ -180,7 +180,7 @@ class UserController extends Controller
                 ->join('sub_trash_category', 'sub_trash_category.sub_category_id', '=', 'detail_order.sub_category_id')
                 ->join('trash_category', 'trash_category.category_id', '=', 'sub_trash_category.category_id')
                 ->where('order_data.user_id', $data_id)
-                ->groupBy('trash_category.category_id', 'trash_category.background')
+                ->groupBy('trash_category.category', 'trash_category.background')
                 ->get();
 
             $detail_contribution = [];
