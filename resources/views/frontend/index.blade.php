@@ -1,180 +1,393 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-<!-- main-slider bannar two start -->
-<section class="main-slider two">
-    <div class="container">
-        <div class="parallax-scene parallax-scene-2 parallax-icon">
-            <span data-depth="0.40" class="parallax-layer icon icon-3"></span>
-            <span data-depth="0.50" class="parallax-layer icon icon-4"></span>
-        </div>
-        <div class="row clearfix">
-            <div class="col-lg-7 col-md-12 col-sm-12">
-                <div class="banner-style">
-                    <h1 class="banner-title">Selamat datang di Pointtrash</h1>
-                    <p>Aplikasi Pemilahan sampah An-Organik Karya Anak Bangsa.
-                        <br> Pilah sampah daur ulang jadi pundi-pundi rupiah!
-                    </p>
-                </div>
-                <div class="banner-btn">
-                    <a class="link-btn" href="">Daftar Menjadi Mitra</a>
-                </div>
-            </div>
-            <div class="col-lg-5 col-md-12 col-sm-12">
-                <div class="slider_banner-image">
-                    <img src="{{ asset('images/frontend') }}/header-2-bannar-img.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- main-slider bannar two start -->
+    <!-- Start Main Slider -->
+    <section id="banner" class="main-slider style1">
+        <div class="slider-box">
+            <!-- Banner Carousel -->
+            <div class="banner-carousel owl-theme owl-carousel">
+                <!-- Slide -->
+                @foreach($getBanner as $banner)
+                    <div class="slide">
+                        <div class="image-layer"
+                             style="background-image:url({{ 'upload/'.$banner->banner }})">
+                        </div>
+                    </div>
+                @endforeach
 
-<!-- solution work section start -->
-<section class="solution-work">
-    <div class="container clearfix">
-        <div class="section-title">
-            <h2>Ayo Jaga Lingkungan!!</h2>
-            <p>Punya banyak limbah sampah tapi nggak tahu harus dibuang kemana? Gampang, tukar sampahmu di
-                Pointtrash. <br> Di sini kamu
-                bisa tukar sampah untuk kumpulkan point dan widraw pointnya. Dengan Pointtrash jadi lebih:.</p>
-        </div>
-        <div class="row clearfix">
-            <div class="col-lg-3 col-md-6 col-sm-12">
-                <div class="content-block wow slideInUp animated animated" data-wow-delay="600ms"
-                    data-wow-duration="1500ms"
-                    style="visibility: visible; animation-duration: 1500ms; animation-delay: 600ms; animation-name: slideInUp;">
-                    <div class="single-item work">
-                        <div class="icon-img-box">
-                            <img src="{{ asset('frontend') }}/images/resource/Commercial-Cleaning.png" alt="">
-                        </div>
-                        <h2 class="number-text">01</h2>
-                        <h4 class="single-item-title">Smart Clean</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12">
-                <div class="content-block wow slideInUp animated animated" data-wow-delay="600ms"
-                    data-wow-duration="1500ms"
-                    style="visibility: visible; animation-duration: 1500ms; animation-delay: 600ms; animation-name: slideInUp;">
-                    <div class="single-item work">
-                        <div class="icon-img-box">
-                            <img src="{{ asset('frontend') }}/images/resource/Residental-Cleaning.png" alt="">
-                        </div>
-                        <h2 class="number-text">02</h2>
-                        <h4 class="single-item-title">Smart Living</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 single-column">
-                <div class="content-block wow slideInUp animated animated" data-wow-delay="600ms"
-                    data-wow-duration="1500ms"
-                    style="visibility: visible; animation-duration: 1500ms; animation-delay: 600ms; animation-name: slideInUp;">
-                    <div class="single-item work">
-                        <div class="icon-img-box">
-                            <img src="{{ asset('frontend') }}/images/resource/window-cleaner.png" alt="">
-                        </div>
-                        <h2 class="number-text">03</h2>
-                        <h4 class="single-item-title">Smart Action</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 single-column">
-                <div class="content-block wow slideInUp animated animated" data-wow-delay="600ms"
-                    data-wow-duration="1500ms"
-                    style="visibility: visible; animation-duration: 1500ms; animation-delay: 600ms; animation-name: slideInUp;">
-                    <div class="single-item work">
-                        <div class="icon-img-box">
-                            <img src="{{ asset('frontend') }}/images/resource/Kitchen-Cleaning.png" alt="">
-                        </div>
-                        <h2 class="number-text">04</h2>
-                        <h4 class="single-item-title">And No More Trash Problems</h4>
-                    </div>
-                </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- solution work section end -->
+    </section>
+    <!-- End Main Slider -->
 
-<!-- service-works start -->
-<section class="service-works">
-    <div class="shape-top-image">
-        <img src="{{ asset('frontend/images') }}/background/service-top-shape-img.png" alt="">
-    </div>
-    <div class="bg-service-works">
+    <!--Start Features Style1 Area-->
+    <section class="features-style1-area">
         <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="features-style1__content">
+                        <ul>
 
-            <div class="section-title">
-                <h2>Layanan Kami</h2>
+                            @foreach($portofolios as $portofolio)
+                                <li>
+                                    <div class="single-features-style1">
+                                        <div class="icon-holder">
+                                            <div class="box"></div>
+                                            <span class="icon-dustbin"></span>
+                                        </div>
+                                        <div class="text-holder">
+                                            <h3>{{$portofolio->title}}</h3>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="row clearfix">
-                @foreach ($data['layanan'] as $layanan)
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="inner-box">
-                        <div class="icon-box_one">
-                            <div class="service-works__icon-box">
-                                <div class="service-works__icon"
-                                    style="background-image: url({{ asset('frontend/images') }}/resource/icon-bg.png);">
-                                    <img src="{{ asset('upload/'.$layanan->icon) }}" width="50%" alt="">
+        </div>
+    </section>
+    <!--End Features Style1 Area-->
+
+    <!--Start About Style1 Area-->
+    <section id="about" class="about-style1-area">
+        <div class="shape1"></div>
+        <div class="container">
+            <div class="row text-right-rtl">
+                <div class="col-xl-6">
+                    <div class="about-style1__image clearfix">
+                        <div class="text-outer">Pointtrash</div>
+                        <div class="border-top"></div>
+                        <div class="border-left"></div>
+                        <div class="border-bottom"></div>
+                        <div class="border-right"></div>
+                        <ul>
+                            <li>
+                                <div class="img-box">
+                                    <img src="{{ 'upload' }}/about-style1__image-1.jpg" alt="">
                                 </div>
-                                <div class="service-works__hover-icon"
-                                    style="background-image: url({{ asset('frontend/images') }}/resource/hover-icon-bg.png);">
-                                    <img src="{{ asset('upload/'.$layanan->icon) }}" width="50%" alt="">
+                            </li>
+                            <li>
+                                <div class="img-box">
+                                    <img src="{{ 'upload' }}/about-style1__image-2.jpg" alt="">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="about-style1__content">
+                        <br>
+                        <br>
+                        <br>
+                        <div class="sec-title">
+                            <div class="sub-title">
+                                <h3>
+                                    Ayo Jaga Lingkungan!!
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="inner-content">
+                            <div class="text">
+                                <p>Punya banyak limbah sampah tapi nggak tahu harus dibuang kemana? Gampang, tukar
+                                    sampahmu di Pointtrash. Di sini kamu bisa tukar sampah untuk kumpulkan point dan
+                                    widraw pointnya. Dengan Pointtrash jadi lebih: </p>
+                            </div>
+
+                            <div class="about-style1__bottom-content">
+                                <div class="row">
+
+                                    <div class="col-xl-6 col-lg-6 col-md-6">
+                                        <div class="text-box">
+                                            <ul>
+                                                <li>Smart Clean</li>
+                                                <li>Smart Living</li>
+                                                <li>Smart Action</li>
+                                                <li>And No More Trash Problems</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-6">
+                                        <div class="video-gallery-style1">
+                                            <div class="video-gallery-style1__bg"
+                                                 style="background-image: url({{ 'westo' }}/video-gallery-style1-bg.jpg);">
+                                            </div>
+                                            <div class="icon wow zoomIn animated" data-wow-delay="300ms"
+                                                 data-wow-duration="1500ms">
+                                                <a class="video-popup" title="Video Gallery"
+                                                   href="https://www.youtube.com/watch?v=6t4m8YYWbcc">
+                                                    <span class="icon-play-buttton"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <h3 class="">{{ $layanan->name }}</h3>
-                            <p class="">{{ $layanan->description }}</p>
+
+                            <div class="service-style1__top-button">
+                                <a class="btn-one" target="_blank"
+                                   href="">
+                                    <span class="txt">
+                                        Lebih Detail<i class="icon-download"></i>
+                                    </span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+            </div>
+        </div>
+    </section>
+    <!--End About Style1 Area-->
+
+    <!--Start Service Style1 Area-->
+    <section id="services" class="service-style1-area">
+        <div class="service-style1__bg"
+             style="background-image: url({{ 'westo/service-style1.jpg' }});"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+
+                    <div class="service-style1__top">
+                        <div class="service-style1__top-title">
+                            <div class="sec-title sec-title--style2">
+                                <div class="sub-title">
+                                    <h3>Our Services</h3>
+                                </div>
+                                <h2>Pointtrash Services</h2>
+                            </div>
+                            <div class="text">
+                                <p>Dapatkan aplikasi melalui Appstore dan Google playstore.</p>
+                            </div>
+                        </div>
+                        <div class="service-style1__top-button">
+                            <a class="btn-one" target="_blank"
+                               href="https://play.google.com/store/apps/details?id=com.pointtrash.pointtrash">
+                                    <span class="txt">
+                                        Download<i class="icon-download"></i>
+                                    </span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row text-right-rtl">
+                <!--Start Single Service Style1-->
+                @foreach($services as $service )
+                    <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="00ms"
+                         data-wow-duration="1500ms">
+                        <div class="single-service-style1">
+                            <div class="inner">
+                                <div class="round-box"></div>
+                                <div class="icon">
+                                    <i class="fa {{$service->icon}} fa-4x"></i>
+                                </div>
+                                <div class="text">
+                                    <h3>{{$service->name}}</h3>
+                                    <p>{{$service->description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
             </div>
+        </div>
+    </section>
+    <!--End Service Style1 Area-->
 
-        </div>
-    </div>
-</section>
-<!-- service-works end -->
+    <!--Start Features Style2 Area-->
+    <section class="features-style2-area">
+        <div class="auto-container">
+            <div class="row">
 
-<!-- latest-work section -->
-<section class="latest-works">
-    <div class="container">
-        <div class="sub-section-two">
-            <br><br><br><br>
-        </div>
-        <div class="section-title">
-            <h2 style="color: white">Layanan Kami</h2>
-        </div>
-        <div class="latest-slider_item">
-            <div class="row clearfix">
-                <div class="col-lg-3 col-md-6 col-sm-12 image-column">
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="single-item-carousel owl-carousel owl-theme">
-                        @foreach ($data['advertisement'] as $item)
-                        <div class="image-one">
-                            <img src="{{ asset('upload/'.$item->advertisment) }}" alt="">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="single-features-style2-box">
+                        <div class="inner-content">
+                            <div class="icon">
+                                <div class="box"></div>
+                                <span class="icon-garbage-can"></span>
+                            </div>
+                            <div class="title">
+                                <h3>Lorem ipsum is free text</h3>
+                                <h2>Landfill and Transfer<br> Station Services</h2>
+                            </div>
                         </div>
-                        @endforeach
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 image-column">
+
+                <div class="col-xl-6 col-lg-6">
+                    <div class="single-features-style2-box">
+                        <div class="img-bg"
+                             style="background-image: url({{ 'westo/' }}features-style2-1.jpg);"></div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6">
+                    <div class="single-features-style2-box">
+                        <div class="img-bg"
+                             style="background-image: url({{ 'westo' }}/features-style2-2.jpg);"></div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6">
+                    <div class="single-features-style2-box left">
+                        <div class="inner-content">
+                            <div class="icon">
+                                <div class="box"></div>
+                                <span class="icon-toxic-waste"></span>
+                            </div>
+                            <div class="title">
+                                <h3>Lorem ipsum is free text</h3>
+                                <h2>Accepts Special Waste<br> at Many Locations</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!--End Features Style2 Area-->
+    <!--Start Fact Counter Area-->
+    <section class="fact-counter-area">
+        <div class="fact-counter-area-bg"
+             style="background-image: url({{ 'westo' }}/service-style1.jpg);"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <ul class="fact-counter-box">
+                        <!--Start Single Fact Counter-->
+                        <li class="single-fact-counter">
+                            <div class="inner">
+                                <div class="count-outer count-box">
+                                    <span class="count-text" data-speed="3000" data-stop="{{$data['user']}}">0</span>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <h3>Total User</h3>
+                            </div>
+                        </li>
+
+                        <li class="single-fact-counter">
+                            <div class="inner">
+                                <div class="count-outer count-box">
+                                    <span class="count-text" data-speed="3000" data-stop="{{$data['mitra']}}">0</span>
+                                    <span class="k"></span>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <h3>Total Partner</h3>
+
+                            </div>
+                        </li>
+
+                        <li class="single-fact-counter">
+                            <div class="inner">
+                                <div class="count-outer count-box">
+                                    <span class="count-text" data-speed="3000" data-stop="{{$data['order']}}">0</span>
+                                    <span class="k"></span>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <h3>Total Order</h3>
+                            </div>
+                        </li>
+                        <!--End Single Fact Counter-->
+                    </ul>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    <!--End Fact Counter Area-->
+    <!--Start Service Style2 Area-->
+    <section id="blog" class="service-style2-area">
+        <div class="gray-bg"></div>
+        <div class="container">
+            <div class="sec-title text-center">
+                <div class="sub-title">
+                    <h3>Blog</h3>
+                </div>
+            </div>
+            <div class="row">
+                @foreach($blogs as $blog)
+                    <div class="col-xl-4 col-lg-4">
+                        <div class="single-service-style2">
+                            <div class="img-holder">
+                                <img src="{{ 'upload/'.$blog->thumbnail}}" width="40%" alt=""/>
 
-<!-- Get In Touch section start -->
-<section class="location-section">
-    <div class="map-inner_two">
-        <div class="map-container">
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15842.108082153993!2d106.9374945!3d-6.9469864!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6849d8843e5511%3A0x600ca4c106a1c2b7!2sPointtrash%20Indonesia!5e0!3m2!1sen!2sid!4v1715219528694!5m2!1sen!2sid"
-                width="1680" height="600" style="border:0;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                            <div class="text-holder text-center">
+                                <h3><a href="{{route('frontend.blogDetail',$blog->seo_title)}}">{{$blog->title}}</a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
-    </div>
-</section>
-<!-- Get In Touch section end -->
+    </section>
+    <!--End Service Style2 Area-->
+
+
+    <!--Start Contact Info Style1 Area-->
+    <section id="contact" class="contact-info-style1-area">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xl-8">
+                    <div class="contact-info-style1__box">
+                        <div class="sec-title">
+                            <h2>Kontak Kami</h2>
+                        </div>
+                        <div class="contact-form">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.527065447021!2d106.93491957595201!3d-6.946981068011008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6849d8843e5511%3A0x600ca4c106a1c2b7!2sPointtrash%20Indonesia!5e0!3m2!1sen!2sid!4v1716108356314!5m2!1sen!2sid"
+                                width="750" height="500" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4">
+                    <br>
+                    <br>
+                    <br>
+
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">
+                            <p>Jam Kerja :</p>
+                            <ul class="mt-3">
+                                <li>09.00 - 16.00 WIB (Senin - Jum'at)</li>
+                                <li>Sabtu &amp; Minggu (Libur)</li>
+                            </ul>
+                        </li>
+                        <li class="list-group-item">
+                            <p>Hubungi Kami di :</p>
+                            <ul class="mt-3">
+                                <li>Email : official.pointtrash@gmail.com</li>
+                                <li>No. Telp : +6282320035400</li>
+                            </ul>
+                        </li>
+                        <li class="list-group-item">
+                            <p class="">Alamat :</p>
+                            <div class="text-muted mt-3">Villa Alam Asri (Jalur Lingkar Selatan) Jln. Gunung Karang Blok
+                                B No. 29-30 Kota Sukabumi
+                            </div>
+                        </li>
+                    </ul>
+                    <a target="_blank"
+                       href="https://api.whatsapp.com/send?phone=+6282320035400&text=Haloo%2C%20Admin%20Pointtrash"
+                       class="btn btn-info text-white" style="color: white">Hubungi CS</a>
+                    <a href="" class="btn btn-info text-white" style="color: white">Daftar Mitra Sekarang</a>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
 @endsection

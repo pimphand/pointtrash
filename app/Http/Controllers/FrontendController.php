@@ -2,21 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Advertisment;
+use App\Models\Banner;
 use App\Models\Blog;
+use App\Models\OrderData;
 use App\Models\Partner;
+use App\Models\Portofolio;
 use App\Models\Service;
+use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class FrontendController extends Controller
 {
     public function index()
     {
+        $getBanner = Cache::remember('banner', now()->addMonth(), function () {
+            return Banner::all();
+        });
+
+        $services = Cache::remember('services', now()->addMonth(), function () {
+            return Service::all();
+        });
+
         $data = [
-            'advertisement' => Advertisment::all(),
-            'layanan' => Service::all(),
+            'mitra' => Partner::count(),
+            'user' => User::count(),
+            'order' => OrderData::count(),
         ];
 
-        return view('frontend.index', compact('data'));
+        $blogs = Cache::remember('blogs', now()->addMonth(), function () {
+            return Blog::limit(3)->get();
+        });
+
+        $portofolios = Cache::remember('portofolios', now()->addMonth(), function () {
+            return Portofolio::limit(3)->get();
+        });
+
+        return view('frontend.index', compact('getBanner', 'services', 'data', 'blogs', 'portofolios'));
     }
 
     public function blog()

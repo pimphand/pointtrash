@@ -40,6 +40,16 @@ Route::post('up_user_email_api', [UserController::class, 'up_user_email_api_post
 Route::post('up_user_pass_api', [UserController::class, 'up_user_pass_api_post']);
 Route::post('up_user_address_api', [UserController::class, 'up_user_address_api']);
 Route::post('pickup_order_api', [UserController::class, 'pickup_order_api_post']);
+Route::post('drop_off_order_api', [UserController::class, 'drop_off_order_api_post']);
+Route::post('company_order_api', [UserController::class, 'company_order_api_post']);
+Route::post('event_order_api', [UserController::class, 'event_order_api_post']);
+Route::get('cancel_order_api', [UserController::class, 'cancel_order_api_get']);
+Route::get('delete_order_api', [UserController::class, 'delete_order_api_get']);
+Route::get('get_user_order_api', [UserController::class, 'get_user_order_api_get']);
+Route::get('get_user_history_order_api', [UserController::class, 'get_user_history_order_api_get']);
+Route::post('input_rating_api', [UserController::class, 'input_rating_api_post']);
+Route::post('user_widraw_api', [UserController::class, 'user_widraw_api_post']);
+Route::get('get_user_widraw_api', [UserController::class, 'get_user_widraw_api_get']);
 
 /* -----------------------------------------------------------------------
                        MOBILE DATA API ROUTE

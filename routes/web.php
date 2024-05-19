@@ -30,6 +30,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontendController::class, 'index']);
+Route::get('/getHeader', [FrontendController::class, 'getHeader'])->name('getHeader');
+
 Route::get('/mail', [FrontendController::class, 'testMail']);
 
 Route::get('/blogs', [FrontendController::class, 'blog'])->name('frontend.blog');
@@ -100,4 +102,4 @@ Route::middleware(['auth:admin', 'isActive'])->prefix('dashboard')->group(functi
 });
 
 //Partners
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
