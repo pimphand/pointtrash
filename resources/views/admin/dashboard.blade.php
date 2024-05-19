@@ -110,7 +110,7 @@
                             </span>
                             </a>
                             <h4 class="my-1 font-semibold text-3xl dark:text-slate-200">${widraw}</h4>
-                            <h6 class="text-gray-800 dark:text-gray-400 mb-0 text-lg font-medium uppercase">Order ${widrawI}</h6>
+                            <h6 class="text-gray-800 dark:text-gray-400 mb-0 text-lg font-medium uppercase">Widraw ${widrawI}</h6>
                             <p class="truncate text-gray-700 dark:text-slate-500 text-sm font-normal">
                                 <span class="text-green-500">
                                     <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i>

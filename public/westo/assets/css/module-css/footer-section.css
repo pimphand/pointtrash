@@ -1,11 +1,11 @@
-/*** 
+/***
 =============================================
     Footer area style
 =============================================
 ***/
 .bottom-parallax {
     position: relative;
-    height: 670px;
+    height: 100px;
     opacity: 0;
     z-index: -999;
 }
@@ -15,7 +15,7 @@
     left: 0px;
     bottom: 0px;
     right: 0px;
-    height: 670px;
+    height: 100px;
 }
 
 .parallax-visible .bottom-parallax {
@@ -108,7 +108,6 @@
 }
 
 
-
 .subscribe-box {
     position: relative;
     display: block;
@@ -174,7 +173,6 @@
 }
 
 
-
 .footer {
     position: relative;
     display: block;
@@ -208,7 +206,6 @@
 }
 
 
-
 .single-footer-widget .our-company-info {
     position: relative;
     display: block;
@@ -230,7 +227,6 @@
     font-weight: 500;
     margin: 0;
 }
-
 
 
 .footer-social-link {
@@ -299,7 +295,6 @@
 }
 
 
-
 .footer-widget-links {
     position: relative;
     display: block;
@@ -357,8 +352,6 @@
 .footer-widget-links ul li a:hover:before {
     transform: perspective(400px) scaleX(1.0);
 }
-
-
 
 
 .single-footer-widget--contact-info-box {
@@ -437,7 +430,6 @@
 .footer-widget-contact-info ul li .inner .text p a:hover {
     color: var(--thm-primary);
 }
-
 
 
 .footer-bottom {
