@@ -6,13 +6,13 @@ abstract class Controller
 {
     public function headerApi()
     {
-        if (request()->header('Client-Service') != 'frontend-client') {
-            $response['status'] = 502;
-            $response['error'] = true;
-            $response['message'] = 'Otentikasi gagal!';
+        // if (request()->header('Client-Service') != 'frontend-client') {
+        //     $response['status'] = 502;
+        //     $response['error'] = true;
+        //     $response['message'] = 'Otentikasi gagal!';
 
-            return $response;
-        }
+        //     return $response;
+        // }
 
         return null;
     }
