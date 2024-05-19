@@ -1,5 +1,5 @@
 /*==============================================
-    Main Header Css        
+    Main Header Css
 ===============================================*/
 .main-header {
     position: absolute;
@@ -248,7 +248,7 @@
     justify-content: center;
     width: 265px;
     height: 110px;
-    background-color: rgba(var(--thm-base-rgb), .10);
+    background-color: #00a458;
 }
 
 .main-logo-box a {
@@ -1139,7 +1139,7 @@
 
 
 /*==============================================
-    Main Header Style2 Css        
+    Main Header Style2 Css
 ===============================================*/
 .header-style-two {
     position: relative;

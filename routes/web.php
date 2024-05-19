@@ -33,6 +33,9 @@ Route::get('/', [FrontendController::class, 'index']);
 Route::get('/getHeader', [FrontendController::class, 'getHeader'])->name('getHeader');
 
 Route::get('/mail', [FrontendController::class, 'testMail']);
+Route::get('/partner_registration', [FrontendController::class, 'register'])->name('register.partner');
+Route::post('/partner_registration', [FrontendController::class, 'registerPost']);
+
 
 Route::get('/blogs', [FrontendController::class, 'blog'])->name('frontend.blog');
 Route::get('/blogs/{id}', [FrontendController::class, 'blogDetail'])->name('frontend.blogDetail');
@@ -102,4 +105,4 @@ Route::middleware(['auth:admin', 'isActive'])->prefix('dashboard')->group(functi
 });
 
 //Partners
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

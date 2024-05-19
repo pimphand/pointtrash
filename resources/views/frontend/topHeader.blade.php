@@ -1,11 +1,12 @@
 @php
-    use App\Models\SiteContact;use App\Models\SiteSocialMedia;use Illuminate\Support\Facades\Cache;$data = Cache::remember('site_contact', now()->addMonth(), function () {
-        return SiteContact::first();
-    });
+use App\Models\SiteContact;use App\Models\SiteSocialMedia;use Illuminate\Support\Facades\Cache;$data =
+Cache::remember('site_contact', now()->addMonth(), function () {
+return SiteContact::first();
+});
 
-    $socialMedia = Cache::remember('site_social_media', now()->addMonth(), function () {
-        return SiteSocialMedia::first();
-    });
+$socialMedia = Cache::remember('site_social_media', now()->addMonth(), function () {
+return SiteSocialMedia::first();
+});
 @endphp
 
 <div class="header-top">
@@ -45,10 +46,10 @@
 
             <div class="header-top__right">
                 <div class="header-button-style1">
-                    <a class="btn-one" href="#contact">
-                    <span class="txt">
-                        Daftar Mitra<i class="icon-motor arrow"></i>
-                    </span>
+                    <a class="btn-one" href="{{ route('register.partner') }}">
+                        <span class="txt">
+                            Daftar Mitra<i class="icon-motor arrow"></i>
+                        </span>
                     </a>
                 </div>
             </div>
@@ -65,7 +66,7 @@
             <div class="header-left">
                 <div class="main-logo-box">
                     <a href="/">
-                        <img src="{{ 'westo/assets' }}/images/resources/logo.png" alt="Awesome Logo" title="">
+                        <img src="{{ 'assets/pointtrash_logo.png' }}" alt="Awesome Logo" title="">
                     </a>
                 </div>
                 <div class="header-social-link">
@@ -77,7 +78,8 @@
                             <a target="_blank" href="{{$socialMedia->facebook_link}}"><i class="icon-facebook"></i></a>
                         </li>
                         <li>
-                            <a target="_blank" href="{{$socialMedia->youtube_link}}"><i class="fa fa-youtube-play"></i></a>
+                            <a target="_blank" href="{{$socialMedia->youtube_link}}"><i
+                                    class="fa fa-youtube-play"></i></a>
                         </li>
                         <li>
                             <a target="_blank" href="{{$socialMedia->instagram_link}}"><i
@@ -105,10 +107,10 @@
                             <ul class="navigation clearfix scroll-nav">
 
                                 <li><a href="#banner">Home</a></li>
-                                <li><a href="#about">About Us</a></li>
-                                <li><a href="#services">Services</a></li>
+                                <li><a href="#about">Tentang Kami</a></li>
+                                <li><a href="#services">Layanan</a></li>
                                 <li><a href="#blog">Blog</a></li>
-                                <li><a href="#contact">Contact</a></li>
+                                <li><a href="#contact">Kontak</a></li>
 
                             </ul>
                         </div>
@@ -120,21 +122,21 @@
 
             <!--Start Header Right-->
             <div class="header-right">
-                {{--                        <div class="phone-number-box1" style="color: white">--}}
-                {{--                            <div class="icon">--}}
-                {{--                                <span class="icon-phone-ringing"></span>--}}
-                {{--                            </div>--}}
-                {{--                            <div class="phone">--}}
-                {{--                                <p>Have any questions?</p>--}}
-                {{--                                <a href="tel:123456789">+92 666 888 0000</a>--}}
-                {{--                            </div>--}}
-                {{--                        </div>--}}
+                {{-- <div class="phone-number-box1" style="color: white">--}}
+                    {{-- <div class="icon">--}}
+                        {{-- <span class="icon-phone-ringing"></span>--}}
+                        {{-- </div>--}}
+                    {{-- <div class="phone">--}}
+                        {{-- <p>Have any questions?</p>--}}
+                        {{-- <a href="tel:123456789">+92 666 888 0000</a>--}}
+                        {{-- </div>--}}
+                    {{-- </div>--}}
 
-                {{--                        <div class="serach-button-style1">--}}
-                {{--                            <button type="button" class="search-toggler">--}}
-                {{--                                <i class="icon-magnifying-glass"></i>--}}
-                {{--                            </button>--}}
-                {{--                        </div>--}}
+                {{-- <div class="serach-button-style1">--}}
+                    {{-- <button type="button" class="search-toggler">--}}
+                        {{-- <i class="icon-magnifying-glass"></i>--}}
+                        {{-- </button>--}}
+                    {{-- </div>--}}
 
             </div>
             <!--End Header Right-->
@@ -173,9 +175,9 @@
     <div class="close-btn"><span class="icon fa fa-times-circle"></span></div>
     <nav class="menu-box">
         <div class="nav-logo">
-            <a href="index.html"><img
-                    src="{{ 'westo/assets' }}/images/resources/mobilemenu-logo.png"
-                    alt="" title=""></a></div>
+            <a href="index.html"><img src="{{ 'westo/assets' }}/images/resources/mobilemenu-logo.png" alt=""
+                    title=""></a>
+        </div>
         <div class="menu-outer">
 
         </div>
@@ -192,8 +194,7 @@
                     <a target="_blank" href="{{$socialMedia->youtube_link}}"><i class="fa fa-youtube-play"></i></a>
                 </li>
                 <li>
-                    <a target="_blank" href="{{$socialMedia->instagram_link}}"><i
-                            class="icon-instagram"></i></a>
+                    <a target="_blank" href="{{$socialMedia->instagram_link}}"><i class="icon-instagram"></i></a>
                 </li>
             </ul>
         </div>

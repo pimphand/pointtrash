@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Westo - Responsive HTML 5 Template</title>
+    <title>Pointtrash - Aplikasi Pemilah Sampah</title>
 
     <!-- responsive meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -151,10 +151,7 @@
     <!-- thm custom script -->
     <script src="{{ 'westo/assets' }}/js/custom.js"></script>
 
-    <script>
-
-
-    </script>
+    @stack('js')
 </body>
 
 </html>

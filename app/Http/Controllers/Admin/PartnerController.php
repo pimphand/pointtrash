@@ -60,17 +60,8 @@ class PartnerController extends Controller
             'name' => 'required|string|max:255',
             'partner_id' => 'nullable|string|max:255',
             'gender' => 'required|in:Laki - Laki,Perempuan',
-            'phone' => 'required|between:10,15|'.Rule::unique('partner')->ignore($request->partner_id, 'partner_id'),
-            'email' => 'required|email|max:255|'.Rule::unique('partner')->ignore($request->partner_id, 'partner_id'),
-            //            'password' => function ($attribute, $value, $fail) use ($request) {
-            //
-            //                if (empty($value) && empty($request->partner_id)) {
-            //                    $fail('The '.$attribute.' field is required.');
-            //                }
-            //                if (strlen($value) < 8 && empty($request->partner_id)) {
-            //                    $fail('The '.$attribute.' must be at least 8 characters.');
-            //                }
-            //            },
+            'phone' => 'required|between:10,15|' . Rule::unique('partner')->ignore($request->partner_id, 'partner_id'),
+            'email' => 'required|email|max:255|' . Rule::unique('partner')->ignore($request->partner_id, 'partner_id'),
             'photo' => 'nullable|image|max:2048',
             'address' => 'required|string|max:255',
             'provinces' => 'required|string|max:255',
@@ -90,7 +81,7 @@ class PartnerController extends Controller
         $photo_name = null;
         if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
-            $photo_name = 'partner_'.time().'_'.$photo->getClientOriginalName();
+            $photo_name = 'partner_' . time() . '_' . $photo->getClientOriginalName();
             $photo->move(public_path('upload'), $photo_name);
         }
 
@@ -127,7 +118,6 @@ class PartnerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
     }
 
     /**
