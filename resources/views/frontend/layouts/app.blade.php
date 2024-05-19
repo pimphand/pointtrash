@@ -12,7 +12,7 @@
     <!-- Google Fonts -->
 
     <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet">
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 
@@ -66,98 +66,95 @@
 
 <body>
 
-<div class="boxed_wrapper ltr">
+    <div class="boxed_wrapper ltr">
 
-    <!-- Preloader -->
-    <div class="loader-wrap">
-        <div class="preloader">
-            <div class="preloader-close">Preloader Close</div>
+        <!-- Preloader -->
+        <div class="loader-wrap">
+            <div class="preloader">
+                <div class="preloader-close">Preloader Close</div>
+            </div>
+            <div class="layer layer-one"><span class="overlay"></span></div>
+            <div class="layer layer-two"><span class="overlay"></span></div>
+            <div class="layer layer-three"><span class="overlay"></span></div>
         </div>
-        <div class="layer layer-one"><span class="overlay"></span></div>
-        <div class="layer layer-two"><span class="overlay"></span></div>
-        <div class="layer layer-three"><span class="overlay"></span></div>
-    </div>
 
 
-    <!-- Main header-->
-    <header class="main-header header-style-one">
-        <!--Start Header Top-->
-        @include('frontend.topHeader')
-    </header>
+        <!-- Main header-->
+        <header class="main-header header-style-one">
+            <!--Start Header Top-->
+            @include('frontend.topHeader')
+        </header>
 
-    @yield('content')
+        @yield('content')
 
-    <div class="bottom-parallax">
-        <!--Start footer area -->
-        <footer class="footer-area">
-            {{--            <div class="footer-area-bg"--}}
-            {{--                 style="background-image: url({{ 'westo/assets' }}/images/resources/footer-bg-1.png);">--}}
-            {{--            </div>--}}
+        <div class="bottom-parallax">
+            <!--Start footer area -->
+            <footer class="footer-area">
+                {{-- <div class="footer-area-bg" --}} {{--
+                    style="background-image: url({{ 'westo/assets' }}/images/resources/footer-bg-1.png);">--}}
+                    {{-- </div>--}}
 
 
-            <div class="footer-bottom">
-                <div class="container">
-                    <div class="bottom-inner">
-                        <div class="copyright">
-                            <p>Copyright &copy; {{date('Y',strtotime(now()))}} <a href="/">Pointtrash</a> All
-                                Rights
-                                Reserved.
-                            </p>
+                <div class="footer-bottom">
+                    <div class="container">
+                        <div class="bottom-inner">
+                            <div class="copyright">
+                                <p>Copyright &copy; {{date('Y',strtotime(now()))}} <a href="/">Pointtrash</a> All
+                                    Rights
+                                    Reserved.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </footer>
-        <!--End footer area-->
+            </footer>
+            <!--End footer area-->
+        </div>
+
+
+        <button class="scroll-top scroll-to-target" data-target="html">
+            <span class="flaticon-up-arrow"></span>
+        </button>
+
     </div>
 
 
-    <button class="scroll-top scroll-to-target" data-target="html">
-        <span class="flaticon-up-arrow"></span>
-    </button>
+    <script src="{{ 'westo/assets' }}/js/jquery.js"></script>
+    <script src="{{ 'westo/assets' }}/js/aos.js"></script>
+    <script src="{{ 'westo/assets' }}/js/appear.js"></script>
+    <script src="{{ 'westo/assets' }}/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ 'westo/assets' }}/js/isotope.js"></script>
+    <script src="{{ 'westo/assets' }}/js/jquery.bootstrap-touchspin.js"></script>
+    <script src="{{ 'westo/assets' }}/js/jquery.countTo.js"></script>
+    <script src="{{ 'westo/assets' }}/js/jquery.easing.min.js"></script>
+    <script src="{{ 'westo/assets' }}/js/jquery.event.move.js"></script>
+    <script src="{{ 'westo/assets' }}/js/jquery.fancybox.js"></script>
+    <script src="{{ 'westo/assets' }}/js/jquery.magnific-popup.min.js"></script>
+    <script src="{{ 'westo/assets' }}/js/jquery.nice-select.min.js"></script>
+    <script src="{{ 'westo/assets' }}/js/jquery.paroller.min.js"></script>
+    <script src="{{ 'westo/assets' }}/js/jquery-sidebar-content.js"></script>
+    <script src="{{ 'westo/assets' }}/js/knob.js"></script>
+    <script src="{{ 'westo/assets' }}/js/map-script.js"></script>
+    <script src="{{ 'westo/assets' }}/js/owl.js"></script>
+    <script src="{{ 'westo/assets' }}/js/pagenav.js"></script>
+    <script src="{{ 'westo/assets' }}/js/scrollbar.js"></script>
+    <script src="{{ 'westo/assets' }}/js/swiper.min.js"></script>
+    <script src="{{ 'westo/assets' }}/js/tilt.jquery.js"></script>
+    <script src="{{ 'westo/assets' }}/js/TweenMax.min.js"></script>
+    <script src="{{ 'westo/assets' }}/js/validation.js"></script>
+    <script src="{{ 'westo/assets' }}/js/wow.js"></script>
 
-</div>
-
-
-<script src="{{ 'westo/assets' }}/js/jquery.js"></script>
-<script src="{{ 'westo/assets' }}/js/aos.js"></script>
-<script src="{{ 'westo/assets' }}/js/appear.js"></script>
-<script src="{{ 'westo/assets' }}/js/bootstrap.bundle.min.js"></script>
-<script src="{{ 'westo/assets' }}/js/isotope.js"></script>
-<script src="{{ 'westo/assets' }}/js/jquery.bootstrap-touchspin.js"></script>
-<script src="{{ 'westo/assets' }}/js/jquery.countTo.js"></script>
-<script src="{{ 'westo/assets' }}/js/jquery.easing.min.js"></script>
-<script src="{{ 'westo/assets' }}/js/jquery.event.move.js"></script>
-<script src="{{ 'westo/assets' }}/js/jquery.fancybox.js"></script>
-<script src="{{ 'westo/assets' }}/js/jquery.magnific-popup.min.js"></script>
-<script src="{{ 'westo/assets' }}/js/jquery.nice-select.min.js"></script>
-<script src="{{ 'westo/assets' }}/js/jquery.paroller.min.js"></script>
-<script src="{{ 'westo/assets' }}/js/jquery-sidebar-content.js"></script>
-<script src="{{ 'westo/assets' }}/js/knob.js"></script>
-<script src="{{ 'westo/assets' }}/js/map-script.js"></script>
-<script src="{{ 'westo/assets' }}/js/owl.js"></script>
-<script src="{{ 'westo/assets' }}/js/pagenav.js"></script>
-<script src="{{ 'westo/assets' }}/js/scrollbar.js"></script>
-<script src="{{ 'westo/assets' }}/js/swiper.min.js"></script>
-<script src="{{ 'westo/assets' }}/js/tilt.jquery.js"></script>
-<script src="{{ 'westo/assets' }}/js/TweenMax.min.js"></script>
-<script src="{{ 'westo/assets' }}/js/validation.js"></script>
-<script src="{{ 'westo/assets' }}/js/wow.js"></script>
-
-<script src="{{ 'westo/assets' }}/js/jquery-1color-switcher.min.js"></script>
+    <script src="{{ 'westo/assets' }}/js/jquery-1color-switcher.min.js"></script>
 
 
-<!-- thm custom script -->
-<script src="{{ 'westo/assets' }}/js/custom.js"></script>
+    <!-- thm custom script -->
+    <script src="{{ 'westo/assets' }}/js/custom.js"></script>
 
-<script>
-    //get
-    $.get('{{route("getHeader")}}', function (data) {
-        $('#header').html(data);
-    });
+    <script>
 
-</script>
+
+    </script>
 </body>
 
 </html>

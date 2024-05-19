@@ -13,6 +13,7 @@ use App\Models\Rating;
 use App\Models\User;
 use App\Models\WidrawUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Mail;
@@ -823,8 +824,15 @@ class UserController extends Controller
         $check = DB::table('user_auth')->where('user_id', $data_id)->where('token', $auht_key)->first();
 
         if ($check) {
-            $trash_category = DB::table('trash_category')->get();
-            $sub_trash_category = DB::table('sub_trash_category')->get();
+            $cacheKey = 'trash_category_data';
+
+            $trash_category = Cache::remember($cacheKey, now()->addMonth(), function () {
+                return DB::table('trash_category')->get();
+            });
+
+            $sub_trash_category = Cache::remember($cacheKey . '_sub', now()->addMonth(), function () {
+                return DB::table('sub_trash_category')->get();
+            });
 
             $response['status'] = 200;
             $response['error'] = false;
