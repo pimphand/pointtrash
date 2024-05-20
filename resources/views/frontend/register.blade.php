@@ -166,5 +166,10 @@
             }
         });
     });
+
+    //change href to "/"
+    $('#nav_home li a').each(function() {
+        $(this).attr('href','{{ route("home") }}'+$(this).attr('href') );
+    });
 </script>
 @endpush

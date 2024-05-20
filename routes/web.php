@@ -29,7 +29,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [FrontendController::class, 'index']);
+Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/getHeader', [FrontendController::class, 'getHeader'])->name('getHeader');
 
 Route::get('/mail', [FrontendController::class, 'testMail']);

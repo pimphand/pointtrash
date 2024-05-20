@@ -104,7 +104,7 @@ return SiteSocialMedia::first();
                     <!-- Main Menu -->
                     <nav class="main-menu style1 navbar-expand-md navbar-light">
                         <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
-                            <ul class="navigation clearfix scroll-nav">
+                            <ul class="navigation clearfix scroll-nav" id="nav_home">
 
                                 <li><a href="#banner">Home</a></li>
                                 <li><a href="#about">Tentang Kami</a></li>
