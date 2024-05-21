@@ -19,7 +19,8 @@ class OrderDatumController extends Controller
      */
     public function index(Request $request, $status)
     {
-        $segment = $request->segment(2);
+        $segment = $request->segment(3);
+
         if ($request->ajax()) {
             $data = QueryBuilder::for(OrderData::with('user'))
                 ->allowedFilters([
@@ -41,7 +42,7 @@ class OrderDatumController extends Controller
             }
 
             $result = $data->paginate($request->per_page ?? 15);
-            $shareProfitData = DB::table('share_profit_'.$status)->first();
+            $shareProfitData = DB::table('share_profit_' . $status)->first();
 
             return response()->json([
                 'data' => $result,
@@ -129,7 +130,6 @@ class OrderDatumController extends Controller
             ->where('type', $type)
             ->where('status', '!=', 1)
             ->orderBy('date_create', 'desc')->get();
-
     }
 
     /**
@@ -141,7 +141,7 @@ class OrderDatumController extends Controller
             'for_user' => 'required|numeric',
             'for_company' => 'required|numeric',
             'for_partner' => function ($attribute, $value, $fail) use ($type) {
-                if ($type !== 'drop_off' && ! is_numeric($value)) {
+                if ($type !== 'drop_off' && !is_numeric($value)) {
                     $fail("The $attribute field must be numeric.");
                 }
             },
@@ -161,18 +161,17 @@ class OrderDatumController extends Controller
         }
 
         try {
-            $updateResult = DB::table('share_profit_'.$type)->first();
-            DB::table('share_profit_'.$type)->where('id', $updateResult->id)->update($updateData);
+            $updateResult = DB::table('share_profit_' . $type)->first();
+            DB::table('share_profit_' . $type)->where('id', $updateResult->id)->update($updateData);
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data has been updated successfully.',
             ]);
-
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'An error occurred during the update: '.$e->getMessage(),
+                'message' => 'An error occurred during the update: ' . $e->getMessage(),
             ], 500); // Status 500: Internal Server Error
         }
     }
@@ -194,7 +193,7 @@ class OrderDatumController extends Controller
                 ->orderBy('date_create', 'desc');
 
             $data->paginate($request->per_page ?? 15);
-            $shareProfitData = DB::table('share_profit_'.$status)->first();
+            $shareProfitData = DB::table('share_profit_' . $status)->first();
 
             return response()->json([
                 'data' => $data,

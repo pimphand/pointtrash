@@ -1,5 +1,5 @@
 @php
-    use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 $user = Auth::guard('admin')->user();
 @endphp
 <nav id="topbar" class="topbar border-b  dark:border-slate-700/40  fixed inset-x-0  duration-300
@@ -21,7 +21,7 @@ $user = Auth::guard('admin')->user();
         <div class="order-1 ltr:ms-auto rtl:ms-0 rtl:me-auto flex items-center md:order-2">
             <div class="ltr:me-2 ltr:lg:me-4 rtl:me-0 rtl:ms-2 rtl:lg:me-0 rtl:md:ms-4 dropdown relative">
                 <button type="button" class="dropdown-toggle flex rounded-full md:me-0" id="Notifications"
-                        aria-expanded="false" data-fc-autoclose="both" data-fc-type="dropdown">
+                    aria-expanded="false" data-fc-autoclose="both" data-fc-type="dropdown">
                     <span data-lucide="bell" class="top-icon w-5 h-5"></span>
                 </button>
 
@@ -34,7 +34,7 @@ $user = Auth::guard('admin')->user();
                             <a href="javascript:void(0);" class="dropdown-item">
                                 <div class="flex">
                                     <img class="object-cover rounded-full h-8 w-8 shrink-0 me-3"
-                                         src="assets/images/users/avatar-9.png" alt="logo"/>
+                                        src="{{ asset('assets') }}/images/users/avatar-9.png" alt="logo" />
                                     <div class="flex-grow flex-1 ms-0.5 overflow-hidden">
                                         <p class="text-sm font-medium  text-gray-900 truncate
                                 dark:text-gray-300">Meeting with designers</p>
@@ -52,11 +52,10 @@ $user = Auth::guard('admin')->user();
             <div class="me-2  dropdown relative">
                 <button type="button" class="dropdown-toggle flex items-center rounded-full text-sm
                     focus:bg-none focus:ring-0 dark:focus:ring-0 md:me-0" id="user-profile" aria-expanded="false"
-                        data-fc-autoclose="both" data-fc-type="dropdown">
-                    <img class="h-8 w-8 rounded-full" src="{{asset('upload')}}/{{$user->photo}}" alt="user photo"/>
+                    data-fc-autoclose="both" data-fc-type="dropdown">
+                    <img class="h-8 w-8 rounded-full" src="{{asset('upload')}}/{{$user->photo}}" alt="user photo" />
                     <span class="ltr:ms-2 rtl:ms-0 rtl:me-2 hidden text-left xl:block">
-                        <span
-                            class="block font-medium text-slate-600 dark:text-gray-300">{{$user->name}}</span>
+                        <span class="block font-medium text-slate-600 dark:text-gray-300">{{$user->name}}</span>
                         <span class="-mt-0.5 block text-xs text-slate-500 dark:text-gray-400">{{$user->roles}}</span>
                     </span>
                 </button>
@@ -71,7 +70,7 @@ $user = Auth::guard('admin')->user();
                           dark:text-gray-200 dark:hover:bg-gray-900/20
                           dark:hover:text-white">
                                 <span data-lucide="user"
-                                      class="w-4 h-4 inline-block text-slate-800 dark:text-slate-400 me-2"></span>
+                                    class="w-4 h-4 inline-block text-slate-800 dark:text-slate-400 me-2"></span>
                                 Profile</a>
                         </li>
                         <li>
@@ -79,7 +78,7 @@ $user = Auth::guard('admin')->user();
                           dark:text-gray-200 dark:hover:bg-gray-900/20
                           dark:hover:text-white">
                                 <span data-lucide="settings"
-                                      class="w-4 h-4 inline-block text-slate-800 dark:text-slate-400 me-2"></span>
+                                    class="w-4 h-4 inline-block text-slate-800 dark:text-slate-400 me-2"></span>
                                 Settings</a>
                         </li>
                         <li>
@@ -87,7 +86,7 @@ $user = Auth::guard('admin')->user();
                           dark:text-gray-200 dark:hover:bg-gray-900/20
                           dark:hover:text-white">
                                 <span data-lucide="dollar-sign"
-                                      class="w-4 h-4 inline-block text-slate-800 dark:text-slate-400 me-2"></span>
+                                    class="w-4 h-4 inline-block text-slate-800 dark:text-slate-400 me-2"></span>
                                 Earnings</a>
                         </li>
                         <li>
@@ -95,7 +94,7 @@ $user = Auth::guard('admin')->user();
                           dark:text-red-500 dark:hover:bg-gray-900/20
                           dark:hover:text-red-500">
                                 <span data-lucide="power"
-                                      class="w-4 h-4 inline-block text-red-500 dark:text-red-500 me-2"></span>
+                                    class="w-4 h-4 inline-block text-red-500 dark:text-red-500 me-2"></span>
                                 Sign out</a>
                         </li>
                     </ul>

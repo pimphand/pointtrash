@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AboutSiteController;
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\AdvertismentController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GeneralQuestionController;
@@ -66,6 +67,8 @@ Route::middleware(['auth:admin', 'isActive'])->prefix('dashboard')->group(functi
         Route::resource('mobile-version', VersionController::class);
         Route::resource('mobile-guide', GuideController::class);
         Route::resource('general-question', GeneralQuestionController::class);
+        Route::resource('banners', BannerController::class)->only(['index', 'update']);
+
 
         Route::resource('accounts', AccountController::class);
 

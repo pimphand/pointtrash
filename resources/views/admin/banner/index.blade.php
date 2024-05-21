@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-@php($title = 'Iklan')
+@php($title = 'Banner')
 @include('components.breadcrumb',['title'=>$title])
 <div class="sm:col-span-12  md:col-span-12 lg:col-span-8 xl:col-span-6 xl:col-start-4 ">
     <div
@@ -17,7 +17,7 @@
 
         <div class="flex-auto p-4 ">
             @include('components.filter_table')
-            @include('components.table',['url'=>route('advertisment.index'),'theads'=>[
+            @include('components.table',['url'=>route('banners.index'),'theads'=>[
             '#',
             'Iklan',
             'Tgl. Post',
@@ -40,25 +40,17 @@
                     <div class="relative flex-auto p-4 text-slate-600 dark:text-gray-300 leading-relaxed">
                         <form id="_form_input" action="" method="post">
                             @csrf
-                            <div class="mb-2">
-                                <label for="email"
-                                    class="font-medium text-sm text-slate-600 dark:text-slate-400">Link</label>
-                                <input type="text" id="link" name="link"
-                                    class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700"
-                                    placeholder="Masukan Judul">
-                                <div class="text-red-500 text-xs italic" id="error-link"></div>
-                            </div>
-
                             <img src="{{asset('img-icon.svg')}}" width="40%" id="_show_thumbnail">
+                            <img src="" width="40%" id="_show_thumbnail_new">
                             <div class="mb-2">
                                 <label for="email"
                                     class="font-medium text-sm text-slate-600 dark:text-slate-400">Iklan</label>
-                                <input type="file" id="advertisment" name="advertisment"
+                                <input type="file" id="banner" name="banner"
                                     class="form-input w-full rounded-md mt-1 border border-slate-300/60 dark:border-slate-700 dark:text-slate-300 bg-transparent px-3 py-1 focus:outline-none focus:ring-0 placeholder:text-slate-400/70 placeholder:font-normal placeholder:text-sm hover:border-slate-400 focus:border-primary-500 dark:focus:border-primary-500  dark:hover:border-slate-700">
                                 <div class="text-black-500 text-xs italic">*) File format JPG, JPEG, atau PNG.
                                     Ukuran gambar 1800 x 1600 pixel
                                 </div>
-                                <div class="text-red-500 text-xs italic" id="error-advertisment"></div>
+                                <div class="text-red-500 text-xs italic" id="error-banner"></div>
                             </div>
                         </form>
                     </div>
@@ -91,12 +83,12 @@
                 html += `<tr class="bg-white border-b border-dashed dark:bg-gray-900 dark:border-gray-700/40">
                         <td class="p-3 text-sm font-medium dark:text-white border dark:border-slate-100">${rowIndex}
                         <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">
-                            <img src="{{asset('upload')}}/${item.advertisment}" alt="" class="rounded mx-auto float-left" width="40%">
+                            <img src="{{asset('upload')}}/${item.banner}" alt="" class="rounded mx-auto float-left" width="40%">
                         </td>
                         <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">${item.date_post}</td>
                         <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 border dark:border-slate-700">
-                            <button data-fc-type="modal" data-fc-target="_modal_form" data-id="${item.advertisment_id}"class="_edit_modal text-primary-500 hover:text-primary-700"><i class="fas fa-edit fa-1x"></i></button>
-                            <button class="text-red-500 hover:text-danger-700 _delete" data-id="${item.advertisment_id}"><i class="fas fa-trash fa-1x"></i></button>
+                            <button data-fc-type="modal" data-fc-target="_modal_form" data-id="${item.banner_id}"class="_edit_modal text-primary-500 hover:text-primary-700"><i class="fas fa-edit fa-1x"></i></button>
+                            <button class="text-red-500 hover:text-danger-700 _delete" data-id="${item.banner_id}"><i class="fas fa-trash fa-1x"></i></button>
                         </td>
                     </tr>
                 `;
@@ -137,9 +129,9 @@
                     //get data from table
                     const itemId = $(this).data('id');
                     // Ambil data dari array berdasarkan ID
-                    const itemData = itemDataArray.find(item => item.advertisment_id === itemId);
+                    const itemData = itemDataArray.find(item => item.banner_id === itemId);
                     $('#link').val(itemData.link);
-                    $('#_show_thumbnail').attr('src', `{{asset('upload')}}/${itemData.advertisment}`);
+                    $('#_show_thumbnail').attr('src', `{{asset('upload')}}/${itemData.banner}`);
                     //add method put
                     $('#_form_input').append('<input type="hidden" name="_method" value="put">');
 
@@ -219,7 +211,7 @@
             }
         }
 
-        $('#thumbnail').on('change', function () {
+        $('#banner').on('change', function () {
             const file = $(this).prop('files')[0];
             const reader = new FileReader();
             reader.onload = function (e) {

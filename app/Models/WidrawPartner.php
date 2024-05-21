@@ -20,4 +20,9 @@ class WidrawPartner extends Model
     {
         return $this->belongsTo(Partner::class, 'partner_id', 'partner_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(Partner::class, 'partner_id', 'partner_id');
+    }
 }

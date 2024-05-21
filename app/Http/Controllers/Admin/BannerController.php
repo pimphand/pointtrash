@@ -3,16 +3,30 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class BannerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $data = QueryBuilder::for(Banner::query())
+                ->allowedFilters([
+                    AllowedFilter::scope('search', 'search'),
+                ])
+                ->orderBy('date_post', 'desc')
+                ->paginate($request->per_page ?? 15);
+
+            return response()->json($data);
+        }
+
+        return view('admin.banner.index');
     }
 
     /**

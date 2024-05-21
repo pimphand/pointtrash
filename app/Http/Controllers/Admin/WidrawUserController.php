@@ -28,27 +28,27 @@ class WidrawUserController extends Controller
             } else {
                 $user = WidrawPartner::query();
             }
-
+            // dd($request->user_type);
             $data = QueryBuilder::for($user)
                 ->allowedFilters([
                     AllowedFilter::scope('search', 'search'),
-                    AllowedFilter::partial('user.name', 'search'),
                     AllowedFilter::exact('status'),
                 ])
                 ->with('user')
                 ->where('type', str_replace('_Widraw', '', Str::title($status)))
                 ->orderBy('date_request', 'desc');
             if (Auth::guard('admin')->user()->roles == 'cabang') {
-                if ($request->user_type == 'user') {
-                    $data->whereHas('user', function ($query) {
+                if ($request->user_type == 'partner') {
+                    $data->whereHas('partner', function ($query) {
                         $query->where('account_id', Auth::guard('admin')->user()->account_id);
                     });
                 } else {
-                    $data->whereHas('partner', function ($query) {
+                    $data->whereHas('user', function ($query) {
                         $query->where('account_id', Auth::guard('admin')->user()->account_id);
                     });
                 }
             }
+
             if ($request->history == 'true') {
                 $data->where('status', 1);
             } else {
@@ -122,7 +122,6 @@ class WidrawUserController extends Controller
             ->where('type', $type)
             ->where('status', '!=', 1)
             ->orderBy('date_create', 'desc')->get();
-
     }
 
     /**
@@ -150,7 +149,7 @@ class WidrawUserController extends Controller
 
             // Konten notifikasi
             $title = 'Gopay Widraw Sudah Diapprove';
-            $body = 'Hai '.$data->user->name.', widraw point kamu sudah diapprove ya!';
+            $body = 'Hai ' . $data->user->name . ', widraw point kamu sudah diapprove ya!';
             $notification = [
                 'title' => $title,
                 'body' => $body,
@@ -168,7 +167,7 @@ class WidrawUserController extends Controller
             // Mengirim permintaan POST ke FCM dengan Laravel HTTP Client
             Http::withHeaders([
                 'Content-Type' => 'application/json',
-                'Authorization' => 'key='.$serverKey,
+                'Authorization' => 'key=' . $serverKey,
             ])->post($url, $arrayToSend);
 
             return response()->json([
@@ -198,7 +197,7 @@ class WidrawUserController extends Controller
                 ->orderBy('date_create', 'desc');
 
             $data->paginate($request->per_page ?? 15);
-            $shareProfitData = DB::table('share_profit_'.$status)->first();
+            $shareProfitData = DB::table('share_profit_' . $status)->first();
 
             return response()->json([
                 'data' => $data,
