@@ -52,7 +52,7 @@ class WidrawUserController extends Controller
             if ($request->history == 'true') {
                 $data->where('status', 1);
             } else {
-                $data->where('status', '=', 0)->OrWhere('status', '=', 2);
+                $data->where('status', '=', 0);
             }
 
             $result = $data->paginate($request->per_page ?? 15);

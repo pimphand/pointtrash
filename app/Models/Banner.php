@@ -23,9 +23,9 @@ class Banner extends Model
     public static function boot()
     {
         parent::boot();
-        static::creating(function ($advertisment) {
-            $advertisment->advertisment_id = (string) Str::random(10);
-            $advertisment->date_post = now();
+        static::creating(function ($banner) {
+            $banner->banner_id = (string) Str::random(10);
+            $banner->date_post = now();
         });
     }
 

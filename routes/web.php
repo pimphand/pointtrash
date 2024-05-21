@@ -67,7 +67,7 @@ Route::middleware(['auth:admin', 'isActive'])->prefix('dashboard')->group(functi
         Route::resource('mobile-version', VersionController::class);
         Route::resource('mobile-guide', GuideController::class);
         Route::resource('general-question', GeneralQuestionController::class);
-        Route::resource('banners', BannerController::class)->only(['index', 'update']);
+        Route::resource('banners', BannerController::class);
 
 
         Route::resource('accounts', AccountController::class);
@@ -97,6 +97,8 @@ Route::middleware(['auth:admin', 'isActive'])->prefix('dashboard')->group(functi
 
     Route::get('orders/{type}/{id}', [OrderDatumController::class, 'show'])->name('orders.show');
     Route::get('orders/{id}', [OrderDatumController::class, 'index'])->name('orders.index');
+    Route::delete('orders/{id}', [OrderDatumController::class, 'destroy'])->name('orders.destroy');
+
     Route::get('orders/create/{id}', [OrderDatumController::class, 'create'])->name('orders.create');
     Route::get('orders/export/{id}', [OrderDatumController::class, 'export'])->name('orders.export');
     Route::get('order/history/{id}', [OrderDatumController::class, 'index'])->name('orders.history');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -42,7 +43,25 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = Validator::make($request->all(), [
+            'banner' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json(['errors' => $validated->errors()], 422);
+        }
+
+        if ($request->hasFile('banner')) {
+            $thumbnail = $request->file('banner');
+            $icon_name = 'banner_' . time() . '.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('upload'), $icon_name);
+        }
+
+        $banner = new Banner();
+        $banner->banner = $icon_name;
+        $banner->save();
+
+        return response()->json(['message' => 'Data berhasil disimpan']);
     }
 
     /**
@@ -66,7 +85,25 @@ class BannerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = Validator::make($request->all(), [
+            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json(['errors' => $validated->errors()], 422);
+        }
+
+        if ($request->hasFile('banner')) {
+            $thumbnail = $request->file('banner');
+            $icon_name = 'banner_' . time() . '.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('upload'), $icon_name);
+        }
+
+        $banner = Banner::findOrFail($id);
+        $banner->banner = $icon_name ?? $banner->banner;
+        $banner->save();
+
+        return response()->json(['message' => 'Data berhasil disimpan']);
     }
 
     /**
@@ -74,6 +111,9 @@ class BannerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $banner = Banner::findOrFail($id);
+        $banner->delete();
+
+        return response()->json(['message' => 'Data berhasil dihapus']);
     }
 }

@@ -113,7 +113,10 @@ class OrderDatumController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $order = OrderData::findOrFail($id);
+        $order->delete();
+
+        return response()->json(['message' => 'Data berhasil dihapus']);
     }
 
     /**
