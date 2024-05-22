@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\PartnerSendRegistration;
+use App\Models\AboutSite;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\OrderData;
@@ -117,5 +118,12 @@ class FrontendController extends Controller
         Mail::to($partner->email)->send(new PartnerSendRegistration($partner, $password));
 
         return response()->json(['message' => 'Partner created successfully']);
+    }
+
+    public function profile()
+    {
+        $about = AboutSite::first();
+
+        return view('frontend.profile', compact('about'));
     }
 }

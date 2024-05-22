@@ -1,6 +1,6 @@
-/*** 
+/***
 =============================================
-    About Style1 Area Css   
+    About Style1 Area Css
 =============================================
 ***/
 .about-style1-area {
@@ -393,9 +393,9 @@
 
 
 
-/*** 
+/***
 =============================================
-    About Style2 Area Css   
+    About Style2 Area Css
 =============================================
 ***/
 .about-style2-area {
@@ -588,9 +588,9 @@
 
 
 
-/*** 
+/***
 =============================================
-    About Style2 Area Css   
+    About Style2 Area Css
 =============================================
 ***/
 .about-style3-area {
@@ -598,7 +598,7 @@
     display: block;
     overflow: hidden;
     background: #ffffff;
-    padding-top: 120px;
+    padding-top: 0px;
     padding-bottom: 5px;
     z-index: 10;
 }

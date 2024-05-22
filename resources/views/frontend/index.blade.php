@@ -127,7 +127,7 @@
                         </div>
 
                         <div class="service-style1__top-button">
-                            <a class="btn-one" target="_blank" href="">
+                            <a class="btn-one" href="{{ route('profile') }}">
                                 <span class="txt">
                                     Lebih Detail<i class="icon-download"></i>
                                 </span>
