@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\TrashCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class SubTrashCategoryController extends Controller
@@ -14,7 +15,12 @@ class SubTrashCategoryController extends Controller
      */
     public function index()
     {
-        $categories = TrashCategory::all();
+        $categories = TrashCategory::where('status', true)->where(function ($query) {
+            $role = Auth::guard('admin')->user();
+            if ($role == 'cabang') {
+                $query->where('account_id', $role->account_id)->orWhereNull('account_id');
+            }
+        })->get();
 
         return view('admin.trash.categories.index', compact('categories'));
     }
@@ -30,12 +36,16 @@ class SubTrashCategoryController extends Controller
         ])->validate();
 
         $thumbnail = $request->file('background');
-        $thumbnail_name = 'background'.time().'.'.$thumbnail->getClientOriginalExtension();
+        $thumbnail_name = 'background' . time() . '.' . $thumbnail->getClientOriginalExtension();
         $thumbnail->move(public_path('upload'), $thumbnail_name);
+
+        $role = Auth::guard('admin')->user();
 
         $category = TrashCategory::create([
             'category' => $request->category,
             'background' => $thumbnail_name,
+            'account_id' => $role->roles == 'cabang' ? $role->account_id : null,
+            'status' => $role == 'cabang' ? false : true,
         ]);
 
         return response()->json($category);
@@ -77,7 +87,7 @@ class SubTrashCategoryController extends Controller
 
         if ($request->hasFile('background')) {
             $thumbnail = $request->file('background');
-            $thumbnail_name = 'background'.time().'.'.$thumbnail->getClientOriginalExtension();
+            $thumbnail_name = 'background' . time() . '.' . $thumbnail->getClientOriginalExtension();
             $thumbnail->move(public_path('upload'), $thumbnail_name);
         }
 

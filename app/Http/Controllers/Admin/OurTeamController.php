@@ -49,7 +49,7 @@ class OurTeamController extends Controller
 
         if ($request->hasFile('photo')) {
             $thumbnail = $request->file('photo');
-            $icon_name = 'photo_'.time().'.'.$thumbnail->getClientOriginalExtension();
+            $icon_name = 'photo_' . time() . '.' . $thumbnail->getClientOriginalExtension();
             $thumbnail->move(public_path('upload'), $icon_name);
         }
         $position = $request->input('position', true);
@@ -124,7 +124,7 @@ class OurTeamController extends Controller
 
         if ($request->hasFile('photo')) {
             $thumbnail = $request->file('photo');
-            $icon_name = 'photo_'.time().'.'.$thumbnail->getClientOriginalExtension();
+            $icon_name = 'photo_' . time() . '.' . $thumbnail->getClientOriginalExtension();
             $thumbnail->move(public_path('upload'), $icon_name);
         }
         $position = $request->input('position', true);

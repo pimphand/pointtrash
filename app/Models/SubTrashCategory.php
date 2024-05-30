@@ -31,7 +31,12 @@ class SubTrashCategory extends Model
 
     public function scopeSearch($query, $search)
     {
-        return $query->where('sub_category', 'like', '%'.$search.'%');
+        return $query->where('sub_category', 'like', '%' . $search . '%');
+    }
+
+    public function scopeOwner($query, $id)
+    {
+        return $query->where('status', true);
     }
 
     public function category()

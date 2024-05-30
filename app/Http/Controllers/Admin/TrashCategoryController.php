@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SubTrashCategory;
 use App\Models\TrashCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -17,18 +18,34 @@ class TrashCategoryController extends Controller
      */
     public function index(Request $request)
     {
+        $role = Auth::guard('admin')->user();
         if ($request->ajax()) {
             $data = QueryBuilder::for(SubTrashCategory::query())
                 ->allowedFilters([
                     AllowedFilter::scope('search', 'search'),
                 ])
                 ->with('category')
+                ->where(function ($query) use ($role) {
+                    if ($role->roles == 'cabang') {
+                        $query->where(function ($q) use ($role) {
+                            $q->where('account_id', $role->account_id)
+                                ->orWhereNull('account_id');
+                        });
+                    }
+                })
                 ->paginate($request->per_page ?? 15);
 
             return response()->json($data);
         }
 
-        $categories = TrashCategory::all();
+        $categories = TrashCategory::where('status', true)->where(function ($query) use ($role) {
+            if ($role->roles == 'cabang') {
+                $query->where(function ($q) use ($role) {
+                    $q->where('account_id', $role->account_id)
+                        ->orWhereNull('account_id');
+                });
+            }
+        })->get();
 
         return view('admin.trash.sub-categories.index', compact('categories'));
     }
@@ -44,7 +61,15 @@ class TrashCategoryController extends Controller
             'price' => 'required|numeric',
         ])->validate();
 
-        SubTrashCategory::create($validated);
+        $role = Auth::guard('admin')->user();
+
+        SubTrashCategory::create([
+            'sub_category' => $validated['sub_category'],
+            'category_id' => $validated['category_id'],
+            'price' => $validated['price'],
+            'account_id' => $role->roles == 'cabang' ? $role->account_id : null,
+            'status' => $role->roles == 'cabang' ? false : true,
+        ]);
 
         return response()->json(['message' => 'Sub category created successfully']);
     }

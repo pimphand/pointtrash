@@ -153,8 +153,8 @@ return SiteSocialMedia::first();
         <div class="clearfix">
             <!--Logo-->
             <div class="logo float-left">
-                <a href="index.html" class="img-responsive">
-                    <img src="{{ 'westo/assets' }}/images/resources/sticky-logo.png" alt="" title="">
+                <a href="/" class="img-responsive">
+                    {{-- <img src="{{ 'assets/pointtrash_logo.png' }}" alt="" title="" width="10%"> --}}
                 </a>
             </div>
             <!--Right Col-->
@@ -175,8 +175,7 @@ return SiteSocialMedia::first();
     <div class="close-btn"><span class="icon fa fa-times-circle"></span></div>
     <nav class="menu-box">
         <div class="nav-logo">
-            <a href="index.html"><img src="{{ 'westo/assets' }}/images/resources/mobilemenu-logo.png" alt=""
-                    title=""></a>
+            {{-- <a href="/"><img src="{{ 'assets/pointtrash_logo.png' }}" alt="" title="" width="10%"></a> --}}
         </div>
         <div class="menu-outer">
 
